@@ -1,5 +1,5 @@
-import { applicationRouter } from "@/server/application";
-import { authRouter } from "@/server/auth";
+import { applicationRoutes } from "@/server/routes/application";
+import { authRoutes } from "@/server/routes/auth";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
@@ -14,7 +14,7 @@ app.get("/example", (c) => {
   });
 });
 
-app.route("/", authRouter);
-app.route("/application", applicationRouter);
+app.route("/", authRoutes);
+app.route("/application", applicationRoutes);
 
 export const GET = handle(app);

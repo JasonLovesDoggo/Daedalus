@@ -16,4 +16,4 @@ app.get("/:id", (c) => {
   return c.text(`Hello from a single application route with id ${id}!`);
 });
 
-export const applicationRouter = app;
+export const applicationRoutes = app;

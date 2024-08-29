@@ -18,4 +18,4 @@ app.post("/register", (c) => {
   return c.text("Hello from auth route!");
 });
 
-export const authRouter = app;
+export const authRoutes = app;
