@@ -60,8 +60,8 @@ importers:
         specifier: ^18
         version: 18.3.0
       drizzle-kit:
-        specifier: ^0.24.2
-        version: 0.24.2
+        specifier: ^0.22.8
+        version: 0.22.8
       eslint:
         specifier: ^8
         version: 8.57.0
@@ -226,12 +226,6 @@ packages:
         integrity: sha512-zQ1ijeeCXVEh+aNL0RlmkPkG8HUiDcU2pzQQFjtbntgAczRASFzj4H+6+bV+dy1ntKR14I/DypeuRG1uma98iQ==,
       }
     engines: { node: ">=6.9.0" }
-
-  "@drizzle-team/brocli@0.10.1":
-    resolution:
-      {
-        integrity: sha512-AHy0vjc+n/4w/8Mif+w86qpppHuF3AyXbcWW+R/W7GNA3F5/p2nuhlkCJaTXSLZheB4l1rtHzOfr9A7NwoR/Zg==,
-      }
 
   "@esbuild-kit/core-utils@3.3.2":
     resolution:
@@ -1533,10 +1527,10 @@ packages:
       }
     engines: { node: ">=6.0.0" }
 
-  drizzle-kit@0.24.2:
+  drizzle-kit@0.22.8:
     resolution:
       {
-        integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==,
+        integrity: sha512-VjI4wsJjk3hSqHSa3TwBf+uvH6M6pRHyxyoVbt935GUzP9tUR/BRZ+MhEJNgryqbzN2Za1KP0eJMTgKEPsalYQ==,
       }
     hasBin: true
 
@@ -4058,8 +4052,6 @@ snapshots:
       "@babel/helper-validator-identifier": 7.24.7
       to-fast-properties: 2.0.0
 
-  "@drizzle-team/brocli@0.10.1": {}
-
   "@esbuild-kit/core-utils@3.3.2":
     dependencies:
       esbuild: 0.18.20
@@ -4741,9 +4733,8 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  drizzle-kit@0.24.2:
+  drizzle-kit@0.22.8:
     dependencies:
-      "@drizzle-team/brocli": 0.10.1
       "@esbuild-kit/esm-loader": 2.6.5
       esbuild: 0.19.12
       esbuild-register: 3.6.0(esbuild@0.19.12)
