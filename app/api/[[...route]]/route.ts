@@ -8,35 +8,32 @@ import { handle } from "hono/vercel";
 
 const app = new Hono().basePath("/api");
 
-app.use("*", initAuthConfig(getAuthConfig));
+const authMiddleware = initAuthConfig(getAuthConfig);
 
-// route: /api/example
+// Public example route
 app.get("/example", (c) => {
   return c.json({
     message: "Hello from example route!",
   });
 });
 
-app.get("/protected", (c) => {
-  const auth = c.get("authUser");
-  console.log("auth", auth);
+// Public routes
+app.route("/", authRoutes);
 
-  if (!auth) {
-    return c.json({ message: "Not authenticated" }, 401);
-  }
-
-  return c.json(auth);
-});
-
-app.route("/auth", authRoutes);
+// Protected routes
+app.use("/application", authMiddleware);
 app.route("/application", applicationRoutes);
+
+app.use("/user", authMiddleware);
 app.route("/user", userRoutes);
 
+export const GET = handle(app);
+export const POST = handle(app);
+
+// Auth middleware setup
 function getAuthConfig(c: Context): AuthConfig {
   return {
     secret: c.env.AUTH_SECRET,
     ...authConfig,
   };
 }
-
-export const GET = handle(app);

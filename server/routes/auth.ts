@@ -19,7 +19,7 @@ app.post("/register", (c) => {
 
   console.log("body", body);
 
-  return c.text("Hello from auth route!");
+  return c.json({ message: "Hello from auth route!" });
 });
 
 export const authRoutes = app;
