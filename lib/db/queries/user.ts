@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "..";
 import { users } from "../schema";
 
-export const getUserById = async (userId: number) => {
+export const getUserById = async (userId: string) => {
   try {
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     return user;

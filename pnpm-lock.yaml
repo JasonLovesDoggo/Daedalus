@@ -7,6 +7,15 @@ settings:
 importers:
   .:
     dependencies:
+      "@auth/core":
+        specifier: ^0.34.2
+        version: 0.34.2
+      "@auth/drizzle-adapter":
+        specifier: ^1.4.2
+        version: 1.4.2
+      "@hono/auth-js":
+        specifier: ^1.0.10
+        version: 1.0.10(@auth/core@0.34.2)(hono@4.5.9)(react@18.3.1)
       "@hono/node-server":
         specifier: ^1.12.2
         version: 1.12.2(hono@4.5.9)
@@ -31,6 +40,9 @@ importers:
       next:
         specifier: 14.2.7
         version: 14.2.7(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next-auth:
+        specifier: 5.0.0-beta.20
+        version: 5.0.0-beta.20(next@14.2.7(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18
         version: 18.3.1
@@ -104,6 +116,29 @@ packages:
         integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==,
       }
     engines: { node: ">=6.0.0" }
+
+  "@auth/core@0.34.2":
+    resolution:
+      {
+        integrity: sha512-KywHKRgLiF3l7PLyL73fjLSIBe1YNcA6sMeew4yMP6cfCWGXZrkkXd32AjRi1hlJ9nvovUBGZHvbn+LijO6ZeQ==,
+      }
+    peerDependencies:
+      "@simplewebauthn/browser": ^9.0.1
+      "@simplewebauthn/server": ^9.0.2
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      "@simplewebauthn/browser":
+        optional: true
+      "@simplewebauthn/server":
+        optional: true
+      nodemailer:
+        optional: true
+
+  "@auth/drizzle-adapter@1.4.2":
+    resolution:
+      {
+        integrity: sha512-rqukaT9CeWB8VOt6g2bQ6uYMHVOQIYCBkzddZXWshi8aqwLABatpRWAc+pehpcMDn0RSW/uvKMs7tkON+Bho9Q==,
+      }
 
   "@babel/code-frame@7.24.7":
     resolution:
@@ -674,6 +709,17 @@ packages:
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
 
+  "@hono/auth-js@1.0.10":
+    resolution:
+      {
+        integrity: sha512-hnkZzPMHveX2GzX/zS53uP6OqzB6SCtJCaimXdjewCWWiNi4FFtv1jcsca3PV7haiaLKict5JPZWzfMq+t3Bzw==,
+      }
+    engines: { node: ">=18.4.0" }
+    peerDependencies:
+      "@auth/core": 0.*
+      hono: ">=3.*"
+      react: ">=18"
+
   "@hono/node-server@1.12.2":
     resolution:
       {
@@ -878,6 +924,12 @@ packages:
       }
     engines: { node: ">=12.4.0" }
 
+  "@panva/hkdf@1.2.1":
+    resolution:
+      {
+        integrity: sha512-6oclG6Y3PiDFcoyk8srjLfVKyMfVCKJ27JwNPViuXziFpmdz+MZnZN/aKY0JGXgYuO/VghU0jcOAZgWXZ1Dmrw==,
+      }
+
   "@pkgjs/parseargs@0.11.0":
     resolution:
       {
@@ -907,6 +959,12 @@ packages:
     resolution:
       {
         integrity: sha512-i8KcD3PgGtGBLl3+mMYA8PdKkButvPyARxA7IQAd6qeslht13qxb1zzO8dRCtE7U3IoJS782zDBAeoKiM695kg==,
+      }
+
+  "@types/cookie@0.6.0":
+    resolution:
+      {
+        integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==,
       }
 
   "@types/json5@0.0.29":
@@ -1374,6 +1432,13 @@ packages:
       {
         integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==,
       }
+
+  cookie@0.6.0:
+    resolution:
+      {
+        integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==,
+      }
+    engines: { node: ">= 0.6" }
 
   cross-spawn@7.0.3:
     resolution:
@@ -2563,6 +2628,12 @@ packages:
       }
     hasBin: true
 
+  jose@5.8.0:
+    resolution:
+      {
+        integrity: sha512-E7CqYpL/t7MMnfGnK/eg416OsFCVUrU/Y3Vwe7QjKhu/BkS1Ms455+2xsqZQVN57/U2MHMBvEb5SrmAZWAIntA==,
+      }
+
   js-tokens@4.0.0:
     resolution:
       {
@@ -2828,6 +2899,25 @@ packages:
         integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==,
       }
 
+  next-auth@5.0.0-beta.20:
+    resolution:
+      {
+        integrity: sha512-+48SjV9k9AtUU3JbEIa4PXNjKIewfFjVGL7Xs2RKkuQ5QqegDNIQiIG8sLk6/qo7RTScQYIGKgeQ5IuQRtrTQg==,
+      }
+    peerDependencies:
+      "@simplewebauthn/browser": ^9.0.1
+      "@simplewebauthn/server": ^9.0.2
+      next: ^14.0.0-0 || ^15.0.0-0
+      nodemailer: ^6.6.5
+      react: ^18.2.0 || ^19.0.0-0
+    peerDependenciesMeta:
+      "@simplewebauthn/browser":
+        optional: true
+      "@simplewebauthn/server":
+        optional: true
+      nodemailer:
+        optional: true
+
   next@14.2.7:
     resolution:
       {
@@ -2875,6 +2965,12 @@ packages:
         integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==,
       }
     engines: { node: ">=8" }
+
+  oauth4webapi@2.12.1:
+    resolution:
+      {
+        integrity: sha512-7lgyz74z5NJ1dRbZSnL/YCJt7UMhNOqQ8I6Jokh/Et66GVK6KfFikzU98i5PTbgbrsSmxzsQprJdI3Z+5Uwj2Q==,
+      }
 
   object-assign@4.1.1:
     resolution:
@@ -3144,6 +3240,20 @@ packages:
       }
     engines: { node: ^10 || ^12 || >=14 }
 
+  preact-render-to-string@5.2.3:
+    resolution:
+      {
+        integrity: sha512-aPDxUn5o3GhWdtJtW0svRC2SS/l8D9MAgo2+AWml+BhDImb27ALf04Q2d+AHqUUOc6RdSXFIBVa2gxzgMKgtZA==,
+      }
+    peerDependencies:
+      preact: ">=10"
+
+  preact@10.11.3:
+    resolution:
+      {
+        integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==,
+      }
+
   prebuild-install@7.1.2:
     resolution:
       {
@@ -3224,6 +3334,12 @@ packages:
       }
     engines: { node: ">=14" }
     hasBin: true
+
+  pretty-format@3.8.0:
+    resolution:
+      {
+        integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==,
+      }
 
   pretty-quick@4.0.0:
     resolution:
@@ -3940,6 +4056,24 @@ snapshots:
       "@jridgewell/gen-mapping": 0.3.5
       "@jridgewell/trace-mapping": 0.3.25
 
+  "@auth/core@0.34.2":
+    dependencies:
+      "@panva/hkdf": 1.2.1
+      "@types/cookie": 0.6.0
+      cookie: 0.6.0
+      jose: 5.8.0
+      oauth4webapi: 2.12.1
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3(preact@10.11.3)
+
+  "@auth/drizzle-adapter@1.4.2":
+    dependencies:
+      "@auth/core": 0.34.2
+    transitivePeerDependencies:
+      - "@simplewebauthn/browser"
+      - "@simplewebauthn/server"
+      - nodemailer
+
   "@babel/code-frame@7.24.7":
     dependencies:
       "@babel/highlight": 7.24.7
@@ -4220,6 +4354,12 @@ snapshots:
 
   "@eslint/js@8.57.0": {}
 
+  "@hono/auth-js@1.0.10(@auth/core@0.34.2)(hono@4.5.9)(react@18.3.1)":
+    dependencies:
+      "@auth/core": 0.34.2
+      hono: 4.5.9
+      react: 18.3.1
+
   "@hono/node-server@1.12.2(hono@4.5.9)":
     dependencies:
       hono: 4.5.9
@@ -4321,6 +4461,8 @@ snapshots:
 
   "@nolyfill/is-core-module@1.0.39": {}
 
+  "@panva/hkdf@1.2.1": {}
+
   "@pkgjs/parseargs@0.11.0":
     optional: true
 
@@ -4336,6 +4478,8 @@ snapshots:
   "@types/better-sqlite3@7.6.11":
     dependencies:
       "@types/node": 20.16.2
+
+  "@types/cookie@0.6.0": {}
 
   "@types/json5@0.0.29": {}
 
@@ -4635,6 +4779,8 @@ snapshots:
   concat-map@0.0.1: {}
 
   convert-source-map@2.0.0: {}
+
+  cookie@0.6.0: {}
 
   cross-spawn@7.0.3:
     dependencies:
@@ -5488,6 +5634,8 @@ snapshots:
 
   jiti@1.21.6: {}
 
+  jose@5.8.0: {}
+
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -5605,6 +5753,12 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
+  next-auth@5.0.0-beta.20(next@14.2.7(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+    dependencies:
+      "@auth/core": 0.34.2
+      next: 14.2.7(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+
   next@14.2.7(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       "@next/env": 14.2.7
@@ -5641,6 +5795,8 @@ snapshots:
   npm-run-path@4.0.1:
     dependencies:
       path-key: 3.1.1
+
+  oauth4webapi@2.12.1: {}
 
   object-assign@4.1.1: {}
 
@@ -5788,6 +5944,13 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
+  preact-render-to-string@5.2.3(preact@10.11.3):
+    dependencies:
+      preact: 10.11.3
+      pretty-format: 3.8.0
+
+  preact@10.11.3: {}
+
   prebuild-install@7.1.2:
     dependencies:
       detect-libc: 2.0.3
@@ -5812,6 +5975,8 @@ snapshots:
       "@ianvs/prettier-plugin-sort-imports": 4.3.1(prettier@3.3.3)
 
   prettier@3.3.3: {}
+
+  pretty-format@3.8.0: {}
 
   pretty-quick@4.0.0(prettier@3.3.3):
     dependencies:

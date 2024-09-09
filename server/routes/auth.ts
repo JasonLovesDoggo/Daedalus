@@ -2,7 +2,7 @@ import { Hono } from "hono";
 
 export const app = new Hono();
 
-// Routes for /api/<route>
+// Routes for /api/auth/<route>
 
 // /api/login
 app.post("/login", (c) => {
@@ -14,6 +14,10 @@ app.post("/login", (c) => {
 // /api/register
 app.post("/register", (c) => {
   // TODO: Handle login
+
+  const body = c.body;
+
+  console.log("body", body);
 
   return c.text("Hello from auth route!");
 });
