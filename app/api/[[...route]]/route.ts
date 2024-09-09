@@ -20,7 +20,7 @@ app.get("/example", (c) => {
 // Public routes
 app.route("/", authRoutes);
 
-// Protected routes
+// Protected routes - use app.use("/<route>", authMiddleware)
 app.use("/application", authMiddleware);
 app.route("/application", applicationRoutes);
 
