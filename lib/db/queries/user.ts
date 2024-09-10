@@ -17,7 +17,7 @@ export const getUserById = async (userId: string) => {
 
 export const getUserByEmail = async (email: string) => {
   try {
-    const user = await db.select().from(users).where(eq(users.email, email));
+    const [user] = await db.select().from(users).where(eq(users.email, email));
     return user;
   } catch (error) {
     console.error("Error fetching user in getUserByEmail function: ", error);

@@ -1,5 +1,9 @@
 import { Hono } from "hono";
 
+import { db } from "@/lib/db";
+import { getUserByEmail } from "@/lib/db/queries/user";
+import { users } from "@/lib/db/schema";
+
 export const app = new Hono();
 
 // Routes for /api/auth/<route>
@@ -12,12 +16,25 @@ app.post("/login", (c) => {
 });
 
 // /api/register
-app.post("/register", (c) => {
-  // TODO: Handle login
+app.post("/register", async (c) => {
+  const body = await c.req.json();
+  // TODO: Validate body
 
-  const body = c.body;
+  const existingUser = await getUserByEmail(body.email);
 
-  console.log("body", body);
+  if (existingUser) {
+    return c.json(
+      { error: "User with given email already exists." },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  await db.insert(users).values({
+    name: body.name,
+    email: body.email,
+  });
 
   return c.json({ message: "Hello from auth route!" });
 });
