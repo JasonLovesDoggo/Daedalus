@@ -1,23 +1,29 @@
 import Link from "next/link";
-import { currentUser, signOut } from "@/auth";
+import { currentUser } from "@/auth";
+
+import { LogoutButton } from "@/components/auth/LoginButton";
 
 const Home = async () => {
   const user = await currentUser();
 
   if (user) {
     return (
-      <div className="mb-20 rounded-md border-2 p-12 text-center">
+      <div className="mx-auto my-20 max-w-xl rounded-md border-2 p-12 text-center">
         {user.name} is currently logged in.
+        <LogoutButton className="" />
         <form
           action={async () => {
             "use server";
 
-            signOut({ redirect: false });
+            const res = await fetch("http://localhost:3000/api/example");
+            if (!res.ok) {
+              console.log("[page.tsx] Error: ", res);
+            } else {
+              console.log("[page.tsx] Data: ", res);
+            }
           }}
         >
-          <button className="rounded-md border bg-zinc-900 px-3.5 py-2 text-white">
-            Sign Out
-          </button>
+          <button>click here to get session info</button>
         </form>
       </div>
     );
