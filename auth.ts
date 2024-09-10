@@ -6,16 +6,25 @@ import { db } from "./lib/db";
 import { getUserById } from "./lib/db/queries/user";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/sign-in",
+  },
+  cookies: {
+    sessionToken: {
+      name: "authjs.session-token",
+    },
+  },
   adapter: DrizzleAdapter(db),
   session: {
     strategy: "jwt",
   },
   callbacks: {
     async signIn({ account, user }) {
-      console.log("account", account, "user", user);
+      if (!user.id) {
+        return false;
+      }
 
-      if (!user.id) return false;
-
+      // No need to check for email verification if the user is using an oauth provider
       if (account?.provider !== "credentials") return true;
 
       // TODO: Email verifications
@@ -37,7 +46,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         session.user.name = token.name;
-        session.user.image = token.picture;
+        // session.user.image = token.picture;
       }
 
       return session;
@@ -53,7 +62,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       token.name = existingUser.name;
       token.email = existingUser.email;
-      token.picture = existingUser.image;
       // token.role = existingUser.role; // TODO
 
       return token;

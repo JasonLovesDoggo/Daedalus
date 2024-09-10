@@ -1,3 +1,7 @@
+import { redirect } from "next/navigation";
+
+import { getAbsoluteUrl } from "@/lib/utils";
+
 const SignUpPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-900">
@@ -5,7 +9,8 @@ const SignUpPage = () => {
         action={async (formData: FormData) => {
           "use server";
 
-          const response = await fetch("http://localhost:3000/api/register", {
+          const url = getAbsoluteUrl("/api/register");
+          const response = await fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -19,6 +24,7 @@ const SignUpPage = () => {
 
           const result = await response.json();
           console.log("result", result);
+          redirect("/sign-in");
         }}
         className="w-full max-w-md rounded-lg bg-zinc-800 p-8 shadow-md"
       >

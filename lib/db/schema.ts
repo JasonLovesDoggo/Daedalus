@@ -10,10 +10,11 @@ export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"),
+  name: text("name").notNull(),
   email: text("email").unique(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
-  image: text("image"),
+  password: text("password"),
+  role: text("role").default("unassigned").notNull(),
 });
 
 export const accounts = sqliteTable(

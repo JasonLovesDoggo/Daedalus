@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -12,29 +13,24 @@ export default {
     }),
     Credentials({
       async authorize(credentials) {
-        // const user = await getUserByEmail(credentials.email as string);
+        // TODO: Validate credentials with Zod
 
-        // if (!user) return null;
+        const user = await getUserByEmail(credentials.email as string);
 
-        // if (true === true) {
-        //   return {
-        //     id: "bebidog192387",
-        //     name: "bebi",
-        //     email: "bebicat",
-        //   };
-        // }
+        if (!user) return null;
 
-        // if (!user || !user.password) return null;
+        if (!user || !user.password) return null;
 
-        // TODO: Compare password with bcrypt
-        // const passwordsMatch = await bcrypt.compare(
-        //   credentials.password as string,
-        //   user.password,
-        // );
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password as string,
+          user.password,
+        );
 
-        // if (passwordsMatch) {
-        //   return user;
-        // }
+        if (passwordsMatch) {
+          console.log("\n\n\npasswords match\n\n\n");
+
+          return user;
+        }
 
         return null;
       },
