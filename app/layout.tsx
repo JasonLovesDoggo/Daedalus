@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
 import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,8 +28,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+      <body className={cn("", inter.className)}>
+        <SessionProvider session={session}>
+          <div className="flex h-full min-h-svh flex-col">
+            <div>{children}</div>
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );

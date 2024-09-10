@@ -8,23 +8,9 @@ const Home = async () => {
 
   if (user) {
     return (
-      <div className="mx-auto my-20 max-w-xl rounded-md border-2 p-12 text-center">
-        {user.name} is currently logged in.
+      <div className="mx-auto my-20 max-w-xl space-y-6 rounded-md border-2 p-12 text-center">
+        <p>{user.name} is currently logged in.</p>
         <LogoutButton className="" />
-        <form
-          action={async () => {
-            "use server";
-
-            const res = await fetch("http://localhost:3000/api/example");
-            if (!res.ok) {
-              console.log("[page.tsx] Error: ", res);
-            } else {
-              console.log("[page.tsx] Data: ", res);
-            }
-          }}
-        >
-          <button>click here to get session info</button>
-        </form>
       </div>
     );
   }
