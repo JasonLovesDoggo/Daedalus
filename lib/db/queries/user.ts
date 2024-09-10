@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "..";
 import { users } from "../schema";
 
-export const getUserById = async (userId: number) => {
+export const getUserById = async (userId: string) => {
   try {
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     return user;
@@ -17,8 +17,12 @@ export const getUserById = async (userId: number) => {
 
 export const getUserByEmail = async (email: string) => {
   try {
-    const user = await db.select().from(users).where(eq(users.email, email));
-    return user;
+    const user = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    return user[0];
   } catch (error) {
     console.error("Error fetching user in getUserByEmail function: ", error);
     return null;
