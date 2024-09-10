@@ -12,17 +12,17 @@ export default {
     }),
     Credentials({
       async authorize(credentials) {
-        const user = await getUserByEmail(credentials.email as string);
+        // const user = await getUserByEmail(credentials.email as string);
 
-        if (!user) return null;
+        // if (!user) return null;
 
-        if (true === true) {
-          return {
-            id: "bebidog192387",
-            name: "bebi",
-            email: "bebicat",
-          };
-        }
+        // if (true === true) {
+        //   return {
+        //     id: "bebidog192387",
+        //     name: "bebi",
+        //     email: "bebicat",
+        //   };
+        // }
 
         // if (!user || !user.password) return null;
 
