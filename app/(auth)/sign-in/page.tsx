@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { getAbsoluteUrl } from "@/lib/utils";
+import { fetcher } from "@/lib/utils";
 
 const SignInPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -18,33 +18,28 @@ const SignInPage = () => {
   });
 
   const onSubmit = (values: { email: string; password: string }) => {
-    console.log("values", values);
-
-    startTransition(async () => {
-      try {
-        const url = getAbsoluteUrl("/api/auth/login");
-        const response = await fetch(url, {
+    try {
+      startTransition(async () => {
+        const res = await fetcher("/api/auth/login", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify({
             email: values.email,
             password: values.password,
           }),
         });
 
-        const result = await response.json();
-
-        if (result.error) {
-          setError(result.error);
-        } else {
+        if (res.success) {
+          alert(res.message);
           redirect("/");
+        } else {
+          alert(res.message);
+          setError(res.message);
         }
-      } catch (err) {
-        setError("An unexpected error occurred.");
-      }
-    });
+      });
+    } catch (error) {
+      console.error("Fetch error:", error);
+      alert("Something bad happened.");
+    }
   };
 
   return (

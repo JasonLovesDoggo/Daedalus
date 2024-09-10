@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { ApiResponse } from "@/types/api";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -8,6 +10,21 @@ export function cn(...inputs: ClassValue[]) {
 // Helper function for imitating a network request delay
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export async function fetcher<T>(
+  url: string,
+  options?: RequestInit,
+): Promise<ApiResponse<T>> {
+  const res = await fetch(url, options);
+
+  if (!res.ok) {
+    throw new Error("An error occurred while fetching the data.");
+  }
+
+  const data: ApiResponse<T> = await res.json();
+
+  return data;
 }
 
 export const getAbsoluteUrl = (path: string) => {

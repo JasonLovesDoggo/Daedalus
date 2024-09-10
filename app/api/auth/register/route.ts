@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
+import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/lib/db/queries/user";
 import { users } from "@/lib/db/schema";
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
   try {
     const body = await req.json();
     // TODO: Validate body with Zod
@@ -13,12 +14,10 @@ export async function POST(req: Request) {
     const existingUser = await getUserByEmail(body.email);
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: "User with given email already exists." },
-        {
-          status: 400,
-        },
-      );
+      return NextResponse.json({
+        success: false,
+        message: "An account with this email already exists.",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(body.password, 10);
@@ -31,16 +30,15 @@ export async function POST(req: Request) {
 
     // TODO: Email verification feature
     return NextResponse.json({
-      success: "Account created successfully.",
+      success: true,
+      message: "Account created successfully!",
     });
   } catch (error) {
     console.error("Error during registration:", error);
 
-    return NextResponse.json(
-      { error: "An unexpected error occurred." },
-      {
-        status: 500,
-      },
-    );
+    return NextResponse.json({
+      success: false,
+      message: "Something went wrong. Please try again later.",
+    });
   }
 }

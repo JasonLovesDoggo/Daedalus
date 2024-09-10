@@ -2,32 +2,31 @@ import { NextRequest, NextResponse } from "next/server";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
+import { ApiResponse } from "@/types/api";
 import { getUserByEmail } from "@/lib/db/queries/user";
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+): Promise<NextResponse<ApiResponse>> {
   try {
     const body = await req.json();
 
     // TODO: Validate the body with a Zod schema
 
     if (!body.email || !body.password) {
-      return NextResponse.json(
-        { error: "Email and password are required." },
-        {
-          status: 400,
-        },
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Invalid email or password.",
+      });
     }
 
     const existingUser = await getUserByEmail(body.email);
 
     if (!existingUser) {
-      return NextResponse.json(
-        { error: "Could not find a user with the given email." },
-        {
-          status: 400,
-        },
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Invalid email or password.",
+      });
     }
 
     const result = await signIn("credentials", {
@@ -37,53 +36,35 @@ export async function POST(req: NextRequest) {
     });
 
     if (!result) {
-      return NextResponse.json(
-        { error: "Invalid email or password." },
-        {
-          status: 401,
-        },
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Invalid email or password.",
+      });
     }
 
     // If everything is successful
-    return NextResponse.json({ success: "Welcome!" });
+    return NextResponse.json({
+      success: true,
+      message: "Welcome!",
+    });
   } catch (error) {
     console.error("Error during login:", error);
 
     // Handling known errors
     if (error instanceof Error) {
-      const { type, cause } = error as AuthError;
-      switch (type) {
-        case "CredentialsSignin":
-          return NextResponse.json(
-            { error: "Invalid email or password." },
-            {
-              status: 400,
-            },
-          );
-        case "CallbackRouteError":
-          return NextResponse.json(
-            { error: cause?.err?.toString() || "Callback error occurred." },
-            {
-              status: 500,
-            },
-          );
-        default:
-          return NextResponse.json(
-            { error: "An unknown error occurred." },
-            {
-              status: 500,
-            },
-          );
+      const { type } = error as AuthError;
+      if (type === "CredentialsSignin") {
+        return NextResponse.json({
+          success: false,
+          message: "Invalid email or password.",
+        });
       }
     }
 
     // Any other unhandled errors
-    return NextResponse.json(
-      { error: "An unexpected error occurred." },
-      {
-        status: 500,
-      },
-    );
+    return NextResponse.json({
+      success: false,
+      message: "Something went wrong, please try again.",
+    });
   }
 }

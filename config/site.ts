@@ -1,4 +1,4 @@
-import { SidebarLink } from "@/types";
+import { SidebarLink } from "@/types/app";
 
 export const sidebarLinks: SidebarLink[] = [
   {
