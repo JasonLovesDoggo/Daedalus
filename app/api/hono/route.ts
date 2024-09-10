@@ -1,9 +1,9 @@
 // This file is left here for reference, we're no longer using Hono
 
 import authConfig from "@/auth.config";
-import { applicationRoutes } from "@/server/routes/application";
-import { authRoutes } from "@/server/routes/auth";
-import { userRoutes } from "@/server/routes/user";
+// import { applicationRoutes } from "@/server/routes/application";
+// import { authRoutes } from "@/server/routes/auth";
+// import { userRoutes } from "@/server/routes/user";
 import { initAuthConfig, type AuthConfig } from "@hono/auth-js";
 import { Context, Hono } from "hono";
 import { handle } from "hono/vercel";
@@ -21,9 +21,9 @@ app.get("/example", async (c) => {
 });
 
 // Public routes
-app.route("/", authRoutes);
-app.route("/application", applicationRoutes);
-app.route("/user", userRoutes);
+// app.route("/", authRoutes);
+// app.route("/application", applicationRoutes);
+// app.route("/user", userRoutes);
 
 export const GET = handle(app);
 export const POST = handle(app);
