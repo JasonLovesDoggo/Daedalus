@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { fetcher } from "@/lib/utils";
+import SignInCard from "@/components/auth/sign-in/SignInCard";
 
 const SignInPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -17,75 +18,9 @@ const SignInPage = () => {
     },
   });
 
-  const onSubmit = (values: { email: string; password: string }) => {
-    try {
-      startTransition(async () => {
-        const res = await fetcher("/api/auth/login", {
-          method: "POST",
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-        });
-
-        if (res.success) {
-          alert(res.message);
-          redirect("/");
-        } else {
-          alert(res.message);
-          setError(res.message);
-        }
-      });
-    } catch (error) {
-      console.error("Fetch error:", error);
-      alert("Something bad happened.");
-    }
-  };
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-900">
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-md rounded-lg bg-zinc-800 p-8 shadow-md"
-      >
-        <h1 className="mb-6 text-center text-3xl font-bold text-zinc-100">
-          Sign In
-        </h1>
-        {error && <p className="mb-4 text-red-500">{error}</p>}
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="mb-2 block font-medium text-zinc-400"
-          >
-            Email
-          </label>
-          <input
-            className="w-full rounded-md border border-zinc-600 bg-zinc-700 px-4 py-2 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-            type="email"
-            {...form.register("email", { required: true })}
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="mb-2 block font-medium text-zinc-400"
-          >
-            Password
-          </label>
-          <input
-            className="w-full rounded-md border border-zinc-600 bg-zinc-700 px-4 py-2 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-            type="password"
-            {...form.register("password", { required: true })}
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full rounded-md bg-zinc-600 py-3 font-semibold text-zinc-100 transition duration-300 hover:bg-zinc-500"
-          disabled={isPending}
-        >
-          {isPending ? "Signing In..." : "Sign In"}
-        </button>
-      </form>
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <SignInCard />
     </div>
   );
 };
