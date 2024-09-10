@@ -4,6 +4,7 @@ import { AuthError } from "next-auth";
 
 import { ApiResponse } from "@/types/api";
 import { getUserByEmail } from "@/lib/db/queries/user";
+import { LoginSchema } from "@/lib/validations/login";
 
 export async function POST(
   req: NextRequest,
@@ -11,16 +12,18 @@ export async function POST(
   try {
     const body = await req.json();
 
-    // TODO: Validate the body with a Zod schema
+    const validatedFields = LoginSchema.safeParse(body);
 
-    if (!body.email || !body.password) {
+    if (!validatedFields.success) {
       return NextResponse.json({
         success: false,
         message: "Invalid email or password.",
       });
     }
 
-    const existingUser = await getUserByEmail(body.email);
+    const { email, password } = validatedFields.data;
+
+    const existingUser = await getUserByEmail(email);
 
     if (!existingUser) {
       return NextResponse.json({
@@ -29,9 +32,11 @@ export async function POST(
       });
     }
 
+    // TODO: Email verification goes here
+
     const result = await signIn("credentials", {
-      email: body.email,
-      password: body.password,
+      email,
+      password,
       redirect: false,
     });
 

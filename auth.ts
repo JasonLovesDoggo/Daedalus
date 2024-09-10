@@ -1,9 +1,18 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
 import { getUserById } from "./lib/db/queries/user";
+import { UserRole } from "./types/user";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      role: UserRole;
+    } & DefaultSession["user"];
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
@@ -24,11 +33,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return false;
       }
 
-      // No need to check for email verification if the user is using an oauth provider
-      if (account?.provider !== "credentials") return true;
-
-      // TODO: Email verifications
-
       return true;
     },
     async session({ token, session }) {
@@ -42,11 +46,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         if (token.role) {
-          // session.user.role = token.role; // TODO
+          session.user.role = token.role as UserRole;
         }
 
         session.user.name = token.name;
-        // session.user.image = token.picture;
       }
 
       return session;
