@@ -9,7 +9,7 @@ const SignUpPage = () => {
         action={async (formData: FormData) => {
           "use server";
 
-          const url = getAbsoluteUrl("/api/register");
+          const url = getAbsoluteUrl("/api/auth/register");
           const response = await fetch(url, {
             method: "POST",
             headers: {

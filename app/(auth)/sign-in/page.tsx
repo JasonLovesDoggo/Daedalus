@@ -9,6 +9,7 @@ import { getAbsoluteUrl } from "@/lib/utils";
 const SignInPage = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+
   const form = useForm({
     defaultValues: {
       email: "",

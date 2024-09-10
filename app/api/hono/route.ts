@@ -1,4 +1,5 @@
-import { currentUser } from "@/auth";
+// This file is left here for reference, we're no longer using Hono
+
 import authConfig from "@/auth.config";
 import { applicationRoutes } from "@/server/routes/application";
 import { authRoutes } from "@/server/routes/auth";
