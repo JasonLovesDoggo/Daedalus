@@ -31,10 +31,7 @@ const ForgotPasswordForm = ({}: Props) => {
           }),
         });
 
-        if (res.success) {
-          // alert(res.message);
-          redirect("/");
-        } else {
+        if (!res.success) {
           alert(res.message);
           setError(res.message);
         }

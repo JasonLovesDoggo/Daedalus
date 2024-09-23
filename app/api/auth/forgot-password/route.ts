@@ -4,7 +4,9 @@ import { AuthError } from "next-auth";
 import Resend from "next-auth/providers/resend";
 
 import { ApiResponse } from "@/types/api";
+import { db } from "@/lib/db";
 import { getUserByEmail } from "@/lib/db/queries/user";
+import { passwordResetTokens } from "@/lib/db/schema";
 import { ForgotPasswordSchema } from "@/lib/validations/forgot-password";
 
 export async function POST(
@@ -17,45 +19,44 @@ export async function POST(
 
     if (!validatedFields.success) {
       return NextResponse.json({
-        success: false,
-        message: "Invalid email.",
+        success: true,
+        message:
+          "A password reset link will be sent to this email if an account is registered under it.",
       });
     }
 
     const { email } = validatedFields.data;
 
     const existingUser = await getUserByEmail(email);
+    console.log(email);
 
     if (!existingUser) {
       return NextResponse.json({
-        success: false,
-        message: "Invalid email.",
+        success: true,
+        message:
+          "A password reset link will be sent to this email if an account is registered under it.",
       });
     }
 
-    // TODO: Email verification goes here
-
     // TODO: Have an email service provider
-    console.log(email);
 
+    const id = `${crypto.randomUUID()}${crypto.randomUUID()}`.replace(/-/g, "");
+    await db.insert(passwordResetTokens).values({
+      token: id,
+      userId: existingUser.id,
+      resetAt: null,
+    });
+    // This is for testing purposes
+    // TODO: remove it.
+    console.log(id);
     // If everything is successful
     return NextResponse.json({
       success: true,
-      message: "Welcome!",
+      message:
+        "A password reset link will be sent to this email if an account is registered under it.",
     });
   } catch (error) {
-    console.error("Error during login:", error);
-
-    // Handling known errors
-    if (error instanceof Error) {
-      const { type } = error as AuthError;
-      if (type === "CredentialsSignin") {
-        return NextResponse.json({
-          success: false,
-          message: "Invalid email or password.",
-        });
-      }
-    }
+    console.error("Error during forgetting password:", error);
 
     // Any other unhandled errors
     return NextResponse.json({

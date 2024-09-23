@@ -1,18 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const authPages = [
-  "/sign-in",
-  "/sign-up",
-  "/forgot-password",
-  "/reset-password",
-];
+const authPages = ["/sign-in", "/sign-up", "/forgot-password"];
 
 function isAuthenticated(request: NextRequest): boolean {
   const token = request.cookies.get("authjs.session-token");
   return !!token;
 }
-
+// TODO: add a rate limiter for api or server-side routes.
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -22,7 +17,11 @@ export async function middleware(req: NextRequest) {
   }
 
   // If the user is not authenticated and trying to access a protected route, redirect to login
-  if (!isAuthenticated(req) && !authPages.includes(pathname)) {
+  if (
+    !isAuthenticated(req) &&
+    !authPages.includes(pathname) &&
+    !pathname.startsWith("/reset-password/")
+  ) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 

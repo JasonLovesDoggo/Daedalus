@@ -6,4 +6,5 @@ export const ResetPasswordSchema = z.object({
     .string({ required_error: "Password is required" })
     .trim()
     .min(1, { message: "Password is required" }),
+  token: z.string({ required_error: "Token is required" }).trim(),
 });
