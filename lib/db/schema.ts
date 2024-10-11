@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   integer,
   primaryKey,
@@ -15,6 +16,20 @@ export const users = sqliteTable("user", {
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   password: text("password"),
   role: text("role").default("unassigned").notNull(),
+});
+
+export const passwordResetTokens = sqliteTable("passwordResetToken", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  token: text("token").unique(),
+  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  resetAt: integer("resetAt", { mode: "timestamp_ms" }),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id),
 });
 
 export const accounts = sqliteTable(

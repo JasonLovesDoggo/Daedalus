@@ -12,6 +12,15 @@ const SignInFooter = ({}: Props) => {
           Sign Up
         </a>
       </p>
+      <p className="text-center text-sm text-muted-foreground">
+        Forgot your password?{" "}
+        <a
+          href="/forgot-password"
+          className="underline underline-offset-4 hover:text-primary"
+        >
+          Reset Password
+        </a>
+      </p>
     </div>
   );
 };
