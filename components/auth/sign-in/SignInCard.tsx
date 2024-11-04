@@ -1,6 +1,6 @@
-import SignInFooter from "../SignInFooter";
-import SignInForm from "../SignInForm";
-import SignInHeader from "../SignInHeader";
+import SignInFooter from "./SignInFooter";
+import SignInForm from "./SignInForm";
+import SignInHeader from "./SignInHeader";
 
 type Props = {};
 

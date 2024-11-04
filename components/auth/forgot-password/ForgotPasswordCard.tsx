@@ -1,5 +1,5 @@
-import ForgotPasswordForm from "../ForgotPasswordForm";
-import ForgotPasswordHeader from "../ForgotPasswordHeader";
+import ForgotPasswordForm from "./ForgotPasswordForm";
+import ForgotPasswordHeader from "./ForgotPasswordHeader";
 
 type Props = {};
 

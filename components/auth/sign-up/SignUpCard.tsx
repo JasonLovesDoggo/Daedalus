@@ -1,6 +1,6 @@
-import SignUpFooter from "../SignUpFooter";
-import SignUpForm from "../SignUpForm";
-import SignUpHeader from "../SignUpHeader";
+import SignUpFooter from "./SignUpFooter";
+import SignUpForm from "./SignUpForm";
+import SignUpHeader from "./SignUpHeader";
 
 type Props = {};
 

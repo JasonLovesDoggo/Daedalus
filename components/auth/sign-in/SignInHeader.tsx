@@ -1,4 +1,4 @@
-import AuthProviders from "../../AuthProviders";
+import AuthProviders from "../AuthProviders";
 
 type Props = {};
 

@@ -1,7 +1,7 @@
 import { ResetPasswordParamsProps } from "@/types/app";
 
-import ResetPasswordForm from "../ResetPasswordForm";
-import ResetPasswordHeader from "../ResetPasswordHeader";
+import ResetPasswordForm from "./ResetPasswordForm";
+import ResetPasswordHeader from "./ResetPasswordHeader";
 
 const ResetPasswordCard = ({ params }: ResetPasswordParamsProps) => {
   return (
