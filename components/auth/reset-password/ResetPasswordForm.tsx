@@ -2,37 +2,50 @@
 
 import { useState, useTransition } from "react";
 import { redirect } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { ResetPasswordParamsProps } from "@/types/app";
 import { fetcher } from "@/lib/utils";
+import {
+  ResetPasswordInput,
+  ResetPasswordSchema,
+} from "@/lib/validations/reset-password";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const ResetPasswordForm = ({ params }: ResetPasswordParamsProps) => {
+type ResetPasswordParamsProps = {
+  token: string;
+};
+
+const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  console.log("tokebn", token);
 
-  const form = useForm({
+  const form = useForm<ResetPasswordInput>({
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
       password: "",
-      "reset-password": "",
+      confirmPassword: "",
+      token,
     },
   });
 
-  const onSubmit = (values: { password: string; "reset-password": string }) => {
+  const onSubmit = (values: ResetPasswordInput) => {
     try {
       startTransition(async () => {
-        if (values.password !== values["reset-password"]) {
+        if (values.password !== values["confirmPassword"]) {
           setError("Passwords entered must be the same!");
           return;
         }
+
         const res = await fetcher("/api/auth/reset-password", {
           method: "POST",
           body: JSON.stringify({
             password: values.password,
-            token: params.token,
+            confirmPassword: values.confirmPassword,
+            token,
           }),
         });
 
@@ -40,6 +53,8 @@ const ResetPasswordForm = ({ params }: ResetPasswordParamsProps) => {
           redirect("/");
         } else {
           alert(res.message);
+          console.log("server side error", res);
+
           setError(res.message);
         }
       });
@@ -53,7 +68,11 @@ const ResetPasswordForm = ({ params }: ResetPasswordParamsProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="">
-        {error && <p className="mb-4 text-red-500">{error}</p>}
+        {Object.entries(form.formState.errors).map(([key, value]) => (
+          <p key={key} className="mb-4 text-red-500">
+            {value?.message}
+          </p>
+        ))}
         <div className="">
           <label htmlFor="password">Password</label>
           <Input
@@ -63,11 +82,11 @@ const ResetPasswordForm = ({ params }: ResetPasswordParamsProps) => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="reset-password">Reset Password</label>
+          <label htmlFor="confirmPassword">Reset Password</label>
           <Input
             className="w-full rounded-md px-4 py-2"
             type="password"
-            {...form.register("reset-password", { required: true })}
+            {...form.register("confirmPassword", { required: true })}
           />
         </div>
         <Button

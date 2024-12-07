@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
-import Resend from "next-auth/providers/resend";
 
 import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
@@ -28,7 +25,6 @@ export async function POST(
     const { email } = validatedFields.data;
 
     const existingUser = await getUserByEmail(email);
-    console.log(email);
 
     if (!existingUser) {
       return NextResponse.json({
@@ -38,27 +34,27 @@ export async function POST(
       });
     }
 
-    // TODO: Have an email service provider
+    // Generate a UUID for the reset token
+    const token = crypto.randomUUID();
 
-    const id = `${crypto.randomUUID()}${crypto.randomUUID()}`.replace(/-/g, "");
+    // Create a new password reset token
     await db.insert(passwordResetTokens).values({
-      token: id,
+      token,
       userId: existingUser.id,
-      resetAt: null,
     });
-    // This is for testing purposes
-    // TODO: remove it.
-    console.log(id);
-    // If everything is successful
+
+    // TODO: Send email with reset link
+    // For development purposes only
+    console.log("Reset token:", token);
+
     return NextResponse.json({
       success: true,
       message:
         "A password reset link will be sent to this email if an account is registered under it.",
     });
   } catch (error) {
-    console.error("Error during forgetting password:", error);
+    console.error("Error during password reset request:", error);
 
-    // Any other unhandled errors
     return NextResponse.json({
       success: false,
       message: "Something went wrong, please try again.",

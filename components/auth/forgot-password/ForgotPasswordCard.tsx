@@ -5,7 +5,7 @@ type Props = {};
 
 const ForgotPasswordCard = ({}: Props) => {
   return (
-    <div className="w-full max-w-md space-y-8 rounded-md border p-6 md:p-10">
+    <div className="w-full max-w-md space-y-4 rounded-md border p-6 md:p-10">
       <ForgotPasswordHeader />
       <ForgotPasswordForm />
     </div>

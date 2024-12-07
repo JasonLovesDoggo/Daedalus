@@ -23,4 +23,4 @@ if (process.env.NODE_ENV !== "production") {
 export { db };
 
 // this is important to bring the schema into the database, otherwise the tables won't be created
-migrate(db, { migrationsFolder: "drizzle" });
+// migrate(db, { migrationsFolder: "drizzle" });

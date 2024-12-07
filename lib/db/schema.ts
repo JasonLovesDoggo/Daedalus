@@ -26,7 +26,6 @@ export const passwordResetTokens = sqliteTable("passwordResetToken", {
   createdAt: integer("createdAt", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
-  resetAt: integer("resetAt", { mode: "timestamp_ms" }),
   userId: text("userId")
     .notNull()
     .references(() => users.id),

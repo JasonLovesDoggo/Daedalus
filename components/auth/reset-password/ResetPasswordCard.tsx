@@ -1,13 +1,11 @@
-import { ResetPasswordParamsProps } from "@/types/app";
-
 import ResetPasswordForm from "./ResetPasswordForm";
 import ResetPasswordHeader from "./ResetPasswordHeader";
 
-const ResetPasswordCard = ({ params }: ResetPasswordParamsProps) => {
+const ResetPasswordCard = ({ token }: { token: string }) => {
   return (
-    <div className="w-full max-w-md space-y-8 rounded-md border p-6 md:p-10">
+    <div className="w-full max-w-md space-y-4 rounded-md border p-6 md:p-10">
       <ResetPasswordHeader />
-      <ResetPasswordForm params={params} />
+      <ResetPasswordForm token={token} />
     </div>
   );
 };

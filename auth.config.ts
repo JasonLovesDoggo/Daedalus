@@ -27,8 +27,6 @@ export default {
         );
 
         if (passwordsMatch) {
-          console.log("\n\n\npasswords match\n\n\n");
-
           return user;
         }
 
