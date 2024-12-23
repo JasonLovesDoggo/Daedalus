@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { fetcher } from "@/lib/utils";
@@ -14,6 +14,7 @@ type Props = {};
 const SignInForm = ({}: Props) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -35,7 +36,7 @@ const SignInForm = ({}: Props) => {
 
         if (res.success) {
           alert(res.message);
-          redirect("/");
+          router.push("/");
         } else {
           alert(res.message);
           setError(res.message);
