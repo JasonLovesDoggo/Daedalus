@@ -1,45 +1,46 @@
 import React from "react";
-import { Clock, Layout, List, QrCode } from "lucide-react";
+import Link from "next/link";
+import { Clock, LayoutDashboard, List, QrCode } from "lucide-react";
 
 const SidebarNav = () => {
   return (
     <nav>
-      <ul className="space-y-2">
+      <ul className="space-y-4">
         <li>
-          <a
-            href="#"
+          <Link
+            href="/dashboard"
             className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100"
           >
-            <Layout size={16} />
+            <LayoutDashboard size={20} />
             <span>Dashboard</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/application"
             className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100"
           >
-            <List size={16} />
+            <List size={20} />
             <span>Application</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/schedule"
             className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100"
           >
-            <Clock size={16} />
+            <Clock size={20} />
             <span>Schedule</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/qrcode"
             className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100"
           >
-            <QrCode size={16} />
+            <QrCode size={20} />
             <span>QR Code</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
