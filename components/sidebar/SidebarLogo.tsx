@@ -1,12 +1,16 @@
 import React from "react";
+import Image from "next/image";
 
 const SidebarLogo = () => {
   return (
-    <div className="p-4">
-      <div className="flex items-center space-x-2">
-        {/* TODO: Add Logo */}
-        <div className="text-xl font-bold">Hack Canada</div>
-      </div>
+    <div className="flex items-center space-x-2">
+      {/* TODO: Add Logo */}
+      <Image src="/logo.webp" alt="Hack Canada Logo" width={48} height={48} />
+      <p className="font-bold">
+        Hack
+        <br />
+        Canada
+      </p>
     </div>
   );
 };
