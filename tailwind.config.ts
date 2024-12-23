@@ -19,19 +19,44 @@ const config = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        // Our custom color palette
+        primary: "#1E90FF", // Blue for headings and important accents
+        primaryLight: "#87CEEB", // Lighter blue for hover states or subtle highlights
+        primaryDark: "#1565C0", // Darker blue for text or strong accents
+
+        secondary: "#FFA726", // Orange for status indicators like "In Review"
+        secondaryLight: "#FFD580", // Lighter orange for backgrounds or hover effects
+        secondaryDark: "#FF8C00", // Darker orange for emphasis
+
+        background: "#FFFFFF", // Main white background
+        backgroundMuted: "#F8FAFC", // Slightly muted white for cards or sections
+
+        textPrimary: "#1F2937", // Dark gray for primary text
+        textSecondary: "#4B5563", // Lighter gray for secondary text
+        textMuted: "#9CA3AF", // Muted gray for placeholder or less important text
+
+        border: "#E5E7EB", // Light gray for borders
+        shadow: "#0000001A", // Subtle shadow for cards and buttons (rgba with transparency)
+
+        success: "#4CAF50", // Green for success states
+        warning: "#FFB74D", // Orange-yellow for warnings
+        error: "#F44336", // Red for errors or destructive actions
+        info: "#29B6F6", // Cyan for informational highlights
+
+        // Shadcn color palette
+        // border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        // background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
+        // primary: {
+        //   DEFAULT: "hsl(var(--primary))",
+        //   foreground: "hsl(var(--primary-foreground))",
+        // },
+        // secondary: {
+        //   DEFAULT: "hsl(var(--secondary))",
+        //   foreground: "hsl(var(--secondary-foreground))",
+        // },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
