@@ -1,34 +1,36 @@
 "use client";
 
+import { ReactNode } from "react";
 import { signOut } from "next-auth/react";
 
-import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 type Props = {
   title?: string;
   label?: string;
   className?: string;
+  icon?: ReactNode;
 };
 
 export const LogoutButton = ({
   title,
   className,
   label = "Sign Out",
+  icon,
 }: Props) => {
   return (
-    <button
+    <Button
+      variant="unstyled"
       title={title ? "Logout" : undefined}
       onClick={() =>
         signOut({
           callbackUrl: "/sign-in",
         })
       }
-      className={cn(
-        "rounded-md border px-3.5 py-2 transition-colors hover:bg-secondary",
-        className,
-      )}
+      className={className}
     >
+      {icon && <span className="mr-2">{icon}</span>}
       {label}
-    </button>
+    </Button>
   );
 };
