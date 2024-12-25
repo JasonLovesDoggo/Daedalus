@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -43,16 +43,24 @@ const SignUpForm = ({}: Props) => {
   }) => {
     try {
       startTransition(async () => {
-        const res = await fetcher("/api/auth/register", {
-          method: "POST",
-          body: JSON.stringify(values),
-        });
+        const res = await fetcher<{ verificationToken?: string }>(
+          "/api/auth/register",
+          {
+            method: "POST",
+            body: JSON.stringify(values),
+          },
+        );
 
         if (res.success) {
-          // For testing purposes, show a verification code
-          const testCode = Math.floor(100000 + Math.random() * 900000);
-          toast.success(`Verification code: ${testCode}`);
-          router.push("/email-verification");
+          if (res.data?.verificationToken) {
+            router.push(
+              `/email-verification?token=${res.data.verificationToken}`,
+            );
+          } else {
+            // Handle case where verification was already sent
+            toast.info(res.message);
+            setError(res.message);
+          }
         } else {
           toast.error(res.message);
           setError(res.message);

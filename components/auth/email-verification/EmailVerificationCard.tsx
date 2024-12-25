@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -12,13 +13,42 @@ import {
 
 export function EmailVerificationCard() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (code: string) => {
-    // For testing purposes, show the code in a toast
-    toast.success(`Verification code: ${code}`);
+  const token = searchParams.get("token");
 
-    // Redirect to login after verification
-    router.push("/login");
+  const handleSubmit = async (code: string) => {
+    if (!token) {
+      setError("Invalid verification link");
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/auth/email-verification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code, token }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid verification code");
+      }
+
+      toast.success("Email verified successfully!");
+      router.push("/login");
+    } catch (error) {
+      setError("Invalid verification code. Please try again.");
+      toast.error("Invalid verification code");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -30,17 +60,19 @@ export function EmailVerificationCard() {
         </p>
       </div>
       <div className="space-y-6">
-        <InputOTP maxLength={6} onComplete={handleSubmit}>
+        <InputOTP maxLength={6} onComplete={handleSubmit} disabled={isLoading}>
           <InputOTPGroup className="mx-auto">
             {[...Array(6)].map((_, index) => (
               <InputOTPSlot key={index} index={index} />
             ))}
           </InputOTPGroup>
         </InputOTP>
+        {error && <p className="text-center text-sm text-red-500">{error}</p>}
         <Button
           variant="link"
           className="w-full text-sm text-muted-foreground"
           onClick={() => router.push("/login")}
+          disabled={isLoading}
         >
           Didn't receive a code? Resend
         </Button>

@@ -107,6 +107,18 @@ export const authenticators = sqliteTable(
   }),
 );
 
+export const emailVerificationTokens = sqliteTable("emailVerificationToken", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  email: text("email").notNull(),
+  code: text("code").notNull(),
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
 export const hackerApplications = sqliteTable("hackerApplication", {
   id: text("id")
     .primaryKey()
