@@ -18,13 +18,25 @@ const SidebarNavLink = ({ name, href, icon: Icon }: SidebarNavLinkProps) => {
     <Link
       href={href}
       className={cn(
-        "flex items-center space-x-4 rounded-md p-2",
+        "group flex items-center space-x-4 rounded-md p-2",
         "hover:bg-backgroundMuted",
         isActive ? "text-primary" : "text-textSecondary",
       )}
     >
-      <Icon size={24} />
-      <span>{name}</span>
+      <Icon
+        size={24}
+        className={cn("transition-transform", isActive && "scale-[1.2]")}
+      />
+      <span
+        className={cn(
+          "transition-all duration-200",
+          isActive
+            ? "translate-x-2 font-semibold"
+            : "font-normal group-hover:translate-x-1",
+        )}
+      >
+        {name}
+      </span>
     </Link>
   );
 };

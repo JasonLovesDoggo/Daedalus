@@ -3,6 +3,8 @@
 import { ReactNode } from "react";
 import { signOut } from "next-auth/react";
 
+import { cn } from "@/lib/utils";
+
 import { Button } from "../ui/button";
 
 type Props = {
@@ -27,7 +29,7 @@ export const LogoutButton = ({
           callbackUrl: "/sign-in",
         })
       }
-      className={className}
+      className={cn(className)}
     >
       {icon && <span className="mr-2">{icon}</span>}
       {label}

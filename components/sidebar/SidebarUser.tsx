@@ -17,19 +17,27 @@ const SidebarUser = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center space-x-2">
-        <div className="w-2/3 border-t-2 border-primary"></div>
+        <div className="w-full border-t-2 border-primary"></div>
         <Image src="/blue-leaf.png" alt="Leaf" width={16} height={16} />
       </div>
       <div className="flex space-x-4">
-        {/* Avatar */}
-        <div className="size-8 rounded-full bg-gray-300 xl:size-12"></div>
-        <div>
+        <Image
+          src="/default-avatar.webp"
+          alt={data.user.name + "'s Avatar"}
+          width={64}
+          height={64}
+          className="aspect-square size-14 rounded-full border"
+        />
+        <div className="space-y-1">
           <div className="font-semibold">{data.user.name}</div>
-          <LogoutButton
-            label="Logout"
-            icon={<LogOut className="size-4" />}
-            className="px-0 text-primary"
-          />
+          <div className="relative">
+            <LogoutButton
+              label="Log Out"
+              icon={<LogOut className="size-5" />}
+              className="peer h-fit p-0 text-primary"
+            />
+            <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-primary transition-transform peer-hover:scale-x-100" />
+          </div>
         </div>
       </div>
     </div>
