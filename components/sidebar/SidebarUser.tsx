@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { LogOut } from "lucide-react";
 import { useSession } from "next-auth/react";

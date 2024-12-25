@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { fetcher } from "@/lib/utils";
@@ -35,8 +35,8 @@ const SignInForm = ({}: Props) => {
         });
 
         if (res.success) {
+          window.location.href = "/";
           alert(res.message);
-          router.push("/");
         } else {
           alert(res.message);
           setError(res.message);

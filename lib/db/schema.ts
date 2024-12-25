@@ -16,6 +16,12 @@ export const users = sqliteTable("user", {
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   password: text("password"),
   role: text("role").default("unassigned").notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: integer("updatedAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const passwordResetTokens = sqliteTable("passwordResetToken", {
@@ -99,3 +105,32 @@ export const authenticators = sqliteTable(
     }),
   }),
 );
+
+export const hackerApplications = sqliteTable("hackerApplication", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  firstName: text("firstName"),
+  lastName: text("lastName"),
+  age: integer("age"),
+  email: text("email"),
+  github: text("github"),
+  linkedin: text("linkedin"),
+  personalWebsite: text("personalWebsite"),
+  resumeUrl: text("resume"),
+  school: text("university"),
+  major: text("major"),
+  graduationYear: integer("graduationYear"),
+  gender: text("gender"),
+  race: text("race"),
+  submissionStatus: text("submissionStatus").notNull().default("draft"),
+  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: integer("updatedAt", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
