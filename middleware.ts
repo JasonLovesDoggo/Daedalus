@@ -6,6 +6,7 @@ const authPages = [
   "/sign-up",
   "/forgot-password",
   "/email-verification",
+  "reset-password",
 ];
 
 function isAuthenticated(request: NextRequest): boolean {

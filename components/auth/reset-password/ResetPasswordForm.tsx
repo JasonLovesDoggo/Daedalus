@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { redirect } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { fetcher } from "@/lib/utils";
 import {
@@ -11,7 +12,14 @@ import {
   ResetPasswordSchema,
 } from "@/lib/validations/reset-password";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 type ResetPasswordParamsProps = {
@@ -21,7 +29,6 @@ type ResetPasswordParamsProps = {
 const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  console.log("tokebn", token);
 
   const form = useForm<ResetPasswordInput>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -50,51 +57,62 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
         });
 
         if (res.success) {
+          toast.success("Password reset successfully");
           redirect("/");
         } else {
-          alert(res.message);
-          console.log("server side error", res);
-
+          toast.error(res.message);
           setError(res.message);
         }
       });
     } catch (error) {
       console.error("Fetch error:", error);
-      alert("Something bad happened.");
+      toast.error("Something bad happened.");
     }
   };
 
-  // TODO: Add Shadcn Form components
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="">
-        {Object.entries(form.formState.errors).map(([key, value]) => (
-          <p key={key} className="mb-4 text-red-500">
-            {value?.message}
-          </p>
-        ))}
-        <div className="">
-          <label htmlFor="password">Password</label>
-          <Input
-            className="w-full rounded-md px-4 py-2"
-            type="password"
-            {...form.register("password", { required: true })}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="confirmPassword">Reset Password</label>
-          <Input
-            className="w-full rounded-md px-4 py-2"
-            type="password"
-            {...form.register("confirmPassword", { required: true })}
-          />
-        </div>
-        <Button
-          type="submit"
-          className="w-full rounded-md py-3 font-semibold"
-          disabled={isPending}
-        >
-          {isPending ? "Sending password..." : "Reset My Password"}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {error && <p className="mb-4 text-red-500">{error}</p>}
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Enter new password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Confirm new password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Resetting Password..." : "Reset Password"}
         </Button>
       </form>
     </Form>
