@@ -1,10 +1,10 @@
-import { currentUser } from "@/auth";
+import { getCurrentUser } from "@/auth";
 
 import { DashboardContent } from "@/components/dashboard/DashboardContent";
 import { UnauthorizedState } from "@/components/dashboard/UnauthorizedState";
 
 const Home = async () => {
-  const user = await currentUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     return <UnauthorizedState />;

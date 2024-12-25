@@ -15,8 +15,8 @@
     "db:migrate": "drizzle-kit migrate --config drizzle.config.ts"
   },
   "dependencies": {
-    "@auth/core": "^0.34.2",
-    "@auth/drizzle-adapter": "^1.7.2",
+    "@auth/core": "^0.37.4",
+    "@auth/drizzle-adapter": "^1.7.4",
     "@hono/auth-js": "^1.0.13",
     "@hono/node-server": "^1.13.5",
     "bcryptjs": "^2.4.3",

@@ -16,6 +16,7 @@ export const users = sqliteTable("user", {
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   password: text("password"),
   role: text("role").default("unassigned").notNull(),
+  applicationStatus: text("applicationStatus").notNull().default("not_applied"),
   createdAt: integer("createdAt", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),

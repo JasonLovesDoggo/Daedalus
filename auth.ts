@@ -1,15 +1,16 @@
+import { cache } from "react";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { DefaultSession } from "next-auth";
 
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
 import { getUserById } from "./lib/db/queries/user";
-import { UserRole } from "./types/user";
 
 declare module "next-auth" {
   interface Session {
     user: {
       role: UserRole;
+      status: ApplicationStatus;
     } & DefaultSession["user"];
   }
 }
@@ -49,6 +50,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           session.user.role = token.role as UserRole;
         }
 
+        if (token.status) {
+          session.user.status = token.status as ApplicationStatus;
+        }
+
         session.user.name = token.name;
       }
 
@@ -65,7 +70,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       token.name = existingUser.name;
       token.email = existingUser.email;
-      // token.role = existingUser.role; // TODO
+      token.role = existingUser.role as UserRole | "unassigned";
+      token.status = existingUser.applicationStatus as
+        | ApplicationStatus
+        | "not_applied";
 
       return token;
     },
@@ -73,9 +81,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
 });
 
-export const currentUser = async () => {
+export const getCurrentUser = cache(async () => {
   const session = await auth();
-  if (session?.user) return session.user;
-
-  return null;
-};
+  if (!session?.user) {
+    return null;
+  }
+  return session.user;
+});
