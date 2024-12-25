@@ -5,13 +5,23 @@ import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/lib/db/queries/user";
 import { users } from "@/lib/db/schema";
+import { registerSchema } from "@/lib/validations/register";
 
 export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
   try {
     const body = await req.json();
-    // TODO: Validate body with Zod
 
-    const existingUser = await getUserByEmail(body.email);
+    const validation = registerSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json({
+        success: false,
+        message: validation.error.errors[0].message,
+      });
+    }
+
+    const { email, name, password } = validation.data;
+
+    const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
       return NextResponse.json({
@@ -20,11 +30,11 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(body.password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     await db.insert(users).values({
-      name: body.name,
-      email: body.email,
+      name,
+      email,
       password: hashedPassword,
     });
 

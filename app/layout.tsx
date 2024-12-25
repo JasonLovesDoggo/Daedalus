@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={cn("", inter.className)}>
+        <Toaster richColors />
         <SessionProvider session={session}>
           <div className="flex h-full min-h-svh flex-col">
             <div>{children}</div>

@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 import { getUserByEmail } from "./lib/db/queries/user";
+import { LoginSchema } from "./lib/validations/login";
 
 export default {
   providers: [
@@ -13,9 +14,14 @@ export default {
     }),
     Credentials({
       async authorize(credentials) {
-        // TODO: Validate credentials with Zod
+        const validatedCredentials = LoginSchema.safeParse(credentials);
 
-        const user = await getUserByEmail(credentials.email as string);
+        if (!validatedCredentials.success) {
+          return null;
+        }
+
+        const { email } = validatedCredentials.data;
+        const user = await getUserByEmail(email);
 
         if (!user) return null;
 

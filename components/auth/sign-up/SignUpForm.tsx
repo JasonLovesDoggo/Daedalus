@@ -2,11 +2,21 @@
 
 import { useState, useTransition } from "react";
 import { redirect } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { fetcher } from "@/lib/utils";
+import { registerSchema } from "@/lib/validations/register";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 type Props = {};
@@ -16,6 +26,7 @@ const SignUpForm = ({}: Props) => {
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -32,60 +43,75 @@ const SignUpForm = ({}: Props) => {
       startTransition(async () => {
         const res = await fetcher("/api/auth/register", {
           method: "POST",
-          body: JSON.stringify({
-            name: values.name,
-            email: values.email,
-            password: values.password,
-          }),
+          body: JSON.stringify(values),
         });
 
         if (res.success) {
-          alert(res.message);
+          toast.success(res.message);
           redirect("/sign-in");
         } else {
-          alert(res.message);
+          toast.error(res.message);
           setError(res.message);
         }
       });
     } catch (error) {
       console.error("Fetch error:", error);
-      alert("Something bad happened.");
+      toast.error("Something bad happened.");
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {error && <p className="mb-4 text-red-500">{error}</p>}
-        <div className="mb-4">
-          <label htmlFor="name">Name</label>
-          <Input
-            className="w-full rounded-md px-4 py-2"
-            type="text"
-            {...form.register("name", { required: true })}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email">Email</label>
-          <Input
-            className="w-full rounded-md px-4 py-2"
-            type="email"
-            {...form.register("email", { required: true })}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password">Password</label>
-          <Input
-            className="w-full rounded-md px-4 py-2"
-            type="password"
-            {...form.register("password", { required: true })}
-          />
-        </div>
-        <Button
-          type="submit"
-          className="w-full rounded-md py-3 font-semibold"
-          disabled={isPending}
-        >
+
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? "Signing Up..." : "Sign Up"}
         </Button>
       </form>
