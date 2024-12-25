@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Application } from "@/config/applications";
 import { cn } from "@/lib/utils";
 
+import { ApplicationCardHeader } from "./ApplicationCardHeader";
+import { ApplicationCardStatus } from "./ApplicationCardStatus";
+
 interface ApplicationCardProps {
   application: Application;
 }
@@ -28,36 +31,13 @@ export const ApplicationCard = ({ application }: ApplicationCardProps) => {
       )}
     >
       <div className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-br from-primaryLight to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-      <h2 className="mb-3 flex items-center text-xl font-semibold text-gray-800 transition-colors group-hover:text-primary dark:text-gray-200 dark:group-hover:text-primaryDark">
-        <Icon
-          size={24}
-          className="mr-3 h-7 w-7 text-primary group-hover:text-primaryDark"
-        />
-        {title}
-      </h2>
-      <p className="mb-5 text-sm text-textMuted dark:text-gray-400">
-        {description}
-      </p>
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          Status:{" "}
-          <span
-            className={cn(
-              "font-semibold capitalize",
-              status === "open" && "text-success",
-              status === "closed" && "text-error",
-              status === "coming soon" && "text-warning",
-            )}
-          >
-            {status}
-          </span>
-        </span>
-        {deadline && (
-          <span className="text-sm font-medium text-textMuted dark:text-gray-400">
-            Deadline: {deadline}
-          </span>
-        )}
-      </div>
+      <ApplicationCardHeader
+        title={title}
+        description={description}
+        icon={Icon}
+      />
+
+      <ApplicationCardStatus status={status} deadline={deadline} />
     </Link>
   );
 };
