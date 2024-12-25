@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -43,7 +43,7 @@ const SignInForm = ({}: Props) => {
 
         if (res.success) {
           toast.success(res.message);
-          redirect("/");
+          window.location.href = "/";
         } else {
           toast.error(res.message);
           setError(res.message);

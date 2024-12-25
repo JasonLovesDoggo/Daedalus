@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,6 +25,8 @@ const SignUpForm = ({}: Props) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -47,8 +49,10 @@ const SignUpForm = ({}: Props) => {
         });
 
         if (res.success) {
-          toast.success(res.message);
-          redirect("/sign-in");
+          // For testing purposes, show a verification code
+          const testCode = Math.floor(100000 + Math.random() * 900000);
+          toast.success(`Verification code: ${testCode}`);
+          router.push("/email-verification");
         } else {
           toast.error(res.message);
           setError(res.message);
