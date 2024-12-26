@@ -11,6 +11,7 @@ import {
 
 import { Button, buttonVariants } from "../ui/button";
 import ApplicationStatusHeader from "./ApplicationStatusHeader";
+import CancelRSVP from "./CancelRSVP";
 
 const statusStyles = {
   not_applied: "bg-backgroundMuted text-textMuted",
@@ -134,6 +135,7 @@ export const ApplicationStatus = ({
               </Link>
               <hr className="mb-2.5" />
               {/* TODO: Cancel RSVP Section */}
+              <CancelRSVP />
             </>
           );
         } else {
