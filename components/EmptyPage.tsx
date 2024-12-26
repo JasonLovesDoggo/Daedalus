@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { MagicCard } from "./ui/magic-card";
 
 interface EmptyPageProps {
@@ -22,7 +22,11 @@ export const EmptyPage = ({ title, message }: EmptyPageProps) => {
           <p className="pb-2 text-textMuted max-md:text-sm">{message}</p>
           <Link
             href={"/"}
-            className="block rounded-md border border-textMuted px-3 py-2 text-base text-textMuted transition-colors hover:border-primaryDark hover:bg-primary hover:text-blue-100"
+            className={buttonVariants({
+              variant: "primary",
+              className: "block w-full",
+            })}
+            // className="block rounded-md border border-textMuted px-3 py-2 text-base text-textMuted transition-colors hover:border-primaryDark hover:bg-primary hover:text-blue-100"
           >
             Back to Dashboard
           </Link>

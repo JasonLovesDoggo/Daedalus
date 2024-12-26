@@ -81,8 +81,8 @@ export const ApplicationStatus = ({
               status={status}
             />
             <p className="pb-2.5 text-textMuted max-md:text-sm">
-              You haven't started an application yet. Click below to begin your
-              hackathon journey!
+              You haven't submitted a hacker application yet. Click below to
+              begin your hackathon journey!
             </p>
             <Link
               href="/applications"
@@ -289,16 +289,29 @@ export const ApplicationStatus = ({
               You've cancelled your RSVP for the hackathon. We hope to see you
               next year!
             </p>
-            <Link
-              href="/applications/hacker/review"
-              className={buttonVariants({
-                variant: "secondary",
-                size: "sm",
-                className: "w-fit max-xs:w-full",
-              })}
-            >
-              Review Application
-            </Link>
+            <div className="flex gap-2 max-xs:flex-col">
+              <Link
+                href="/applications/hacker/review"
+                className={buttonVariants({
+                  variant: "secondary",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                Review Application
+              </Link>
+              <Link
+                href="/applications"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  className:
+                    "w-fit hover:bg-secondary/20 hover:text-yellow-900 max-xs:w-full",
+                })}
+              >
+                View All Applications
+              </Link>
+            </div>
           </>
         );
     }

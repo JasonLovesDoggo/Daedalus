@@ -21,6 +21,9 @@ const config = {
       screens: {
         xs: "500px",
       },
+      fontFamily: {
+        heading: ["var(--font-heading)", "Luckiest Guy", "cursive"],
+      },
       colors: {
         // Our custom color palette
         primary: "#1E90FF", // Blue for headings and important accents

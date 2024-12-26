@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }: Props) => {
         Navbar
       </nav> */}
       <Sidebar />
-      <main className="h-svh lg:ml-72">{children}</main>
+      <main className="h-full lg:ml-72">{children}</main>
     </div>
   );
 };

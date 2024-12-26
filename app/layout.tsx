@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-import { Inter } from "next/font/google";
+import { Fredoka, Inter, Luckiest_Guy } from "next/font/google";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
@@ -10,7 +10,12 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const fredoka = Fredoka({ subsets: ["latin"] });
+const luckiestGuy = Luckiest_Guy({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-heading",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +34,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={cn("", inter.className)}>
+      <body className={cn("", fredoka.className, luckiestGuy.variable)}>
         <Toaster richColors position="bottom-center" />
         <SessionProvider session={session}>
           <div className="flex h-full min-h-svh flex-col">
