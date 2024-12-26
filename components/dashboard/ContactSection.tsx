@@ -1,6 +1,6 @@
 export const ContactSection = () => {
   return (
-    <div className="relative rounded-sm border border-gray-300 p-4 md:p-8 xl:p-12">
+    <div className="relative rounded-md border border-gray-300 p-4 md:p-8 xl:p-12">
       <span className="absolute left-2 top-2 text-5xl font-light text-black/25 md:text-6xl">
         ?
       </span>

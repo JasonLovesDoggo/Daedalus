@@ -26,7 +26,7 @@ export const ApplicationCard = ({ application }: ApplicationCardProps) => {
     <Link
       href={disabled ? "" : href}
       className={cn(
-        "group relative block rounded-lg border border-border bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800",
+        "group relative block rounded-lg border border-border bg-white p-6 shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800",
         disabled && "cursor-not-allowed opacity-60",
       )}
     >

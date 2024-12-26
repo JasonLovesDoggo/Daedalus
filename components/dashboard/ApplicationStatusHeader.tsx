@@ -4,12 +4,12 @@ type Props = {
 };
 
 const statusGradients = {
-  not_applied: "from-gray-400 via-gray-500 to-gray-400",
-  pending: "from-blue-400 via-blue-500 to-blue-400",
-  accepted: "from-green-400 via-green-500 to-green-400",
+  not_applied: "from-primary via-sky-500 to-primary",
+  pending: "from-primary via-sky-500 to-primary",
+  accepted: "from-primary via-sky-500 to-primary",
   rejected: "from-red-400 via-red-500 to-red-400",
-  waitlisted: "from-yellow-400 via-yellow-500 to-yellow-400",
-  coming_soon: "from-gray-400 via-gray-500 to-gray-400",
+  waitlisted: "from-secondary/80 via-amber-400 to-secondary",
+  coming_soon: "from-primary via-sky-500 to-primary",
 };
 
 const ApplicationStatusHeader = ({ heading, status }: Props) => {

@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        xs: "500px",
+      },
       colors: {
         // Our custom color palette
         primary: "#1E90FF", // Blue for headings and important accents
