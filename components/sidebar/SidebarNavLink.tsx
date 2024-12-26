@@ -18,7 +18,7 @@ const SidebarNavLink = ({ name, href, icon: Icon }: SidebarNavLinkProps) => {
     <Link
       href={href}
       className={cn(
-        "group flex items-center space-x-4 rounded-md p-2",
+        "group flex items-center space-x-4 rounded-md p-2 transition-colors",
         "hover:bg-backgroundMuted",
         isActive ? "text-primary" : "text-textSecondary",
       )}
