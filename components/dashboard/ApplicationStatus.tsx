@@ -47,6 +47,9 @@ export const ApplicationStatus = ({
       case "coming_soon":
         return (
           <>
+            <span className="w-fit rounded-sm bg-primaryDark px-1 py-0.5 text-[10px] font-medium text-white md:text-xs">
+              Coming Soon
+            </span>
             <ApplicationStatusHeader
               heading="Applications Coming Soon"
               status={status}
@@ -70,6 +73,9 @@ export const ApplicationStatus = ({
       case "not_applied":
         return (
           <>
+            <span className="w-fit rounded-sm bg-primaryDark px-1 py-0.5 text-[10px] font-medium text-white md:text-xs">
+              Not Applied
+            </span>
             <ApplicationStatusHeader
               heading="Application not submitted"
               status={status}
@@ -93,6 +99,9 @@ export const ApplicationStatus = ({
       case "pending":
         return (
           <>
+            <span className="w-fit rounded-sm bg-primaryDark px-1 py-0.5 text-[10px] font-medium text-white md:text-xs">
+              Applied
+            </span>
             <ApplicationStatusHeader
               heading="Application submitted"
               status={status}
@@ -101,16 +110,28 @@ export const ApplicationStatus = ({
               Your application is currently being reviewed by our team. We will
               notify you as soon as there's an update.
             </p>
-            <Link
-              href="/applications/hacker/review"
-              className={buttonVariants({
-                variant: "primary",
-                size: "sm",
-                className: "w-fit max-xs:w-full",
-              })}
-            >
-              Review Application
-            </Link>
+            <div className="flex gap-2 max-xs:flex-col">
+              <Link
+                href="/applications/hacker/review"
+                className={buttonVariants({
+                  variant: "primary",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                Review Application
+              </Link>
+              <Link
+                href="/applications"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                View All Applications
+              </Link>
+            </div>
           </>
         );
       case "accepted":
@@ -147,7 +168,7 @@ export const ApplicationStatus = ({
                 <span className="rounded-sm bg-green-400 px-1 py-0.5 text-xs font-bold text-black">
                   Accepted
                 </span>
-                <span className="text-[10px] font-semibold text-textMuted md:text-xs">
+                <span className="animate-pulse text-[10px] font-bold text-error md:text-xs">
                   [Action Required]
                 </span>
               </div>
@@ -159,21 +180,37 @@ export const ApplicationStatus = ({
                 You've been accepted to the hackathon! Please complete the form
                 below within 7 days of your acceptance to secure your spot!
               </p>
-              <Link
-                href="/applications"
-                className={buttonVariants({
-                  variant: "primary",
-                  className: "w-fit max-xs:w-full md:text-lg",
-                })}
-              >
-                RSVP
-              </Link>
+              <div className="flex items-center gap-2 max-xs:flex-col">
+                <Link
+                  href="/applications/hacker/rsvp"
+                  className={buttonVariants({
+                    variant: "primary",
+                    size: "sm",
+                    className: "w-fit max-xs:w-full md:text-lg",
+                  })}
+                >
+                  RSVP
+                </Link>
+                <Link
+                  href="/applications/hacker/review"
+                  className={buttonVariants({
+                    variant: "ghost",
+                    size: "sm",
+                    className: "w-fit max-xs:w-full",
+                  })}
+                >
+                  Review Application
+                </Link>
+              </div>
             </>
           );
         }
       case "rejected":
         return (
           <>
+            <span className="w-fit rounded-sm bg-error px-1 py-0.5 text-[10px] font-medium text-white md:text-xs">
+              Rejected
+            </span>
             <ApplicationStatusHeader
               heading="You weren't accepted"
               status={status}
@@ -182,16 +219,28 @@ export const ApplicationStatus = ({
               Thank you for applying to our hackathon. While we couldn't accept
               your application this time, we hope to see you at future events!
             </p>
-            <Link
-              href="/applications/hacker/review"
-              className={buttonVariants({
-                variant: "destructive",
-                size: "sm",
-                className: "w-fit max-xs:w-full",
-              })}
-            >
-              Review Application
-            </Link>
+            <div className="flex gap-2 max-xs:flex-col">
+              <Link
+                href="/applications/hacker/review"
+                className={buttonVariants({
+                  variant: "destructive",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                Review Application
+              </Link>
+              <Link
+                href="/applications"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                View All Applications
+              </Link>
+            </div>
           </>
         );
       case "waitlisted":
@@ -204,6 +253,41 @@ export const ApplicationStatus = ({
             <p className="pb-2.5 text-textMuted max-md:text-sm">
               You're currently on the waitlist for the hackathon. We'll notify
               you if a spot becomes available.
+            </p>
+            <div className="flex gap-2 max-xs:flex-col">
+              <Link
+                href="/applications/hacker/review"
+                className={buttonVariants({
+                  variant: "secondary",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                Review Application
+              </Link>
+              <Link
+                href="/applications"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  className: "w-fit max-xs:w-full",
+                })}
+              >
+                View All Applications
+              </Link>
+            </div>
+          </>
+        );
+      case "cancelled":
+        return (
+          <>
+            <span className="w-fit rounded-sm bg-error px-1 py-0.5 text-[10px] font-medium text-white md:text-xs">
+              Cancelled RSVP
+            </span>
+            <ApplicationStatusHeader heading="C'mon :((" status={status} />
+            <p className="pb-2.5 text-textMuted max-md:text-sm">
+              You've cancelled your RSVP for the hackathon. We hope to see you
+              next year!
             </p>
             <Link
               href="/applications/hacker/review"
