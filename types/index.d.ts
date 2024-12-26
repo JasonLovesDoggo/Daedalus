@@ -12,7 +12,8 @@ type ApplicationStatus =
   | "pending"
   | "accepted"
   | "rejected"
-  | "waitlisted";
+  | "waitlisted"
+  | "cancelled";
 
 type UserRole =
   | "admin"

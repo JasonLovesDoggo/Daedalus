@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={cn("", inter.className)}>
-        <Toaster richColors />
+        <Toaster richColors position="bottom-center" />
         <SessionProvider session={session}>
           <div className="flex h-full min-h-svh flex-col">
             <div>{children}</div>

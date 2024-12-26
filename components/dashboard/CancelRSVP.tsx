@@ -10,6 +10,11 @@ const CancelRSVP = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const onSubmit = () => {
+    if (!data?.user) {
+      toast.error("Failed to cancel. Try refreshing the page.");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const response = await fetch("/api/rsvp/cancel", {
@@ -20,14 +25,20 @@ const CancelRSVP = () => {
           body: JSON.stringify({ userId: data?.user.id }),
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to cancel RSVP");
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || "Failed to cancel RSVP");
         }
 
-        toast.success("RSVP cancelled successfully");
+        toast.success(result.message);
         setShowConfirmation(false);
       } catch (error) {
-        toast.error("Failed to cancel RSVP. Please try again.");
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Failed to cancel RSVP. Please try again.";
+        toast.error(message);
       }
     });
   };

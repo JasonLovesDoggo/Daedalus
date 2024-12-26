@@ -9,7 +9,7 @@ import {
   Smile,
 } from "lucide-react";
 
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import ApplicationStatusHeader from "./ApplicationStatusHeader";
 import CancelRSVP from "./CancelRSVP";
 
@@ -20,6 +20,7 @@ const statusStyles = {
   rejected: "bg-error/5 text-error border-error/50 shadow-error/10",
   waitlisted: "bg-warning/5 text-warning border-warning/50 shadow-warning/10",
   coming_soon: "bg-backgroundMuted text-textMuted border-primary/50",
+  cancelled: "bg-error/5 text-error border-error/50 shadow-error/10",
 };
 
 const statusIcons = {
@@ -29,6 +30,7 @@ const statusIcons = {
   rejected: Frown,
   waitlisted: Hourglass,
   coming_soon: Loader,
+  cancelled: Frown,
 };
 
 export const ApplicationStatus = ({
