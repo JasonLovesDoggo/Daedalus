@@ -6,7 +6,7 @@ type Props = {
 const statusGradients = {
   not_applied: "from-primary via-sky-500 to-primary",
   pending: "from-primary via-sky-500 to-primary",
-  accepted: "from-primary via-sky-500 to-primary",
+  accepted: "from-primary via-sky-400 to-primary",
   rejected: "from-red-400 via-red-500 to-red-400",
   waitlisted: "from-secondary/80 via-amber-400 to-secondary",
   coming_soon: "from-primary via-sky-500 to-primary",

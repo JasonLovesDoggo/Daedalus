@@ -17,6 +17,7 @@ export const users = sqliteTable("user", {
   password: text("password"),
   role: text("role").default("unassigned").notNull(),
   applicationStatus: text("applicationStatus").notNull().default("not_applied"),
+  rsvpAt: integer("rsvpAt", { mode: "timestamp_ms" }),
   createdAt: integer("createdAt", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
