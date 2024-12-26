@@ -23,3 +23,24 @@ type UserRole =
   | "mentor"
   | "volunteer"
   | "judge";
+
+type HackerApplication = {
+  id: string;
+  userId: string;
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+  email: string;
+  github?: string;
+  linkedin?: string;
+  personalWebsite?: string;
+  resumeUrl?: string;
+  school?: string;
+  major?: string;
+  graduationYear?: number;
+  gender?: string;
+  race?: string;
+  submissionStatus: "draft" | "submitted";
+  createdAt?: number;
+  updatedAt?: number;
+};

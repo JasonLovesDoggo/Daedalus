@@ -1,19 +1,20 @@
 import Link from "next/link";
 
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 import { MagicCard } from "./ui/magic-card";
 
 interface EmptyPageProps {
   title: string;
   message: string;
+  buttonLabel?: string;
 }
 
-export const EmptyPage = ({ title, message }: EmptyPageProps) => {
+export const EmptyPage = ({ title, message, buttonLabel }: EmptyPageProps) => {
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <MagicCard
         gradientColor="#87CEEB40"
-        className="mx-auto max-w-md bg-white p-4 shadow-lg md:p-8 xl:p-10"
+        className="w-full max-w-md bg-background p-4 shadow-lg md:p-8 xl:p-10"
       >
         <div className="space-y-4 text-center">
           <h1 className="mx-auto w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl">
@@ -26,9 +27,8 @@ export const EmptyPage = ({ title, message }: EmptyPageProps) => {
               variant: "primary",
               className: "block w-full",
             })}
-            // className="block rounded-md border border-textMuted px-3 py-2 text-base text-textMuted transition-colors hover:border-primaryDark hover:bg-primary hover:text-blue-100"
           >
-            Back to Dashboard
+            {buttonLabel ? buttonLabel : "Back to Dashboard"}
           </Link>
         </div>
       </MagicCard>

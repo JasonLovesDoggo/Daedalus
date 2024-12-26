@@ -1,12 +1,4 @@
-import {
-  Clock,
-  Home,
-  LayoutDashboard,
-  List,
-  NotebookPen,
-  QrCode,
-  Settings,
-} from "lucide-react";
+import { Clock, LayoutDashboard, NotebookPen, QrCode } from "lucide-react";
 
 export const navigation = [
   {
