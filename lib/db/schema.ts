@@ -89,7 +89,7 @@ export const verificationTokens = sqliteTable(
 export const authenticators = sqliteTable(
   "authenticator",
   {
-    credentialID: text("credentialID").notNull().unique(),
+    credentialID: text("credentialID").notNull(),
     userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
@@ -128,7 +128,6 @@ export const hackerApplications = sqliteTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     userId: text("userId")
-      .unique()
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     firstName: text("firstName"),
