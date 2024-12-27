@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
+import HackerApplicationForm from "@/components/applications/HackerApplicationForm";
 import PageWrapper from "@/components/PageWrapper";
 
 const HackerApplicationPage = async () => {
@@ -10,6 +11,10 @@ const HackerApplicationPage = async () => {
     redirect("/sign-up");
   }
 
-  return <PageWrapper>HackerApplicationPage</PageWrapper>;
+  return (
+    <PageWrapper>
+      <HackerApplicationForm />
+    </PageWrapper>
+  );
 };
 export default HackerApplicationPage;
