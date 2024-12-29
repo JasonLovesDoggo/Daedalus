@@ -70,7 +70,7 @@ export default function HackerApplicationForm() {
           <div className="space-y-8">
             {currentStep === 0 && (
               <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="text-3xl font-semibold tracking-wide md:text-4xl">
+                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
                   General Information
                 </h1>
                 <GeneralInformationStep control={form.control} />
@@ -78,7 +78,7 @@ export default function HackerApplicationForm() {
             )}
             {currentStep === 1 && (
               <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="text-3xl font-semibold tracking-wide md:text-4xl">
+                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
                   Your Background
                 </h1>
                 <BackgroundEducationStep control={form.control} />
@@ -86,7 +86,7 @@ export default function HackerApplicationForm() {
             )}
             {currentStep === 2 && (
               <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="text-3xl font-semibold tracking-wide md:text-4xl">
+                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
                   Short Answers
                 </h1>
                 <ShortAnswersStep control={form.control} />
@@ -94,7 +94,7 @@ export default function HackerApplicationForm() {
             )}
             {currentStep === 3 && (
               <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="text-3xl font-semibold tracking-wide md:text-4xl">
+                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
                   MLH Agreements
                 </h1>
                 <MLHStep control={form.control} />

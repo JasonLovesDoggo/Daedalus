@@ -2,20 +2,13 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-import { Fredoka, Inter, Luckiest_Guy } from "next/font/google";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
 import { siteConfig } from "@/config/site";
+import { fredoka, rubik } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
-
-const fredoka = Fredoka({ subsets: ["latin"] });
-const luckiestGuy = Luckiest_Guy({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-heading",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={cn("", fredoka.className, luckiestGuy.variable)}>
+      <body className={cn("", fredoka.className, rubik.variable)}>
         <Toaster richColors position="bottom-center" />
         <SessionProvider session={session}>
           <div className="flex h-full min-h-svh flex-col">

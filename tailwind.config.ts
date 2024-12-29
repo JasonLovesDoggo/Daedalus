@@ -22,7 +22,7 @@ const config = {
         xs: "500px",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "Luckiest Guy", "cursive"],
+        rubik: ["var(--font-rubik)", "Luckiest Guy", "cursive"],
       },
       colors: {
         // Our custom color palette
