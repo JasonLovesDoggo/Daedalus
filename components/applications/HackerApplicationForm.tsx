@@ -51,7 +51,7 @@ export default function HackerApplicationForm() {
             ))}
           </div>
 
-          <div className="space-y-8">
+          <div className="mb-4 space-y-8 md:mb-8">
             {currentStep === 0 && (
               <StepContentWrapper title="General Information">
                 <GeneralInformationStep control={form.control} />

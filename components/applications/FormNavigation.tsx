@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "../ui/button";
+
 interface FormNavigationProps {
   currentStep: number;
   totalSteps: number;
@@ -17,15 +19,29 @@ export function FormNavigation({
 
   return (
     <div className="flex justify-between">
-      <button type="button" disabled={currentStep === 0} onClick={onPrevious}>
+      <Button
+        variant="outline"
+        type="button"
+        disabled={currentStep === 0}
+        onClick={onPrevious}
+        className="px-8 md:text-base"
+      >
         Previous
-      </button>
+      </Button>
       {isLastStep ? (
-        <button type="submit">Submit</button>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
       ) : (
-        <button type="button" disabled={isLastStep} onClick={onNext}>
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLastStep}
+          onClick={onNext}
+          className="px-8 md:text-base"
+        >
           Next
-        </button>
+        </Button>
       )}
     </div>
   );
