@@ -6,118 +6,80 @@ import { useForm } from "react-hook-form";
 
 import { hackerApplicationSchema } from "@/lib/validators/hacker-application";
 
+import {
+  APPLICATION_STEPS,
+  DEFAULT_FORM_VALUES,
+} from "../../config/application-form";
 import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
+import { FormNavigation } from "./FormNavigation";
 import { GeneralInformationStep } from "./GeneralInformationStep";
 import { MLHStep } from "./MLHStep";
 import { ShortAnswersStep } from "./ShortAnswersStep";
-
-const steps = ["General", "Background", "Short Answer", "MLH Agreements"];
+import { StepContentWrapper } from "./StepContentWrapper";
+import { StepNavigation } from "./StepNavigation";
 
 export default function HackerApplicationForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const form = useForm({
     resolver: zodResolver(hackerApplicationSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      age: 18,
-      pronouns: "",
-      email: "",
-      github: "",
-      linkedin: "",
-      personalWebsite: "",
-      school: "",
-      major: "",
-      graduationYear: new Date().getFullYear(),
-      gender: "",
-      race: "",
-      country: "",
-      shortAnswer1: "",
-      shortAnswer2: "",
-      mlhCheckbox1: false,
-      mlhCheckbox2: false,
-      mlhCheckbox3: false,
-      resumeUrl: "",
-    },
+    defaultValues: DEFAULT_FORM_VALUES,
   });
 
   return (
     <div>
-      <div className="mb-8 flex items-center justify-center gap-2">
-        {steps.map((step, index) => (
-          <div key={step} className="flex items-center">
-            <div
-              className={`relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-primary/30 text-sm transition-all ${
-                index === currentStep
-                  ? "bg-primary text-white ring-4 ring-primaryLight"
-                  : "bg-backgroundMuted text-textMuted hover:bg-primaryLight hover:text-white"
-              }`}
-              onClick={() => setCurrentStep(index)}
-            >
-              {index === steps.length - 1 ? "🎉" : index + 1}
-            </div>
-            {index < steps.length - 1 && (
-              <div className="mx-2 h-1 w-4 rounded-full bg-primaryLight" />
-            )}
-          </div>
-        ))}
-      </div>
+      <StepNavigation
+        steps={APPLICATION_STEPS}
+        currentStep={currentStep}
+        onStepChange={setCurrentStep}
+      />
 
       <Form {...form}>
-        <form className="">
+        <form
+          className="mx-auto w-full max-w-4xl"
+          onSubmit={form.handleSubmit(() => {
+            alert("Form submitted!");
+          })}
+        >
+          <div>
+            <h1>errors</h1>
+            {Object.entries(form.formState.errors).map(([key, value]) => (
+              <p key={key}>
+                {key}: {value.message}
+              </p>
+            ))}
+          </div>
+
           <div className="space-y-8">
             {currentStep === 0 && (
-              <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
-                  General Information
-                </h1>
+              <StepContentWrapper title="General Information">
                 <GeneralInformationStep control={form.control} />
-              </div>
+              </StepContentWrapper>
             )}
             {currentStep === 1 && (
-              <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
-                  Your Background
-                </h1>
+              <StepContentWrapper title="Your Background">
                 <BackgroundEducationStep control={form.control} />
-              </div>
+              </StepContentWrapper>
             )}
             {currentStep === 2 && (
-              <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
-                  Short Answers
-                </h1>
+              <StepContentWrapper title="Short Answers">
                 <ShortAnswersStep control={form.control} />
-              </div>
+              </StepContentWrapper>
             )}
             {currentStep === 3 && (
-              <div className="mx-auto w-full max-w-4xl bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-                <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
-                  MLH Agreements
-                </h1>
+              <StepContentWrapper title="MLH Agreements">
                 <MLHStep control={form.control} />
-              </div>
+              </StepContentWrapper>
             )}
           </div>
 
-          <div className="flex justify-between">
-            <button
-              type="button"
-              disabled={currentStep === 0}
-              onClick={() => setCurrentStep((prev) => prev - 1)}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={currentStep === steps.length - 1}
-              onClick={() => setCurrentStep((prev) => prev + 1)}
-            >
-              Next
-            </button>
-          </div>
+          <FormNavigation
+            currentStep={currentStep}
+            totalSteps={APPLICATION_STEPS.length}
+            onPrevious={() => setCurrentStep((prev) => prev - 1)}
+            onNext={() => setCurrentStep((prev) => prev + 1)}
+          />
         </form>
       </Form>
     </div>
