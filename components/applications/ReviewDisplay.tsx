@@ -4,6 +4,20 @@ import { UseFormReturn } from "react-hook-form";
 
 import { MLHStep } from "./MLHStep";
 
+function Field({ label, value }: { label: string; value: string | number }) {
+  const isEmpty = typeof value === "string" ? value.trim() === "" : !value;
+  return (
+    <div className="space-y-1">
+      <p className="font-medium text-gray-600 max-md:text-sm">{label}</p>
+      <p
+        className={`md:text-lg ${isEmpty ? "text-gray-400" : "text-gray-900"}`}
+      >
+        {isEmpty ? "[Empty]" : value}
+      </p>
+    </div>
+  );
+}
+
 interface ReviewDisplayProps {
   form: UseFormReturn<any>;
 }
@@ -13,76 +27,64 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
 
   return (
     <div className="space-y-8">
+      <div className="-mt-6">
+        <p className="pb-2 text-textMuted max-md:text-sm">
+          Please review your application carefully before submitting. Note that
+          you will not be able to make changes or resubmit your application once
+          it has been submitted.
+        </p>
+        <hr className="border-t-2" />
+      </div>
       <div>
-        <h3 className="mb-4 text-lg font-semibold">General Information</h3>
-        <div className="space-y-2 text-sm">
-          <p>
-            <span className="font-medium">Name:</span> {values.firstName}{" "}
-            {values.lastName}
-          </p>
-          <p>
-            <span className="font-medium">Age:</span> {values.age}
-          </p>
-          <p>
-            <span className="font-medium">Pronouns:</span> {values.pronouns}
-          </p>
-          <p>
-            <span className="font-medium">Email:</span> {values.email}
-          </p>
-          <p>
-            <span className="font-medium">GitHub:</span> {values.github}
-          </p>
-          <p>
-            <span className="font-medium">LinkedIn:</span> {values.linkedin}
-          </p>
-          <p>
-            <span className="font-medium">Website:</span>{" "}
-            {values.personalWebsite}
-          </p>
+        <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <h3 className="mb-4 text-lg font-semibold">General Information</h3>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field
+            label="Name"
+            value={`${values.firstName} ${values.lastName}`}
+          />
+          <Field label="Age" value={values.age} />
+          <Field label="Pronouns" value={values.pronouns} />
+          <Field label="Email" value={values.email} />
+          <Field label="GitHub" value={values.github} />
+          <Field label="LinkedIn" value={values.linkedin} />
+          <Field label="Website" value={values.personalWebsite} />
         </div>
       </div>
 
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Your Background</h3>
-        <div className="space-y-2 text-sm">
-          <p>
-            <span className="font-medium">School:</span> {values.school}
-          </p>
-          <p>
-            <span className="font-medium">Major:</span> {values.major}
-          </p>
-          <p>
-            <span className="font-medium">Graduation Year:</span>{" "}
-            {values.graduationYear}
-          </p>
-          <p>
-            <span className="font-medium">Gender:</span> {values.gender}
-          </p>
-          <p>
-            <span className="font-medium">Race/Ethnicity:</span> {values.race}
-          </p>
-          <p>
-            <span className="font-medium">Country:</span> {values.country}
-          </p>
+        <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <h3 className="mb-4 text-lg font-semibold">Your Background</h3>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="School" value={values.school} />
+          <Field label="Major" value={values.major} />
+          <Field label="Graduation Year" value={values.graduationYear} />
+          <Field label="Gender" value={values.gender} />
+          <Field label="Race/Ethnicity" value={values.race} />
+          <Field label="Country" value={values.country} />
         </div>
       </div>
 
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Short Answers</h3>
-        <div className="space-y-4 text-sm">
+        <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <h3 className="mb-4 text-lg font-semibold">Short Answers</h3>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:gap-6 xl:gap-8">
           <div>
-            <p className="font-medium">Short Answer 1:</p>
-            <p className="whitespace-pre-line">{values.shortAnswer1}</p>
+            <Field label="Short Answer 1" value={values.shortAnswer1} />
           </div>
           <div>
-            <p className="font-medium">Short Answer 2:</p>
-            <p className="whitespace-pre-line">{values.shortAnswer2}</p>
+            <Field label="Short Answer 2" value={values.shortAnswer2} />
           </div>
         </div>
       </div>
 
       <div>
-        <h3 className="mb-4 text-lg font-semibold">MLH Agreements</h3>
+        <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <h3 className="mb-4 text-lg font-semibold">MLH Agreements</h3>
+        </div>
         <MLHStep control={form.control} />
       </div>
     </div>
