@@ -2,6 +2,9 @@
 
 import { Control } from "react-hook-form";
 
+import { levelsOfStudy } from "@/lib/data/levelsOfStudy";
+import { majors } from "@/lib/data/majors";
+import { schools } from "@/lib/data/schools";
 import {
   FormControl,
   FormField,
@@ -10,14 +13,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
+import { AdvancedSelect } from "../ui/advanced-select";
 import { Checkbox } from "../ui/checkbox";
 
 interface BackgroundEducationStepProps {
@@ -33,28 +30,72 @@ export function BackgroundEducationStep({
         <FormField
           control={control}
           name="school"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>School/University</FormLabel>
-              <FormControl>
-                <Input placeholder="University of Example" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                schools
+                  .filter((school) =>
+                    school.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((school) => ({ value: school, label: school })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>School/University</FormLabel>
+                <FormControl>
+                  <AdvancedSelect
+                    name="school"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Search for your school/university"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
         <FormField
           control={control}
           name="major"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Major</FormLabel>
-              <FormControl>
-                <Input placeholder="Computer Science" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                majors
+                  .filter((major) =>
+                    major.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((major) => ({ value: major, label: major })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Major</FormLabel>
+                <FormControl>
+                  <AdvancedSelect
+                    name="major"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Search for your major"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
       </div>
 
@@ -75,25 +116,37 @@ export function BackgroundEducationStep({
         <FormField
           control={control}
           name="levelOfStudy"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Level of Study</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                levelsOfStudy
+                  .filter((level) =>
+                    level.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((level) => ({ value: level, label: level })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Level of Study</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your level of study" />
-                  </SelectTrigger>
+                  <AdvancedSelect
+                    name="levelOfStudy"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Select your level of study"
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="undergraduate">Undergraduate</SelectItem>
-                  <SelectItem value="graduate">Graduate</SelectItem>
-                  <SelectItem value="high-school">High School</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
       </div>
 

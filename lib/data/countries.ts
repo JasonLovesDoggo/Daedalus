@@ -1,6 +1,8 @@
 export const countries = [
+  "Canada",
+  "United States of America",
   "Afghanistan",
-  "Åland Islands	",
+  "Åland Islands",
   "Albania",
   "Algeria",
   "American Samoa",
@@ -39,7 +41,6 @@ export const countries = [
   "Cabo Verde",
   "Cambodia",
   "Cameroon",
-  "Canada",
   "Cayman Islands",
   "Central African Republic",
   "Chad",
@@ -234,7 +235,6 @@ export const countries = [
   "Ukraine",
   "United Arab Emirates",
   "United Kingdom of Great Britain and Northern Ireland",
-  "United States of America",
   "United States Minor Outlying Islands",
   "Uruguay",
   "Uzbekistan",
@@ -248,5 +248,5 @@ export const countries = [
   "Yemen",
   "Zambia",
   "Zimbabwe",
-  "Other (please specify)",
+  "Other",
 ] as const;
