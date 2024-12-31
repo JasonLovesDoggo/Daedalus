@@ -16,13 +16,14 @@ export function FormNavigation({
   onNext,
 }: FormNavigationProps) {
   const isLastStep = currentStep === totalSteps - 1;
+  const isFirstStep = currentStep === 0;
 
   return (
     <div className="flex justify-between">
       <Button
         variant="outline"
         type="button"
-        disabled={currentStep === 0}
+        disabled={isFirstStep}
         onClick={onPrevious}
         className="px-8 md:text-base"
       >
@@ -37,7 +38,11 @@ export function FormNavigation({
           variant="outline"
           type="button"
           disabled={isLastStep}
-          onClick={onNext}
+          onClick={() => {
+            if (currentStep < totalSteps - 1) {
+              onNext();
+            }
+          }}
           className="px-8 md:text-base"
         >
           Next

@@ -16,5 +16,6 @@ export const majors = [
   "Business Administration",
   "Economics",
   "Psychology",
+  "I'm not currently a student",
   "Other",
 ];

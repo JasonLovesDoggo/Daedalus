@@ -2,6 +2,7 @@
 
 import { Control } from "react-hook-form";
 
+import { pronouns } from "@/lib/data/pronouns";
 import {
   FormControl,
   FormField,
@@ -71,15 +72,37 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="pronouns"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Pronouns</FormLabel>
-              <FormControl>
-                <Input placeholder="He/Him" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                pronouns
+                  .filter((pronoun) =>
+                    pronoun.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((pronoun) => ({ value: pronoun, label: pronoun })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Pronouns</FormLabel>
+                <FormControl>
+                  <AdvancedSelect
+                    name="pronouns"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Select your pronouns"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
       </div>
 
