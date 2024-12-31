@@ -41,9 +41,9 @@ export const hackerApplicationSchema = z.object({
   country: z.string().optional(),
   shortAnswer1: z.string().optional(),
   shortAnswer2: z.string().optional(),
-  mlhCheckbox1: z.boolean().optional(),
-  mlhCheckbox2: z.boolean().optional(),
-  mlhCheckbox3: z.boolean().optional(),
+  mlhCheckbox1: z.boolean(),
+  mlhCheckbox2: z.boolean(),
+  mlhCheckbox3: z.boolean(),
   resumeUrl: z
     .string()
     .optional()

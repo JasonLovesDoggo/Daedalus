@@ -9,7 +9,9 @@ export function Field({ label, value }: FieldProps) {
   const isEmpty = typeof value === "string" ? value.trim() === "" : !value;
   return (
     <div className="space-y-1">
-      <p className="font-medium text-gray-600 max-md:text-sm">{label}</p>
+      <p className="text-sm font-medium text-gray-600 max-md:text-xs">
+        {label}
+      </p>
       <p
         className={`md:text-lg ${isEmpty ? "text-gray-400" : "text-gray-900"}`}
       >

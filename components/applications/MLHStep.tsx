@@ -8,6 +8,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 
 interface MLHStepProps {
@@ -21,16 +22,19 @@ export function MLHStep({ control }: MLHStepProps) {
         control={control}
         name="mlhCheckbox1"
         render={({ field }) => (
-          <FormItem className="flex items-center space-x-3 space-y-0">
-            <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
-            <FormLabel>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </FormLabel>
+          <FormItem className="flex flex-col space-y-2">
+            <div className="flex items-center space-x-3">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </FormLabel>
+            </div>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -39,16 +43,19 @@ export function MLHStep({ control }: MLHStepProps) {
         control={control}
         name="mlhCheckbox2"
         render={({ field }) => (
-          <FormItem className="flex items-center space-x-3 space-y-0">
-            <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
-            <FormLabel>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </FormLabel>
+          <FormItem className="flex flex-col space-y-2">
+            <div className="flex items-center space-x-3">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </FormLabel>
+            </div>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -57,16 +64,19 @@ export function MLHStep({ control }: MLHStepProps) {
         control={control}
         name="mlhCheckbox3"
         render={({ field }) => (
-          <FormItem className="flex items-center space-x-3 space-y-0">
-            <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
-            <FormLabel>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </FormLabel>
+          <FormItem className="flex flex-col space-y-2">
+            <div className="flex items-center space-x-3">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </FormLabel>
+            </div>
+            <FormMessage />
           </FormItem>
         )}
       />

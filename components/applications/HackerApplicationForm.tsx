@@ -42,8 +42,8 @@ export default function HackerApplicationForm() {
             "max-w-5xl": currentStep === 3,
           })}
           onSubmit={form.handleSubmit((values) => {
+            if (currentStep !== 3) return;
             console.log("Form submission values", values);
-
             alert("Form submitted!");
           })}
         >
@@ -72,7 +72,7 @@ export default function HackerApplicationForm() {
 
           <FormNavigation
             currentStep={currentStep}
-            totalSteps={APPLICATION_STEPS.length}
+            totalSteps={4}
             onPrevious={() => setCurrentStep((prev) => prev - 1)}
             onNext={() => setCurrentStep((prev) => prev + 1)}
           />

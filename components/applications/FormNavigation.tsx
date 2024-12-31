@@ -38,8 +38,9 @@ export function FormNavigation({
           variant="outline"
           type="button"
           disabled={isLastStep}
-          onClick={() => {
-            if (currentStep < totalSteps - 1) {
+          onClick={(e) => {
+            e.preventDefault();
+            if (currentStep < 3) {
               onNext();
             }
           }}
