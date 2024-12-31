@@ -44,3 +44,15 @@ export function generateRandomCode(length: number): string {
   }
   return code;
 }
+
+/**
+ * Formats an array of strings into select options
+ * @param options Array of strings to format
+ * @returns Array of objects with value and label properties
+ */
+export const formatOptions = (options: string[]) => {
+  return options.map((option) => ({
+    value: option,
+    label: option,
+  }));
+};

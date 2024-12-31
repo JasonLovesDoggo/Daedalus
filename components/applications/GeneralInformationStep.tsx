@@ -123,7 +123,7 @@ export function GeneralInformationStep({
             </FormItem>
           )}
         />
-        <CountrySelector control={control} name="country" />
+        <CountrySelector control={control} name="country" label="Country" />
       </div>
     </div>
   );
