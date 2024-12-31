@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { CountrySelector } from "./CountrySelector";
+
 interface GeneralInformationStepProps {
   control: Control<any>;
 }
@@ -121,19 +123,7 @@ export function GeneralInformationStep({
             </FormItem>
           )}
         />
-        <FormField
-          control={control}
-          name="country"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Country</FormLabel>
-              <FormControl>
-                <Input placeholder="Your country" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <CountrySelector control={control} name="country" />
       </div>
     </div>
   );
