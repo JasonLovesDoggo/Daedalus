@@ -2,14 +2,14 @@
 
 import { UseFormReturn } from "react-hook-form";
 
-import { HackerApplication } from "@/lib/validators/hacker-application";
+import { HackerApplicationFormValues } from "@/lib/validators/hacker-application";
 
 import { Field } from "./Field";
 import { MLHStep } from "./MLHStep";
 import { ReviewSection } from "./ReviewSection";
 
 interface ReviewDisplayProps {
-  form: UseFormReturn<HackerApplication>;
+  form: UseFormReturn<HackerApplicationFormValues>;
 }
 
 export function ReviewDisplay({ form }: ReviewDisplayProps) {

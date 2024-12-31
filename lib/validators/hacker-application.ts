@@ -35,10 +35,7 @@ export const hackerApplicationSchema = z.object({
     .transform((val) => (val === "" || val === null ? undefined : Number(val))),
   levelOfStudy: z.string().optional(),
   technicalInterests: z.string().optional(),
-  hackathonsAttended: z
-    .union([z.number(), z.string()])
-    .optional()
-    .transform((val) => (val === "" || val === null ? undefined : Number(val))),
+  hackathonsAttended: z.string().optional(),
   gender: z.string().optional(),
   race: z.string().optional(),
   country: z.string().optional(),
@@ -56,4 +53,6 @@ export const hackerApplicationSchema = z.object({
   shareResume: z.boolean().optional(),
 });
 
-export type HackerApplication = z.infer<typeof hackerApplicationSchema>;
+export type HackerApplicationFormValues = z.infer<
+  typeof hackerApplicationSchema
+>;

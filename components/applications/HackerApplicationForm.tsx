@@ -23,9 +23,9 @@ import { StepNavigation } from "./StepNavigation";
 export default function HackerApplicationForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const form = useForm({
+  const form = useForm<typeof hackerApplicationSchema._type>({
     resolver: zodResolver(hackerApplicationSchema),
-    defaultValues: DEFAULT_FORM_VALUES,
+    defaultValues: DEFAULT_FORM_VALUES as typeof hackerApplicationSchema._type,
   });
 
   return (
