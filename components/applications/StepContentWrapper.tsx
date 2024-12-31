@@ -10,10 +10,12 @@ export function StepContentWrapper({
   children,
 }: StepContentWrapperProps) {
   return (
-    <div className="bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-      <h1 className="mb-4 font-rubik text-3xl font-semibold md:mb-6 md:text-4xl xl:mb-8">
-        {title}
-      </h1>
+    <div className="space-y-4 md:space-y-6 xl:space-y-8">
+      <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+        <h1 className="font-rubik text-3xl font-semibold md:text-4xl">
+          {title}
+        </h1>
+      </div>
       {children}
     </div>
   );

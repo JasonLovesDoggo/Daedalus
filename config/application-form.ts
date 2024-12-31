@@ -8,7 +8,7 @@ export const APPLICATION_STEPS = [
 export const DEFAULT_FORM_VALUES = {
   firstName: "",
   lastName: "",
-  age: 18,
+  age: undefined,
   pronouns: "",
   email: "",
   github: "",
@@ -16,7 +16,7 @@ export const DEFAULT_FORM_VALUES = {
   personalWebsite: "",
   school: "",
   major: "",
-  graduationYear: new Date().getFullYear(),
+  graduationYear: undefined,
   gender: "",
   race: "",
   country: "",

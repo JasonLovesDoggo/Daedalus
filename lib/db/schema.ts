@@ -96,6 +96,7 @@ export const hackerApplications = sqliteTable("hackerApplication", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("userId")
+    .unique()
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   firstName: text("firstName"),
@@ -107,17 +108,16 @@ export const hackerApplications = sqliteTable("hackerApplication", {
   linkedin: text("linkedin"),
   personalWebsite: text("personalWebsite"),
   resumeUrl: text("resume"),
-  school: text("university"),
+  school: text("school"),
   major: text("major"),
+  levelOfStudy: text("levelOfStudy"),
   graduationYear: integer("graduationYear"),
   gender: text("gender"),
   race: text("race"),
   country: text("country"),
   shortAnswer1: text("shortAnswer1"),
   shortAnswer2: text("shortAnswer2"),
-  technicalInterest1: text("technicalInterest1"),
-  technicalInterest2: text("technicalInterest2"),
-  technicalInterest3: text("technicalInterest3"),
+  technicalInterests: text("technicalInterests"),
   mlhCheckbox1: integer("mlhCheckbox1", { mode: "boolean" }),
   mlhCheckbox2: integer("mlhCheckbox2", { mode: "boolean" }),
   mlhCheckbox3: integer("mlhCheckbox3", { mode: "boolean" }),

@@ -1,3 +1,5 @@
+import { hackerApplications } from "@/lib/db/schema";
+
 type User = {
   id?: string;
   name?: string | null;

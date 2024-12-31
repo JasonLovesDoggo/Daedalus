@@ -13,12 +13,10 @@ import { Input } from "@/components/ui/input";
 
 interface GeneralInformationStepProps {
   control: Control<any>;
-  readOnly?: boolean;
 }
 
 export function GeneralInformationStep({
   control,
-  readOnly = false,
 }: GeneralInformationStepProps) {
   return (
     <div className="space-y-4">
@@ -30,7 +28,7 @@ export function GeneralInformationStep({
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="John" {...field} readOnly={readOnly} />
+                <Input placeholder="John" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -43,7 +41,7 @@ export function GeneralInformationStep({
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input placeholder="Doe" {...field} readOnly={readOnly} />
+                <Input placeholder="Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -58,12 +56,7 @@ export function GeneralInformationStep({
           <FormItem>
             <FormLabel>Age</FormLabel>
             <FormControl>
-              <Input
-                type="number"
-                placeholder="21"
-                {...field}
-                readOnly={readOnly}
-              />
+              <Input type="number" placeholder="21" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -77,7 +70,7 @@ export function GeneralInformationStep({
           <FormItem>
             <FormLabel>Pronouns</FormLabel>
             <FormControl>
-              <Input placeholder="He/Him" {...field} readOnly={readOnly} />
+              <Input placeholder="He/Him" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -91,12 +84,7 @@ export function GeneralInformationStep({
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input
-                type="email"
-                placeholder="john@example.com"
-                {...field}
-                readOnly={readOnly}
-              />
+              <Input type="email" placeholder="john@example.com" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -110,11 +98,7 @@ export function GeneralInformationStep({
           <FormItem>
             <FormLabel>GitHub</FormLabel>
             <FormControl>
-              <Input
-                placeholder="https://github.com/username"
-                {...field}
-                readOnly={readOnly}
-              />
+              <Input placeholder="https://github.com/username" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -131,7 +115,6 @@ export function GeneralInformationStep({
               <Input
                 placeholder="https://linkedin.com/in/username"
                 {...field}
-                readOnly={readOnly}
               />
             </FormControl>
             <FormMessage />
@@ -146,11 +129,7 @@ export function GeneralInformationStep({
           <FormItem>
             <FormLabel>Personal Website</FormLabel>
             <FormControl>
-              <Input
-                placeholder="https://yourwebsite.com"
-                {...field}
-                readOnly={readOnly}
-              />
+              <Input placeholder="https://yourwebsite.com" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

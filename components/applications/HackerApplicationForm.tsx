@@ -4,6 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { cn } from "@/lib/utils";
 import { hackerApplicationSchema } from "@/lib/validators/hacker-application";
 
 import {
@@ -37,7 +38,9 @@ export default function HackerApplicationForm() {
 
       <Form {...form}>
         <form
-          className="mx-auto w-full max-w-4xl"
+          className={cn("mx-auto w-full max-w-4xl", {
+            "max-w-5xl": currentStep === 3,
+          })}
           onSubmit={form.handleSubmit(() => {
             alert("Form submitted!");
           })}
