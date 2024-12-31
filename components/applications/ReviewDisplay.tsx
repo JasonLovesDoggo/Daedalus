@@ -14,14 +14,14 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
   const values = form.watch();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 xl:space-y-12">
       <div className="-mt-6">
-        <p className="pb-2 text-textMuted max-md:text-sm">
+        <p className="text-textMuted max-md:text-sm">
           Please review your application carefully before submitting. Note that
           you will not be able to make changes or resubmit your application once
           it has been submitted.
         </p>
-        <hr className="border-t-2" />
+        {/* <hr className="border-t-2" /> */}
       </div>
 
       <ReviewSection title="General Information">
