@@ -2,7 +2,7 @@
 
 interface FieldProps {
   label: string;
-  value: string | number;
+  value: string | number | undefined;
 }
 
 export function Field({ label, value }: FieldProps) {

@@ -184,8 +184,8 @@ export function BackgroundEducationStep({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Resume</FormLabel>
-              <div
-                className="cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors hover:bg-gray-50"
+              <button
+                className="block w-full cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors hover:bg-gray-50"
                 onClick={() =>
                   document.getElementById("resume-upload")?.click()
                 }
@@ -237,7 +237,7 @@ export function BackgroundEducationStep({
                     className="hidden"
                   />
                 </div>
-              </div>
+              </button>
               <FormMessage />
             </FormItem>
           )}

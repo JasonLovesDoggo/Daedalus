@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 export const hackerApplicationSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  age: z.number(),
-  pronouns: z.string(),
-  email: z.string().email(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  age: z
+    .union([z.number(), z.string()])
+    .optional()
+    .transform((val) => (val === "" || val === null ? undefined : Number(val))),
+  pronouns: z.string().optional(),
+  email: z.string().email().optional(),
   github: z
     .string()
     .optional()
@@ -24,23 +27,33 @@ export const hackerApplicationSchema = z.object({
     .refine((val) => val === "" || z.string().url().safeParse(val).success, {
       message: "Invalid URL",
     }),
-  school: z.string(),
-  major: z.string(),
-  graduationYear: z.number(),
-  gender: z.string(),
-  race: z.string(),
-  country: z.string(),
-  shortAnswer1: z.string(),
-  shortAnswer2: z.string(),
-  mlhCheckbox1: z.boolean(),
-  mlhCheckbox2: z.boolean(),
-  mlhCheckbox3: z.boolean(),
+  school: z.string().optional(),
+  major: z.string().optional(),
+  graduationYear: z
+    .union([z.number(), z.string()])
+    .optional()
+    .transform((val) => (val === "" || val === null ? undefined : Number(val))),
+  levelOfStudy: z.string().optional(),
+  technicalInterests: z.string().optional(),
+  hackathonsAttended: z
+    .union([z.number(), z.string()])
+    .optional()
+    .transform((val) => (val === "" || val === null ? undefined : Number(val))),
+  gender: z.string().optional(),
+  race: z.string().optional(),
+  country: z.string().optional(),
+  shortAnswer1: z.string().optional(),
+  shortAnswer2: z.string().optional(),
+  mlhCheckbox1: z.boolean().optional(),
+  mlhCheckbox2: z.boolean().optional(),
+  mlhCheckbox3: z.boolean().optional(),
   resumeUrl: z
     .string()
     .optional()
     .refine((val) => val === "" || z.string().url().safeParse(val).success, {
       message: "Invalid URL",
     }),
+  shareResume: z.boolean().optional(),
 });
 
 export type HackerApplication = z.infer<typeof hackerApplicationSchema>;
