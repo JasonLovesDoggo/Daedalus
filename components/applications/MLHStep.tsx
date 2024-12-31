@@ -8,7 +8,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 
 interface MLHStepProps {
@@ -22,18 +21,16 @@ export function MLHStep({ control }: MLHStepProps) {
         control={control}
         name="mlhCheckbox1"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+          <FormItem className="flex items-center space-x-3 space-y-0">
             <FormControl>
               <Checkbox
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
             </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </FormLabel>
-            </div>
+            <FormLabel>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </FormLabel>
           </FormItem>
         )}
       />
@@ -42,18 +39,16 @@ export function MLHStep({ control }: MLHStepProps) {
         control={control}
         name="mlhCheckbox2"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+          <FormItem className="flex items-center space-x-3 space-y-0">
             <FormControl>
               <Checkbox
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
             </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </FormLabel>
-            </div>
+            <FormLabel>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </FormLabel>
           </FormItem>
         )}
       />
@@ -62,18 +57,16 @@ export function MLHStep({ control }: MLHStepProps) {
         control={control}
         name="mlhCheckbox3"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+          <FormItem className="flex items-center space-x-3 space-y-0">
             <FormControl>
               <Checkbox
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
             </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </FormLabel>
-            </div>
+            <FormLabel>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </FormLabel>
           </FormItem>
         )}
       />
