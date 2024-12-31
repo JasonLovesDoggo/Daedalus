@@ -41,7 +41,9 @@ export default function HackerApplicationForm() {
           className={cn("mx-auto w-full max-w-4xl", {
             "max-w-5xl": currentStep === 3,
           })}
-          onSubmit={form.handleSubmit(() => {
+          onSubmit={form.handleSubmit((values) => {
+            console.log("Form submission values", values);
+
             alert("Form submitted!");
           })}
         >

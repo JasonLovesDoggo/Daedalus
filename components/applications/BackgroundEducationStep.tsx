@@ -5,6 +5,7 @@ import { Control } from "react-hook-form";
 import { levelsOfStudy } from "@/lib/data/levelsOfStudy";
 import { majors } from "@/lib/data/majors";
 import { schools } from "@/lib/data/schools";
+import { technicalFields } from "@/lib/data/technicalFields";
 import {
   FormControl,
   FormField,
@@ -150,22 +151,54 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="space-y-4">
         <FormField
           control={control}
           name="technicalInterests"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Technical Interests</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="e.g. AI, Web Development, Cybersecurity"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const selected = field.value ? field.value.split(",") : [];
+
+            const handleChange = (value: string, checked: boolean) => {
+              let newSelected = [...selected];
+              if (checked) {
+                if (newSelected.length < 3) {
+                  newSelected.push(value);
+                }
+              } else {
+                newSelected = newSelected.filter((v) => v !== value);
+              }
+              field.onChange(newSelected.join(","));
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Technical Interests (Select up to 3)</FormLabel>
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                  {technicalFields.map((field) => (
+                    <div key={field} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={field}
+                        checked={selected.includes(field)}
+                        onCheckedChange={(checked) =>
+                          handleChange(field, !!checked)
+                        }
+                        disabled={
+                          selected.length >= 3 && !selected.includes(field)
+                        }
+                      />
+                      <label
+                        htmlFor={field}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {field}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
         <FormField
           control={control}
