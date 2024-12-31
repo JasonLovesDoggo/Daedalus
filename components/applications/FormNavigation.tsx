@@ -29,7 +29,7 @@ export function FormNavigation({
         Previous
       </Button>
       {isLastStep ? (
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="px-10 md:text-base">
           Submit
         </Button>
       ) : (

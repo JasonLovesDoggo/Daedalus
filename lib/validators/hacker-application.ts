@@ -6,9 +6,24 @@ export const hackerApplicationSchema = z.object({
   age: z.number(),
   pronouns: z.string(),
   email: z.string().email(),
-  github: z.string().url(),
-  linkedin: z.string().url(),
-  personalWebsite: z.string().url(),
+  github: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Invalid URL",
+    }),
+  linkedin: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Invalid URL",
+    }),
+  personalWebsite: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Invalid URL",
+    }),
   school: z.string(),
   major: z.string(),
   graduationYear: z.number(),
@@ -20,7 +35,12 @@ export const hackerApplicationSchema = z.object({
   mlhCheckbox1: z.boolean(),
   mlhCheckbox2: z.boolean(),
   mlhCheckbox3: z.boolean(),
-  resumeUrl: z.string().url(),
+  resumeUrl: z
+    .string()
+    .optional()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Invalid URL",
+    }),
 });
 
 export type HackerApplication = z.infer<typeof hackerApplicationSchema>;
