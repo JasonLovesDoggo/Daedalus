@@ -93,12 +93,12 @@ export function GeneralInformationStep({
 
       <FormField
         control={control}
-        name="github"
+        name="gender"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>GitHub</FormLabel>
+            <FormLabel>Gender</FormLabel>
             <FormControl>
-              <Input placeholder="https://github.com/username" {...field} />
+              <Input placeholder="Your gender" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -107,15 +107,12 @@ export function GeneralInformationStep({
 
       <FormField
         control={control}
-        name="linkedin"
+        name="race"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>LinkedIn</FormLabel>
+            <FormLabel>Race/Ethnicity</FormLabel>
             <FormControl>
-              <Input
-                placeholder="https://linkedin.com/in/username"
-                {...field}
-              />
+              <Input placeholder="Your race/ethnicity" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -124,12 +121,12 @@ export function GeneralInformationStep({
 
       <FormField
         control={control}
-        name="personalWebsite"
+        name="country"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Personal Website</FormLabel>
+            <FormLabel>Country</FormLabel>
             <FormControl>
-              <Input placeholder="https://yourwebsite.com" {...field} />
+              <Input placeholder="Your country" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

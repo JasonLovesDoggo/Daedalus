@@ -118,6 +118,7 @@ export const hackerApplications = sqliteTable("hackerApplication", {
   shortAnswer1: text("shortAnswer1"),
   shortAnswer2: text("shortAnswer2"),
   technicalInterests: text("technicalInterests"),
+  hackathonsAttended: text("hackathonsAttended"),
   mlhCheckbox1: integer("mlhCheckbox1", { mode: "boolean" }),
   mlhCheckbox2: integer("mlhCheckbox2", { mode: "boolean" }),
   mlhCheckbox3: integer("mlhCheckbox3", { mode: "boolean" }),

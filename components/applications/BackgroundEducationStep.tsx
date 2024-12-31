@@ -71,23 +71,21 @@ export function BackgroundEducationStep({
 
       <FormField
         control={control}
-        name="gender"
+        name="levelOfStudy"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Gender</FormLabel>
+            <FormLabel>Level of Study</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select your gender" />
+                  <SelectValue placeholder="Select your level of study" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="undergraduate">Undergraduate</SelectItem>
+                <SelectItem value="graduate">Graduate</SelectItem>
+                <SelectItem value="high-school">High School</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
-                <SelectItem value="prefer-not-to-say">
-                  Prefer not to say
-                </SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />
@@ -97,12 +95,15 @@ export function BackgroundEducationStep({
 
       <FormField
         control={control}
-        name="race"
+        name="technicalInterests"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Race/Ethnicity</FormLabel>
+            <FormLabel>Technical Interests</FormLabel>
             <FormControl>
-              <Input placeholder="Your race/ethnicity" {...field} />
+              <Input
+                placeholder="e.g. AI, Web Development, Cybersecurity"
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -111,12 +112,57 @@ export function BackgroundEducationStep({
 
       <FormField
         control={control}
-        name="country"
+        name="hackathonsAttended"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Country</FormLabel>
+            <FormLabel>Number of Hackathons Attended</FormLabel>
             <FormControl>
-              <Input placeholder="Your country of residence" {...field} />
+              <Input type="number" placeholder="0" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="github"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>GitHub</FormLabel>
+            <FormControl>
+              <Input placeholder="https://github.com/username" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="linkedin"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>LinkedIn</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="https://linkedin.com/in/username"
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="personalWebsite"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Personal Website</FormLabel>
+            <FormControl>
+              <Input placeholder="https://yourwebsite.com" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
