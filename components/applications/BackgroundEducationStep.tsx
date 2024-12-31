@@ -20,10 +20,12 @@ import {
 
 interface BackgroundEducationStepProps {
   control: Control<any>;
+  readOnly?: boolean;
 }
 
 export function BackgroundEducationStep({
   control,
+  readOnly = false,
 }: BackgroundEducationStepProps) {
   return (
     <div className="space-y-4">
@@ -34,7 +36,11 @@ export function BackgroundEducationStep({
           <FormItem>
             <FormLabel>School/University</FormLabel>
             <FormControl>
-              <Input placeholder="University of Example" {...field} />
+              <Input
+                placeholder="University of Example"
+                {...field}
+                readOnly={readOnly}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -48,7 +54,11 @@ export function BackgroundEducationStep({
           <FormItem>
             <FormLabel>Major</FormLabel>
             <FormControl>
-              <Input placeholder="Computer Science" {...field} />
+              <Input
+                placeholder="Computer Science"
+                {...field}
+                readOnly={readOnly}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -62,7 +72,12 @@ export function BackgroundEducationStep({
           <FormItem>
             <FormLabel>Graduation Year</FormLabel>
             <FormControl>
-              <Input type="number" placeholder="2025" {...field} />
+              <Input
+                type="number"
+                placeholder="2025"
+                {...field}
+                readOnly={readOnly}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -75,7 +90,11 @@ export function BackgroundEducationStep({
         render={({ field }) => (
           <FormItem>
             <FormLabel>Gender</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              disabled={readOnly}
+            >
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Select your gender" />
@@ -102,7 +121,11 @@ export function BackgroundEducationStep({
           <FormItem>
             <FormLabel>Race/Ethnicity</FormLabel>
             <FormControl>
-              <Input placeholder="Your race/ethnicity" {...field} />
+              <Input
+                placeholder="Your race/ethnicity"
+                {...field}
+                readOnly={readOnly}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -116,7 +139,11 @@ export function BackgroundEducationStep({
           <FormItem>
             <FormLabel>Country</FormLabel>
             <FormControl>
-              <Input placeholder="Your country of residence" {...field} />
+              <Input
+                placeholder="Your country of residence"
+                {...field}
+                readOnly={readOnly}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -134,6 +161,7 @@ export function BackgroundEducationStep({
                 type="file"
                 accept=".pdf,.doc,.docx"
                 onChange={(e) => field.onChange(e.target.files?.[0])}
+                disabled={readOnly}
               />
             </FormControl>
             <FormMessage />

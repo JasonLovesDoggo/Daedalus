@@ -14,7 +14,7 @@ import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
 import { FormNavigation } from "./FormNavigation";
 import { GeneralInformationStep } from "./GeneralInformationStep";
-import { MLHStep } from "./MLHStep";
+import { ReviewDisplay } from "./ReviewDisplay";
 import { ShortAnswersStep } from "./ShortAnswersStep";
 import { StepContentWrapper } from "./StepContentWrapper";
 import { StepNavigation } from "./StepNavigation";
@@ -42,15 +42,6 @@ export default function HackerApplicationForm() {
             alert("Form submitted!");
           })}
         >
-          <div>
-            <h1>errors</h1>
-            {Object.entries(form.formState.errors).map(([key, value]) => (
-              <p key={key}>
-                {key}: {value.message}
-              </p>
-            ))}
-          </div>
-
           <div className="mb-4 space-y-8 md:mb-8">
             {currentStep === 0 && (
               <StepContentWrapper title="General Information">
@@ -68,8 +59,8 @@ export default function HackerApplicationForm() {
               </StepContentWrapper>
             )}
             {currentStep === 3 && (
-              <StepContentWrapper title="MLH Agreements">
-                <MLHStep control={form.control} />
+              <StepContentWrapper title="Review Application">
+                <ReviewDisplay form={form} />
               </StepContentWrapper>
             )}
           </div>

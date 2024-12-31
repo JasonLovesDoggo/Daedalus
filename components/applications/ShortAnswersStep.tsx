@@ -14,9 +14,13 @@ import { Textarea } from "../ui/textarea";
 
 interface ShortAnswersStepProps {
   control: Control<any>;
+  readOnly?: boolean;
 }
 
-export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
+export function ShortAnswersStep({
+  control,
+  readOnly = false,
+}: ShortAnswersStepProps) {
   return (
     <div className="space-y-4">
       <FormField
@@ -30,6 +34,7 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
                 placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 className="min-h-[150px]"
                 {...field}
+                readOnly={readOnly}
               />
             </FormControl>
             <FormMessage />
@@ -48,6 +53,7 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
                 placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 className="min-h-[150px]"
                 {...field}
+                readOnly={readOnly}
               />
             </FormControl>
             <FormMessage />
