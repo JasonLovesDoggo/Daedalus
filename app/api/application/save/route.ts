@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
+import { hackerApplicationDeadline } from "@/config/applications";
 import { createOrUpdateApplication } from "@/lib/db/queries/application";
 import { HackerApplicationDraftSchema } from "@/lib/validations/application";
 
@@ -71,6 +72,36 @@ export async function POST(
       userId: currentUser.id,
       submissionStatus: "draft",
     };
+
+    // Check that the deadline has not passed
+    const url = new URL(req.url);
+    const response = await fetch(`${url.origin}/api/application/deadline`, {
+      next: { revalidate: 0 },
+    });
+    if (!response.ok) {
+      return NextResponse.json({
+        success: false,
+        message: "Failed to fetch application deadline",
+      });
+    }
+
+    const {
+      data: { deadline },
+    } = await response.json();
+
+    if (!deadline) {
+      return NextResponse.json({
+        success: false,
+        message: "Failed to fetch application deadline",
+      });
+    }
+
+    if (new Date() > new Date(deadline)) {
+      return NextResponse.json({
+        success: false,
+        message: "The deadline to save your application has passed",
+      });
+    }
 
     const updatedApplication = await createOrUpdateApplication(applicationData);
     if (!updatedApplication.success) {
