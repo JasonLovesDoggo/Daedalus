@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 
 import { AdvancedSelect } from "../ui/advanced-select";
 import { Checkbox } from "../ui/checkbox";
+import { EmojiDisplay } from "./EmojiDisplay";
 import { UploadResume } from "./UploadResume";
 
 interface BackgroundEducationStepProps {
@@ -191,69 +192,72 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="space-y-4">
-        <FormField
-          control={control}
-          name="technicalInterests"
-          render={({ field }) => {
-            const selected = field.value ? field.value.split(",") : [];
+      <FormField
+        control={control}
+        name="technicalInterests"
+        render={({ field }) => {
+          const selected = field.value ? field.value.split(",") : [];
 
-            const handleChange = (value: string, checked: boolean) => {
-              let newSelected = [...selected];
-              if (checked) {
-                if (newSelected.length < 3) {
-                  newSelected.push(value);
-                }
-              } else {
-                newSelected = newSelected.filter((v) => v !== value);
+          const handleChange = (value: string, checked: boolean) => {
+            let newSelected = [...selected];
+            if (checked) {
+              if (newSelected.length < 3) {
+                newSelected.push(value);
               }
-              field.onChange(newSelected.join(","));
-            };
+            } else {
+              newSelected = newSelected.filter((v) => v !== value);
+            }
+            field.onChange(newSelected.join(","));
+          };
 
-            return (
-              <FormItem>
-                <FormLabel>Technical Interests (Select up to 3)</FormLabel>
-                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                  {technicalFields.map((field) => (
-                    <div key={field} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={field}
-                        checked={selected.includes(field)}
-                        onCheckedChange={(checked) =>
-                          handleChange(field, !!checked)
-                        }
-                        disabled={
-                          selected.length >= 3 && !selected.includes(field)
-                        }
-                      />
-                      <label
-                        htmlFor={field}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {field}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        <FormField
-          control={control}
-          name="hackathonsAttended"
-          render={({ field }) => (
+          return (
             <FormItem>
-              <FormLabel>Number of Hackathons Attended</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="0" {...field} />
-              </FormControl>
+              <FormLabel>Technical Interests (Select up to 3)</FormLabel>
+              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                {technicalFields.map((field) => (
+                  <div key={field} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={field}
+                      checked={selected.includes(field)}
+                      onCheckedChange={(checked) =>
+                        handleChange(field, !!checked)
+                      }
+                      disabled={
+                        selected.length >= 3 && !selected.includes(field)
+                      }
+                    />
+                    <label
+                      htmlFor={field}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {field}
+                    </label>
+                  </div>
+                ))}
+              </div>
               <FormMessage />
             </FormItem>
-          )}
-        />
-      </div>
+          );
+        }}
+      />
+
+      <FormField
+        control={control}
+        name="hackathonsAttended"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Number of Hackathons Attended</FormLabel>
+            <FormControl>
+              <div className="relative">
+                <Input type="number" placeholder="0" {...field} />
+                {field.value && <EmojiDisplay count={parseInt(field.value)} />}
+              </div>
+            </FormControl>
+
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField
