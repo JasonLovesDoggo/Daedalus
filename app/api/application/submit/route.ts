@@ -158,7 +158,6 @@ export async function POST(
     return NextResponse.json({
       success: true,
       message: "Application submitted successfully",
-      data: updatedApplication,
     });
   } catch (error) {
     return NextResponse.json({
