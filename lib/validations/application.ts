@@ -149,7 +149,7 @@ export const HackerApplicationSubmissionSchema = z
       ),
     pronouns: z
       .object({
-        value: z.string().trim(),
+        value: z.string().trim().min(1, { message: "Pronouns are required" }),
         customValue: z.string().trim().optional(),
       })
       .refine(
@@ -183,11 +183,11 @@ export const HackerApplicationSubmissionSchema = z
       .refine((val) => val === "" || z.string().url().safeParse(val).success, {
         message: "Invalid URL provided.",
       }),
-    resumeUrl: z.string().trim(),
+    resumeUrl: z.string().trim().min(1, { message: "Please upload a resume" }),
     shareResume: z.boolean(),
     school: z
       .object({
-        value: z.string().trim(),
+        value: z.string().trim().min(1, { message: "School is required" }),
         customValue: z.string().trim().optional(),
       })
       .refine(
@@ -204,7 +204,7 @@ export const HackerApplicationSubmissionSchema = z
       ),
     major: z
       .object({
-        value: z.string().trim(),
+        value: z.string().trim().min(1, { message: "Major is required" }),
         customValue: z.string().trim().optional(),
       })
       .refine(
@@ -219,7 +219,10 @@ export const HackerApplicationSubmissionSchema = z
           path: ["customValue"],
         },
       ),
-    levelOfStudy: z.string().trim(),
+    levelOfStudy: z
+      .string()
+      .trim()
+      .min(1, { message: "Level of study is required" }),
     graduationYear: z
       .string()
       .min(4, { message: "Invalid year provided." })
@@ -233,9 +236,9 @@ export const HackerApplicationSubmissionSchema = z
           message: "Invalid year provided.",
         },
       ),
-    gender: z.string().trim(),
-    race: z.string().trim(),
-    country: z.string().trim(),
+    gender: z.string().trim().min(1, { message: "Gender is required" }),
+    race: z.string().trim().min(1, { message: "Race is required" }),
+    country: z.string().trim().min(1, { message: "Country is required" }),
     shortAnswer1: z
       .string()
       .trim()
