@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
+import { ApiResponse } from "@/types/api";
+
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -14,8 +16,23 @@ export async function POST(request: Request) {
   const { fileName, fileType } = await request.json();
 
   if (!fileName || !fileType) {
-    return NextResponse.json(
-      { error: "Missing required fields" },
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Validation error",
+        error: "Missing required fields",
+      },
+      { status: 400 },
+    );
+  }
+
+  if (fileType !== "application/pdf") {
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Validation error",
+        error: "Only PDF files are allowed",
+      },
       { status: 400 },
     );
   }
@@ -33,11 +50,19 @@ export async function POST(request: Request) {
       expiresIn: 3600, // 1 hour
     });
 
-    return NextResponse.json({ url, key });
+    return NextResponse.json<ApiResponse<{ url: string; key: string }>>({
+      success: true,
+      message: "Presigned URL generated successfully",
+      data: { url, key },
+    });
   } catch (error) {
     console.error("Error generating presigned URL:", error);
-    return NextResponse.json(
-      { error: "Failed to generate upload URL" },
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Internal server error",
+        error: "Failed to generate upload URL",
+      },
       { status: 500 },
     );
   }
