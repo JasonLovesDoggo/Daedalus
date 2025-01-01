@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
+import { THackerApplicationDraft } from "@/lib/validations/application";
 import { hackerApplicationSchema } from "@/lib/validators/hacker-application";
 
 import {
@@ -23,9 +24,9 @@ import { StepNavigation } from "./StepNavigation";
 export default function HackerApplicationForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const form = useForm<typeof hackerApplicationSchema._type>({
+  const form = useForm<THackerApplicationDraft>({
     resolver: zodResolver(hackerApplicationSchema),
-    defaultValues: DEFAULT_FORM_VALUES as typeof hackerApplicationSchema._type,
+    defaultValues: DEFAULT_FORM_VALUES as THackerApplicationDraft,
   });
 
   return (

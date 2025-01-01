@@ -29,26 +29,27 @@ declare global {
 
   type SubmissionStatus = "draft" | "submitted";
 
-  type HackerApplication = {
-    id: string;
-    userId: string;
-    firstName?: string;
-    lastName?: string;
-    age?: number;
-    email: string;
-    github?: string;
-    linkedin?: string;
-    personalWebsite?: string;
-    resumeUrl?: string;
-    school?: string;
-    major?: string;
-    graduationYear?: number;
-    gender?: string;
-    race?: string;
-    submissionStatus: SubmissionStatus;
-    createdAt?: number;
-    updatedAt?: number;
-  };
+  // type HackerApplication = {
+  //   id: string;
+  //   userId: string;
+  //   firstName?: string;
+  //   lastName?: string;
+  //   age?: number;
+  //   email: string;
+  //   github?: string;
+  //   linkedin?: string;
+  //   personalWebsite?: string;
+  //   resumeUrl?: string;
+  //   shareResume?: boolean;
+  //   school?: string;
+  //   major?: string;
+  //   graduationYear?: number;
+  //   gender?: string;
+  //   race?: string;
+  //   submissionStatus: SubmissionStatus;
+  //   createdAt?: number;
+  //   updatedAt?: number;
+  // };
 
   type HackerApplication = typeof hackerApplications.$inferSelect;
 }

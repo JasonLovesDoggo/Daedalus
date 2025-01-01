@@ -2,6 +2,7 @@
 
 import { UseFormReturn } from "react-hook-form";
 
+import { THackerApplicationDraft } from "@/lib/validations/application";
 import { HackerApplicationFormValues } from "@/lib/validators/hacker-application";
 
 import { Field } from "./Field";
@@ -9,7 +10,7 @@ import { MLHStep } from "./MLHStep";
 import { ReviewSection } from "./ReviewSection";
 
 interface ReviewDisplayProps {
-  form: UseFormReturn<HackerApplicationFormValues>;
+  form: UseFormReturn<THackerApplicationDraft>;
 }
 
 export function ReviewDisplay({ form }: ReviewDisplayProps) {

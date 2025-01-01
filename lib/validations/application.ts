@@ -33,17 +33,18 @@ export const HackerApplicationDraftSchema = z
       .url({ message: "Invalid URL provided." })
       .trim()
       .optional(),
+    shareResume: z.boolean().optional(),
     school: z.string().trim().optional(),
     major: z.string().trim().optional(),
+    levelOfStudy: z.string().trim().optional(),
     graduationYear: z.number().int().positive().optional(),
     gender: z.string().trim().optional(),
     race: z.string().trim().optional(),
     country: z.string().trim().optional(),
     shortAnswer1: z.string().trim().optional(),
     shortAnswer2: z.string().trim().optional(),
-    technicalInterest1: z.string().trim().optional(),
-    technicalInterest2: z.string().trim().optional(),
-    technicalInterest3: z.string().trim().optional(),
+    technicalInterests: z.string().trim().optional(),
+    hackathonsAttended: z.string().optional(),
     mlhCheckbox1: z.boolean().optional(),
     mlhCheckbox2: z.boolean().optional(),
     mlhCheckbox3: z.boolean().optional(),
@@ -65,23 +66,27 @@ export const HackerApplicationSubmissionSchema = z
     linkedin: z.string().url().trim().optional(),
     personalWebsite: z.string().url().trim().optional(),
     resumeUrl: z.string().url().trim().optional(),
+    shareResume: z.boolean().optional(),
     school: z.string().trim(),
     major: z.string().trim(),
+    levelOfStudy: z.string().trim(),
     graduationYear: z.number().int().positive(),
     gender: z.string().trim(),
     race: z.string().trim(),
     country: z.string().trim(),
     shortAnswer1: z.string().trim(),
     shortAnswer2: z.string().trim(),
-    technicalInterest1: z.string().trim(),
-    technicalInterest2: z.string().trim(),
-    technicalInterest3: z.string().trim(),
+    technicalInterests: z.string().trim(),
+    hackathonsAttended: z.string(),
     mlhCheckbox1: z.boolean(),
     mlhCheckbox2: z.boolean(),
     mlhCheckbox3: z.boolean(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
-    submissionStatus: z.enum(["draft", "submitted"]).default("draft"),
-    id: z.string().trim(),
   })
   .strict();
+
+export type THackerApplicationDraft = z.infer<
+  typeof HackerApplicationDraftSchema
+>;
+export type THackerApplicationSubmission = z.infer<
+  typeof HackerApplicationSubmissionSchema
+>;
