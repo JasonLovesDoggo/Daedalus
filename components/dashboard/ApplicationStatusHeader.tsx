@@ -1,5 +1,6 @@
 type Props = {
   heading: string;
+  description: string;
   status: ApplicationStatus | "coming_soon";
 };
 
@@ -13,12 +14,13 @@ const statusGradients = {
   cancelled: "from-red-400 via-red-500 to-red-400",
 };
 
-const ApplicationStatusHeader = ({ heading, status }: Props) => {
+const ApplicationStatusHeader = ({ heading, status, description }: Props) => {
   return (
     <div
-      className={`w-fit bg-gradient-to-r ${statusGradients[status]} bg-clip-text text-transparent`}
+      className={`my-4 w-fit bg-gradient-to-r font-rubik ${statusGradients[status]} bg-clip-text text-transparent`}
     >
       <h1 className="text-2xl font-semibold md:text-3xl">{heading}</h1>
+      <p className="text-textMuted max-md:text-sm">{description}</p>
     </div>
   );
 };

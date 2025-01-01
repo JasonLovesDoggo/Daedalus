@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  Clock,
   Frown,
   Hourglass,
   Laugh,
@@ -52,12 +51,10 @@ export const ApplicationStatus = ({
             </span>
             <ApplicationStatusHeader
               heading="Applications Coming Soon"
+              description="This feature is not available yet, but it's on the way! Stay tuned
+              for updates."
               status={status}
             />
-            <p className="pb-2.5 text-textMuted max-md:text-sm">
-              This feature is not available yet, but it's on the way! Stay tuned
-              for updates.
-            </p>
             <Link
               href="/applications"
               className={buttonVariants({
@@ -78,12 +75,10 @@ export const ApplicationStatus = ({
             </span>
             <ApplicationStatusHeader
               heading="Application not submitted"
+              description="You haven't submitted a hacker application yet. Click below to
+              begin your hackathon journey!"
               status={status}
             />
-            <p className="pb-2.5 text-textMuted max-md:text-sm">
-              You haven't submitted a hacker application yet. Click below to
-              begin your hackathon journey!
-            </p>
             <Link
               href="/applications"
               className={buttonVariants({
@@ -104,12 +99,9 @@ export const ApplicationStatus = ({
             </span>
             <ApplicationStatusHeader
               heading="Application submitted"
+              description="Your application is currently being reviewed by our team. We will notify you as soon as there's an update."
               status={status}
             />
-            <p className="pb-2.5 text-textMuted max-md:text-sm">
-              Your application is currently being reviewed by our team. We will
-              notify you as soon as there's an update.
-            </p>
             <div className="flex gap-2 max-xs:flex-col">
               <Link
                 href="/applications/hacker/review"
@@ -141,11 +133,11 @@ export const ApplicationStatus = ({
               <span className="w-fit rounded-sm bg-green-400 px-1 py-0.5 text-[10px] font-bold text-black md:text-xs">
                 Accepted
               </span>
-              <ApplicationStatusHeader heading="You're in!" status={status} />
-              <p className="pb-2.5 text-textMuted max-md:text-sm">
-                Congrats, you have been accepted! Mark your calendar for
-                February 21st, we are super excited to see you!
-              </p>
+              <ApplicationStatusHeader
+                heading="You're in!"
+                description="Congrats, you have been accepted! Mark your calendar for February 21st, we are super excited to see you!"
+                status={status}
+              />
               <Link
                 href="/applications/hacker/review"
                 className={buttonVariants({
@@ -174,12 +166,9 @@ export const ApplicationStatus = ({
               </div>
               <ApplicationStatusHeader
                 heading="Congratulations!"
+                description="You've been accepted to the hackathon! Please complete the form below within 7 days of your acceptance to secure your spot!"
                 status={status}
               />
-              <p className="pb-2.5 text-textMuted max-md:text-sm">
-                You've been accepted to the hackathon! Please complete the form
-                below within 7 days of your acceptance to secure your spot!
-              </p>
               <div className="flex items-center gap-2 max-xs:flex-col">
                 <Link
                   href="/applications/hacker/rsvp"
@@ -213,12 +202,9 @@ export const ApplicationStatus = ({
             </span>
             <ApplicationStatusHeader
               heading="You weren't accepted"
+              description="Unfortunately, we couldn't accept your application this time. We hope to see you at future events!"
               status={status}
             />
-            <p className="pb-2.5 text-textMuted max-md:text-sm">
-              Thank you for applying to our hackathon. While we couldn't accept
-              your application this time, we hope to see you at future events!
-            </p>
             <div className="flex gap-2 max-xs:flex-col">
               <Link
                 href="/applications/hacker/review"
@@ -248,12 +234,9 @@ export const ApplicationStatus = ({
           <>
             <ApplicationStatusHeader
               heading="You're on the waitlist"
+              description="You're currently on the waitlist for the hackathon. We'll notify you if a spot becomes available."
               status={status}
             />
-            <p className="pb-2.5 text-textMuted max-md:text-sm">
-              You're currently on the waitlist for the hackathon. We'll notify
-              you if a spot becomes available.
-            </p>
             <div className="flex gap-2 max-xs:flex-col">
               <Link
                 href="/applications/hacker/review"
@@ -284,11 +267,11 @@ export const ApplicationStatus = ({
             <span className="w-fit rounded-sm bg-error px-1 py-0.5 text-[10px] font-medium text-white md:text-xs">
               Cancelled RSVP
             </span>
-            <ApplicationStatusHeader heading="C'mon :((" status={status} />
-            <p className="pb-2.5 text-textMuted max-md:text-sm">
-              You've cancelled your RSVP for the hackathon. We hope to see you
-              next year!
-            </p>
+            <ApplicationStatusHeader
+              heading="C'mon :(("
+              description="You've cancelled your RSVP for the hackathon. We hope to see you next year!"
+              status={status}
+            />
             <div className="flex gap-2 max-xs:flex-col">
               <Link
                 href="/applications/hacker/review"
@@ -322,7 +305,7 @@ export const ApplicationStatus = ({
       className={`relative w-full rounded-md border border-gray-300 p-6 shadow-md md:p-8 xl:p-12 ${statusStyles[status]}`}
     >
       <Icon className="absolute right-1 top-1 text-muted-foreground opacity-50 md:right-2 md:top-2 md:size-8" />
-      <div className="flex flex-col gap-1">{renderContent()}</div>
+      <div className="flex flex-col">{renderContent()}</div>
     </div>
   );
 };

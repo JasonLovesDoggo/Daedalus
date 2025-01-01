@@ -9,12 +9,7 @@ declare global {
 }
 
 const sqlite = new Database("./lib/db/sqlite.db");
-
-const db =
-  globalThis._db ||
-  drizzle(sqlite, {
-    schema,
-  });
+const db = globalThis._db || drizzle({ client: sqlite });
 
 if (process.env.NODE_ENV !== "production") {
   globalThis._db = db;

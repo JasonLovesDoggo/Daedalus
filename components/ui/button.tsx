@@ -17,7 +17,7 @@ const buttonVariants = cva(
         destructive:
           "bg-error text-background hover:bg-error/90 hover:shadow-[0_6px_20px_rgba(244,67,54,0.3)] focus-visible:ring-error/70",
         outline:
-          "border-2 border-border bg-background text-textPrimary/75 hover:bg-gradient-to-r hover:from-slate-700 hover:to-slate-900 hover:text-white focus-visible:ring-primary focus-visible:ring-offset-primaryLight",
+          "border-2 border-border bg-background text-textPrimary/75 hover:bg-gradient-to-r hover:bg-primaryLight/50 hover:text-primary hover:border-primary focus-visible:ring-primary focus-visible:ring-offset-primaryLight",
         secondary:
           "bg-secondary text-background hover:bg-secondaryDark hover:shadow-lg focus-visible:ring-secondaryDark",
         ghost:

@@ -1,0 +1,200 @@
+"use client";
+
+import { Control } from "react-hook-form";
+
+import { pronouns } from "@/lib/data/pronouns";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { ethnicities } from "../../lib/data/ethnicities";
+import { genders } from "../../lib/data/genders";
+import { AdvancedSelect } from "../ui/advanced-select";
+import { CountrySelector } from "./CountrySelector";
+
+interface GeneralInformationStepProps {
+  control: Control<any>;
+}
+
+export function GeneralInformationStep({
+  control,
+}: GeneralInformationStepProps) {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder="John" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Age</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="21" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="pronouns"
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                pronouns
+                  .filter((pronoun) =>
+                    pronoun.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((pronoun) => ({ value: pronoun, label: pronoun })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Pronouns</FormLabel>
+                <FormControl>
+                  <AdvancedSelect
+                    name="pronouns"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Select your pronouns"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="john@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="gender"
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                genders
+                  .filter((gender) =>
+                    gender.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((gender) => ({ value: gender, label: gender })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <FormControl>
+                  <AdvancedSelect
+                    name="gender"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Select your gender"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={control}
+          name="race"
+          render={({ field }) => {
+            const loadOptions = (inputValue: string) => {
+              return Promise.resolve(
+                ethnicities
+                  .filter((ethnicity) =>
+                    ethnicity.toLowerCase().includes(inputValue.toLowerCase()),
+                  )
+                  .map((ethnicity) => ({ value: ethnicity, label: ethnicity })),
+              );
+            };
+
+            return (
+              <FormItem>
+                <FormLabel>Race/Ethnicity</FormLabel>
+                <FormControl>
+                  <AdvancedSelect
+                    name="race"
+                    value={
+                      field.value
+                        ? { value: field.value, label: field.value }
+                        : null
+                    }
+                    onChange={field.onChange}
+                    loadOptions={loadOptions}
+                    placeholder="Select your race/ethnicity"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <CountrySelector control={control} name="country" label="Country" />
+      </div>
+    </div>
+  );
+}
