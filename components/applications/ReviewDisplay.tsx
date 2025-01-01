@@ -57,7 +57,10 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Linkedin" value={values.linkedin} />
         <Field label="Personal Website" value={values.personalWebsite} />
         <Field label="Resume" value={values.resumeUrl} />
-        <Field label="Resume" value={values.shareResume ? "True" : "False"} />
+        <Field
+          label="Share resume with sponsors/recruiters"
+          value={values.shareResume ? "True" : "False"}
+        />
       </ReviewSection>
 
       <ReviewSection title="Short Answers" columns="1">

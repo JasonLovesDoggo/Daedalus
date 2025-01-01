@@ -17,6 +17,7 @@ import {
 } from "../../config/application-form";
 import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
+import FormErrors from "./FormErrors";
 import { FormNavigation } from "./FormNavigation";
 import { GeneralInformationStep } from "./GeneralInformationStep";
 import { ReviewDisplay } from "./ReviewDisplay";
@@ -31,6 +32,8 @@ export default function HackerApplicationForm() {
     resolver: zodResolver(HackerApplicationDraftSchema),
     defaultValues: DEFAULT_FORM_VALUES,
   });
+
+  const formErrors = Object.entries(form.formState.errors);
 
   const onSave = () => {
     const values = form.getValues();
@@ -53,14 +56,6 @@ export default function HackerApplicationForm() {
         currentStep={currentStep}
         onStepChange={setCurrentStep}
       />
-
-      <p>
-        {Object.entries(form.formState.errors).map(([key, error]) => (
-          <span key={key}>
-            {key}: {error.message}
-          </span>
-        ))}
-      </p>
 
       <Form {...form}>
         <form
@@ -100,6 +95,8 @@ export default function HackerApplicationForm() {
                 <ReviewDisplay form={form} />
               </StepContentWrapper>
             )}
+
+            <FormErrors errors={formErrors} />
           </div>
 
           <hr className="mb-6 md:mb-8" />
