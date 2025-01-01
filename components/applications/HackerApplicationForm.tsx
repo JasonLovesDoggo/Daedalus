@@ -39,6 +39,14 @@ export default function HackerApplicationForm() {
         onStepChange={setCurrentStep}
       />
 
+      <p>
+        {Object.entries(form.formState.errors).map(([key, error]) => (
+          <span key={key}>
+            {key}: {error.message}
+          </span>
+        ))}
+      </p>
+
       <Form {...form}>
         <form
           className={cn("mx-auto w-full max-w-4xl", {

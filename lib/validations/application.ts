@@ -1,22 +1,38 @@
 import { z } from "zod";
 
-// TODO: Should I trim?
 export const HackerApplicationDraftSchema = z
   .object({
-    userId: z.string().trim(),
     firstName: z.string().trim(),
     lastName: z.string().trim(),
-    age: z.number().int().positive(),
+    age: z
+      .string()
+      .min(1, { message: "Invalid age provided." })
+      .max(3, { message: "Invalid age provided." })
+      .refine(
+        (value) => {
+          const age = parseInt(value);
+          return age >= 1 && age <= 111;
+        },
+        {
+          message: "Invalid age provided.",
+        },
+      )
+      .optional(),
     pronouns: z
       .object({
-        pronouns: z.string().trim(),
-        customPronouns: z.string().trim(),
+        value: z.string().trim().optional(),
+        customValue: z.string().trim().optional(),
       })
       .refine(
-        (value) =>
-          value.pronouns === "" && value.customPronouns === "" ? false : true,
+        (data) => {
+          if (data.value === "Other (please specify)") {
+            return data.customValue && data.customValue.trim().length > 0;
+          }
+          return true;
+        },
         {
-          message: "Please provide your pronouns.",
+          message: "Please specify your pronouns.",
+          path: ["customValue"],
         },
       ),
     email: z
@@ -31,29 +47,44 @@ export const HackerApplicationDraftSchema = z
       ),
     github: z
       .string()
-      .url({ message: "Invalid URL provided." })
       .trim()
-      .optional(),
+      .optional()
+      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+        message: "Invalid URL provided.",
+      }),
     linkedin: z
       .string()
-      .url({ message: "Invalid URL provided." })
       .trim()
-      .optional(),
+      .optional()
+      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+        message: "Invalid URL provided.",
+      }),
     personalWebsite: z
       .string()
-      .url({ message: "Invalid URL provided." })
       .trim()
-      .optional(),
-    resumeUrl: z
-      .string()
-      .url({ message: "Invalid URL provided." })
-      .trim()
-      .optional(),
+      .optional()
+      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+        message: "Invalid URL provided.",
+      }),
+    resumeUrl: z.string().trim().optional(),
     shareResume: z.boolean().optional(),
     school: z.string().trim().optional(),
     major: z.string().trim().optional(),
     levelOfStudy: z.string().trim().optional(),
-    graduationYear: z.number().int().positive().optional(),
+    graduationYear: z
+      .string()
+      .min(4, { message: "Invalid year provided." })
+      .max(4, { message: "Invalid year provided." })
+      .refine(
+        (value) => {
+          const year = parseInt(value);
+          return year >= 2000 && year <= 2077;
+        },
+        {
+          message: "Invalid year provided.",
+        },
+      )
+      .optional(),
     gender: z.string().trim().optional(),
     race: z.string().trim().optional(),
     country: z.string().trim().optional(),

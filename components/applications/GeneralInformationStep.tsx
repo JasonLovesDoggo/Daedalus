@@ -2,7 +2,7 @@
 
 import { Control, UseFormWatch } from "react-hook-form";
 
-import { pronouns } from "@/lib/data/pronouns";
+import { pronouns as pronounsList } from "@/lib/data/pronouns";
 import { THackerApplicationDraft } from "@/lib/validations/application";
 import {
   FormControl,
@@ -27,11 +27,11 @@ export function GeneralInformationStep({
   control,
   watch,
 }: GeneralInformationStepProps) {
-  const pronounsValue = watch("pronouns");
+  const pronouns = watch("pronouns");
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="firstName"
@@ -60,7 +60,7 @@ export function GeneralInformationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="age"
@@ -74,13 +74,14 @@ export function GeneralInformationStep({
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
-          name="pronouns.pronouns"
+          name="pronouns.value"
           render={({ field }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
-                pronouns
+                pronounsList
                   .filter((pronoun) =>
                     pronoun.toLowerCase().includes(inputValue.toLowerCase()),
                   )
@@ -93,7 +94,7 @@ export function GeneralInformationStep({
                 <FormLabel>Pronouns</FormLabel>
                 <FormControl>
                   <AdvancedSelect
-                    name="pronouns.pronouns"
+                    name="pronouns"
                     value={
                       field.value
                         ? {
@@ -112,29 +113,29 @@ export function GeneralInformationStep({
             );
           }}
         />
-
-        {pronounsValue.pronouns === "Other (please specify)" && (
-          <FormField
-            control={control}
-            name="pronouns.customPronouns"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Pronouns (Other)</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    value={field.value || ""}
-                    placeholder="Your pronouns..."
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {pronouns.value === "Other (please specify)" && (
+        <FormField
+          control={control}
+          name="pronouns.customValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Pronouns (Other)</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  value={field.value || ""}
+                  placeholder="Cat/Kitten"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="email"
@@ -185,7 +186,7 @@ export function GeneralInformationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="race"

@@ -10,8 +10,8 @@ export const DEFAULT_FORM_VALUES = {
   lastName: "",
   age: undefined,
   pronouns: {
-    pronouns: "",
-    customPronouns: "",
+    value: "",
+    customValue: "",
   },
   email: "",
   github: "",

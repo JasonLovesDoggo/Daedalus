@@ -29,7 +29,7 @@ export function BackgroundEducationStep({
 }: BackgroundEducationStepProps) {
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="school"
@@ -103,7 +103,7 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="graduationYear"
@@ -176,7 +176,7 @@ export function BackgroundEducationStep({
             return (
               <FormItem>
                 <FormLabel>Technical Interests (Select up to 3)</FormLabel>
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                   {technicalFields.map((field) => (
                     <div key={field} className="flex items-center space-x-2">
                       <Checkbox
@@ -218,7 +218,7 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="github"
@@ -251,7 +251,7 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="personalWebsite"
