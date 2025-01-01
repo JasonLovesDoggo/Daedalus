@@ -1,8 +1,9 @@
 "use client";
 
-import { Control } from "react-hook-form";
+import { Control, UseFormWatch } from "react-hook-form";
 
 import { pronouns } from "@/lib/data/pronouns";
+import { THackerApplicationDraft } from "@/lib/validations/application";
 import {
   FormControl,
   FormField,
@@ -18,12 +19,16 @@ import { AdvancedSelect } from "../ui/advanced-select";
 import { CountrySelector } from "./CountrySelector";
 
 interface GeneralInformationStepProps {
-  control: Control<any>;
+  control: Control<THackerApplicationDraft>;
+  watch: UseFormWatch<THackerApplicationDraft>;
 }
 
 export function GeneralInformationStep({
   control,
+  watch,
 }: GeneralInformationStepProps) {
+  const pronounsValue = watch("pronouns");
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -71,7 +76,7 @@ export function GeneralInformationStep({
         />
         <FormField
           control={control}
-          name="pronouns"
+          name="pronouns.pronouns"
           render={({ field }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
@@ -88,10 +93,13 @@ export function GeneralInformationStep({
                 <FormLabel>Pronouns</FormLabel>
                 <FormControl>
                   <AdvancedSelect
-                    name="pronouns"
+                    name="pronouns.pronouns"
                     value={
                       field.value
-                        ? { value: field.value, label: field.value }
+                        ? {
+                            value: field.value,
+                            label: field.value,
+                          }
                         : null
                     }
                     onChange={field.onChange}
@@ -104,6 +112,26 @@ export function GeneralInformationStep({
             );
           }}
         />
+
+        {pronounsValue.pronouns === "Other (please specify)" && (
+          <FormField
+            control={control}
+            name="pronouns.customPronouns"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Pronouns (Other)</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    value={field.value || ""}
+                    placeholder="Your pronouns..."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">

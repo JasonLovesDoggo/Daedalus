@@ -3,7 +3,6 @@
 import { UseFormReturn } from "react-hook-form";
 
 import { THackerApplicationDraft } from "@/lib/validations/application";
-import { HackerApplicationFormValues } from "@/lib/validators/hacker-application";
 
 import { Field } from "./Field";
 import { MLHStep } from "./MLHStep";
@@ -18,7 +17,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
 
   return (
     <div className="space-y-8 xl:space-y-12">
-      <p className="-mt-6 text-textMuted max-md:text-sm">
+      <p className="-mt-3 text-textMuted max-md:text-sm md:-mt-6">
         Please review your application carefully before submitting. Note that
         you will not be able to make changes or resubmit your application once
         it has been submitted.
@@ -28,7 +27,11 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="First Name" value={values.firstName} />
         <Field label="Last Name" value={values.lastName} />
         <Field label="Age" value={values.age} />
-        <Field label="Pronouns" value={values.pronouns} />
+        <Field
+          label="Pronouns"
+          value={values.pronouns.pronouns}
+          customValue={values.pronouns.customPronouns}
+        />
         <Field label="Email" value={values.email} />
         <Field label="Gender" value={values.gender} />
         <Field label="Race/Ethnicity" value={values.race} />

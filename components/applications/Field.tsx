@@ -3,10 +3,12 @@
 interface FieldProps {
   label: string;
   value: string | number | undefined;
+  customValue?: string;
 }
 
-export function Field({ label, value }: FieldProps) {
+export function Field({ label, value, customValue }: FieldProps) {
   const isEmpty = typeof value === "string" ? value.trim() === "" : !value;
+
   return (
     <div className="space-y-1">
       <p className="text-sm font-medium text-gray-600 max-md:text-xs">
@@ -15,7 +17,7 @@ export function Field({ label, value }: FieldProps) {
       <p
         className={`md:text-lg ${isEmpty ? "text-gray-400" : "text-gray-900"}`}
       >
-        {isEmpty ? "[Empty]" : value}
+        {isEmpty ? "[Empty]" : customValue ? customValue : value}
       </p>
     </div>
   );

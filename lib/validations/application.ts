@@ -3,16 +3,32 @@ import { z } from "zod";
 // TODO: Should I trim?
 export const HackerApplicationDraftSchema = z
   .object({
-    userId: z.string().trim().optional(),
-    firstName: z.string().trim().optional(),
-    lastName: z.string().trim().optional(),
-    age: z.number().int().positive().optional(),
-    pronouns: z.string().trim().optional(),
+    userId: z.string().trim(),
+    firstName: z.string().trim(),
+    lastName: z.string().trim(),
+    age: z.number().int().positive(),
+    pronouns: z
+      .object({
+        pronouns: z.string().trim(),
+        customPronouns: z.string().trim(),
+      })
+      .refine(
+        (value) =>
+          value.pronouns === "" && value.customPronouns === "" ? false : true,
+        {
+          message: "Please provide your pronouns.",
+        },
+      ),
     email: z
       .string()
-      .email({ message: "Invalid email provided." })
       .trim()
-      .optional(),
+      .optional()
+      .refine(
+        (value) => value === "" || z.string().email().safeParse(value).success,
+        {
+          message: "Invalid email address.",
+        },
+      ),
     github: z
       .string()
       .url({ message: "Invalid URL provided." })

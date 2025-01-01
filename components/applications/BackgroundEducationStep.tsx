@@ -1,6 +1,6 @@
 "use client";
 
-import { Control, useForm } from "react-hook-form";
+import { Control } from "react-hook-form";
 
 import { levelsOfStudy } from "@/lib/data/levelsOfStudy";
 import { majors } from "@/lib/data/majors";
@@ -27,8 +27,6 @@ interface BackgroundEducationStepProps {
 export function BackgroundEducationStep({
   control,
 }: BackgroundEducationStepProps) {
-  const form = useForm();
-
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -67,6 +65,7 @@ export function BackgroundEducationStep({
             );
           }}
         />
+
         <FormField
           control={control}
           name="major"

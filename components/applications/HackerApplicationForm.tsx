@@ -5,8 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
-import { THackerApplicationDraft } from "@/lib/validations/application";
-import { hackerApplicationSchema } from "@/lib/validators/hacker-application";
+import {
+  HackerApplicationDraftSchema,
+  THackerApplicationDraft,
+} from "@/lib/validations/application";
 
 import {
   APPLICATION_STEPS,
@@ -25,8 +27,8 @@ export default function HackerApplicationForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const form = useForm<THackerApplicationDraft>({
-    resolver: zodResolver(hackerApplicationSchema),
-    defaultValues: DEFAULT_FORM_VALUES as THackerApplicationDraft,
+    resolver: zodResolver(HackerApplicationDraftSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
   });
 
   return (
@@ -51,7 +53,10 @@ export default function HackerApplicationForm() {
           <div className="mb-4 space-y-8 md:mb-8">
             {currentStep === 0 && (
               <StepContentWrapper title="General Information">
-                <GeneralInformationStep control={form.control} />
+                <GeneralInformationStep
+                  control={form.control}
+                  watch={form.watch}
+                />
               </StepContentWrapper>
             )}
             {currentStep === 1 && (

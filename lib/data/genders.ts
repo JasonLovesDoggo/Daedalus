@@ -7,5 +7,5 @@ export const genders = [
   "Agender",
   "Two-spirit",
   "Prefer not to say",
-  "Other",
+  "Other (please specify)",
 ];
