@@ -3,7 +3,7 @@
 import { Control, UseFormWatch } from "react-hook-form";
 
 import { pronouns as pronounsList } from "@/lib/data/pronouns";
-import { THackerApplicationDraft } from "@/lib/validations/application";
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 import {
   FormControl,
   FormField,
@@ -19,8 +19,8 @@ import { AdvancedSelect } from "../ui/advanced-select";
 import { CountrySelector } from "./CountrySelector";
 
 interface GeneralInformationStepProps {
-  control: Control<THackerApplicationDraft>;
-  watch: UseFormWatch<THackerApplicationDraft>;
+  control: Control<THackerApplicationSubmission>;
+  watch: UseFormWatch<THackerApplicationSubmission>;
 }
 
 export function GeneralInformationStep({

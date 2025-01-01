@@ -2,7 +2,7 @@
 
 import { Control } from "react-hook-form";
 
-import { THackerApplicationDraft } from "@/lib/validations/application";
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 import { useUploadResume } from "@/hooks/useUploadResume";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 interface UploadResumeProps {
-  control: Control<THackerApplicationDraft>;
+  control: Control<THackerApplicationSubmission>;
 }
 
 export function UploadResume({ control }: UploadResumeProps) {

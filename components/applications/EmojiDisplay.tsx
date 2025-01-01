@@ -9,7 +9,8 @@ const EMOJI_RANGES = [
   { min: 1, max: 3, emoji: "😊" },
   { min: 4, max: 7, emoji: "🤓" },
   { min: 8, max: 15, emoji: "😎" },
-  { min: 16, max: Infinity, emoji: "🤯" },
+  { min: 16, max: 24, emoji: "🤯" },
+  { min: 25, max: Infinity, emoji: "💀" },
 ];
 
 export function EmojiDisplay({ count }: EmojiDisplayProps) {

@@ -2,6 +2,7 @@
 
 import { Control } from "react-hook-form";
 
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 import {
   FormControl,
   FormField,
@@ -13,7 +14,7 @@ import {
 import { Textarea } from "../ui/textarea";
 
 interface ShortAnswersStepProps {
-  control: Control<any>;
+  control: Control<THackerApplicationSubmission>;
 }
 
 export function ShortAnswersStep({ control }: ShortAnswersStepProps) {

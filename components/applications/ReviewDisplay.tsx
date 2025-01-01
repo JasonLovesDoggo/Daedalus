@@ -2,14 +2,14 @@
 
 import { UseFormReturn } from "react-hook-form";
 
-import { THackerApplicationDraft } from "@/lib/validations/application";
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 
 import { Field } from "./Field";
 import { MLHStep } from "./MLHStep";
 import { ReviewSection } from "./ReviewSection";
 
 interface ReviewDisplayProps {
-  form: UseFormReturn<THackerApplicationDraft>;
+  form: UseFormReturn<THackerApplicationSubmission>;
 }
 
 export function ReviewDisplay({ form }: ReviewDisplayProps) {

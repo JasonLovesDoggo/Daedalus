@@ -6,7 +6,7 @@ import { levelsOfStudy } from "@/lib/data/levelsOfStudy";
 import { majors } from "@/lib/data/majors";
 import { schools } from "@/lib/data/schools";
 import { technicalFields } from "@/lib/data/technicalFields";
-import { THackerApplicationDraft } from "@/lib/validations/application";
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 import {
   FormControl,
   FormField,
@@ -22,8 +22,8 @@ import { EmojiDisplay } from "./EmojiDisplay";
 import { UploadResume } from "./UploadResume";
 
 interface BackgroundEducationStepProps {
-  control: Control<THackerApplicationDraft>;
-  watch: UseFormWatch<THackerApplicationDraft>;
+  control: Control<THackerApplicationSubmission>;
+  watch: UseFormWatch<THackerApplicationSubmission>;
 }
 
 export function BackgroundEducationStep({

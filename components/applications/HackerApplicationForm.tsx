@@ -7,8 +7,8 @@ import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import {
-  HackerApplicationDraftSchema,
-  THackerApplicationDraft,
+  HackerApplicationSubmissionSchema,
+  THackerApplicationSubmission,
 } from "@/lib/validations/application";
 
 import {
@@ -28,8 +28,8 @@ import { StepNavigation } from "./StepNavigation";
 export default function HackerApplicationForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const form = useForm<THackerApplicationDraft>({
-    resolver: zodResolver(HackerApplicationDraftSchema),
+  const form = useForm<THackerApplicationSubmission>({
+    resolver: zodResolver(HackerApplicationSubmissionSchema),
     defaultValues: DEFAULT_FORM_VALUES,
   });
 
