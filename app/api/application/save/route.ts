@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
-import { hackerApplicationDeadline } from "@/config/applications";
 import { createOrUpdateApplication } from "@/lib/db/queries/application";
 import { HackerApplicationDraftSchema } from "@/lib/validations/application";
 

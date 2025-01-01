@@ -39,6 +39,3 @@ export const applications: Application[] = [
     disabled: true,
   },
 ];
-
-// TODO set correctly
-export const hackerApplicationDeadline = new Date("2025-02-30T23:59:00-05:00");
