@@ -29,8 +29,8 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Age" value={values.age} />
         <Field
           label="Pronouns"
-          value={values.pronouns.pronouns}
-          customValue={values.pronouns.customPronouns}
+          value={values.pronouns.value}
+          customValue={values.pronouns.customValue}
         />
         <Field label="Email" value={values.email} />
         <Field label="Gender" value={values.gender} />
@@ -39,8 +39,16 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
       </ReviewSection>
 
       <ReviewSection title="Your Background">
-        <Field label="School" value={values.school} />
-        <Field label="Major" value={values.major} />
+        <Field
+          label="School"
+          value={values.school.value}
+          customValue={values.school.customValue}
+        />
+        <Field
+          label="Major"
+          value={values.major.value}
+          customValue={values.major.customValue}
+        />
         <Field label="Graduation Year" value={values.graduationYear} />
         <Field label="Level of Study" value={values.levelOfStudy} />
         <Field label="Technical Interests" value={values.technicalInterests} />

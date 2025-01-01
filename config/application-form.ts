@@ -17,8 +17,14 @@ export const DEFAULT_FORM_VALUES = {
   github: "",
   linkedin: "",
   personalWebsite: "",
-  school: "",
-  major: "",
+  school: {
+    value: "",
+    customValue: "",
+  },
+  major: {
+    value: "",
+    customValue: "",
+  },
   graduationYear: undefined,
   levelOfStudy: "",
   technicalInterests: "",

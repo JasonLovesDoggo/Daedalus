@@ -1,6 +1,6 @@
 "use client";
 
-import { Control } from "react-hook-form";
+import { Control, UseFormWatch } from "react-hook-form";
 
 import { levelsOfStudy } from "@/lib/data/levelsOfStudy";
 import { majors } from "@/lib/data/majors";
@@ -22,17 +22,22 @@ import { UploadResume } from "./UploadResume";
 
 interface BackgroundEducationStepProps {
   control: Control<THackerApplicationDraft>;
+  watch: UseFormWatch<THackerApplicationDraft>;
 }
 
 export function BackgroundEducationStep({
   control,
+  watch,
 }: BackgroundEducationStepProps) {
+  const major = watch("major");
+  const school = watch("school");
+
   return (
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
-          name="school"
+          name="school.value"
           render={({ field }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
@@ -68,7 +73,7 @@ export function BackgroundEducationStep({
 
         <FormField
           control={control}
-          name="major"
+          name="major.value"
           render={({ field }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
@@ -102,6 +107,38 @@ export function BackgroundEducationStep({
           }}
         />
       </div>
+
+      {school?.value === "Other (please specify)" && (
+        <FormField
+          control={control}
+          name="school.customValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>School/University (Other)</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your school/university" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
+      {major?.value === "Other (please specify)" && (
+        <FormField
+          control={control}
+          name="major.customValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Major (Other)</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your major" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField

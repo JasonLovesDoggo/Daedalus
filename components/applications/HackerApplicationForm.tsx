@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import {
@@ -31,6 +32,20 @@ export default function HackerApplicationForm() {
     defaultValues: DEFAULT_FORM_VALUES,
   });
 
+  const onSave = () => {
+    const values = form.getValues();
+    const isModified =
+      JSON.stringify(values) !== JSON.stringify(DEFAULT_FORM_VALUES);
+
+    if (!isModified) {
+      toast.error("No changes to save");
+      return;
+    }
+
+    console.log("Form draft saved", values);
+    toast.success("Application draft saved");
+  };
+
   return (
     <div>
       <StepNavigation
@@ -58,7 +73,7 @@ export default function HackerApplicationForm() {
             alert("Form submitted!");
           })}
         >
-          <div className="mb-4 space-y-8 md:mb-8">
+          <div className="mb-6 space-y-8 md:mb-8">
             {currentStep === 0 && (
               <StepContentWrapper title="General Information">
                 <GeneralInformationStep
@@ -69,7 +84,10 @@ export default function HackerApplicationForm() {
             )}
             {currentStep === 1 && (
               <StepContentWrapper title="Your Background">
-                <BackgroundEducationStep control={form.control} />
+                <BackgroundEducationStep
+                  control={form.control}
+                  watch={form.watch}
+                />
               </StepContentWrapper>
             )}
             {currentStep === 2 && (
@@ -84,11 +102,14 @@ export default function HackerApplicationForm() {
             )}
           </div>
 
+          <hr className="mb-6 md:mb-8" />
+
           <FormNavigation
             currentStep={currentStep}
             totalSteps={4}
             onPrevious={() => setCurrentStep((prev) => prev - 1)}
             onNext={() => setCurrentStep((prev) => prev + 1)}
+            onSave={onSave}
           />
         </form>
       </Form>

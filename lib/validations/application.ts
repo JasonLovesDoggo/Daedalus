@@ -68,8 +68,40 @@ export const HackerApplicationDraftSchema = z
       }),
     resumeUrl: z.string().trim().optional(),
     shareResume: z.boolean().optional(),
-    school: z.string().trim().optional(),
-    major: z.string().trim().optional(),
+    school: z
+      .object({
+        value: z.string().trim().optional(),
+        customValue: z.string().trim().optional(),
+      })
+      .refine(
+        (data) => {
+          if (data.value === "Other (please specify)") {
+            return data.customValue && data.customValue.trim().length > 0;
+          }
+          return true;
+        },
+        {
+          message: "Please specify your school/university.",
+          path: ["customValue"],
+        },
+      ),
+    major: z
+      .object({
+        value: z.string().trim().optional(),
+        customValue: z.string().trim().optional(),
+      })
+      .refine(
+        (data) => {
+          if (data.value === "Other (please specify)") {
+            return data.customValue && data.customValue.trim().length > 0;
+          }
+          return true;
+        },
+        {
+          message: "Please specify your major / field of study.",
+          path: ["customValue"],
+        },
+      ),
     levelOfStudy: z.string().trim().optional(),
     graduationYear: z
       .string()

@@ -95,5 +95,6 @@ export const schools = [
   "William Lyon Mackenzie Collegiate Institute",
   "Wilfrid Laurier University",
   "York University",
-  "Other",
+  "Not Applicable",
+  "Other (please specify)",
 ];
