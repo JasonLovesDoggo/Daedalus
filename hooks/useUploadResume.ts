@@ -13,13 +13,8 @@ export function useUploadResume() {
       return;
     }
 
-    const validTypes = [
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
-    if (!validTypes.includes(file.type)) {
-      toast.error("Invalid file type. Please upload a PDF, DOC, or DOCX file.");
+    if (file.type !== "application/pdf") {
+      toast.error("Invalid file type. Please upload a PDF file.");
       return;
     }
 

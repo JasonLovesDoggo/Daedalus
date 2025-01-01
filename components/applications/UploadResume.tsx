@@ -69,12 +69,10 @@ export function UploadResume({ control }: UploadResumeProps) {
                     click to upload
                   </span>
                 </p>
-                <p className="text-xs text-gray-500">
-                  PDF, DOC, DOCX (max 5MB)
-                </p>
+                <p className="text-xs text-gray-500">PDF only (max 5MB)</p>
                 <Input
                   type="file"
-                  accept=".pdf,.doc,.docx"
+                  accept=".pdf"
                   onChange={(e) => {
                     if (e.target.files?.[0]) {
                       handleFileUpload(e.target.files[0], field.onChange);
