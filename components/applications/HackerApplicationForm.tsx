@@ -31,14 +31,9 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
     isSubmitting,
     validationErrors,
     formErrors,
-    submitted,
     onSave,
     onSubmit,
   } = useHackerApplication(existingApplication);
-
-  if (submitted) {
-    return <SubmissionSuccess />;
-  }
 
   return (
     <PageWrapper className="flex h-full items-center bg-center">

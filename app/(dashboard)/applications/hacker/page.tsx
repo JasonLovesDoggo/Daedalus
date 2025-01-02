@@ -15,6 +15,10 @@ const HackerApplicationPage = async () => {
     currentUser.id,
   );
 
+  if (currentUser.status !== "not_applied") {
+    redirect("/applications/hacker/review");
+  }
+
   return <HackerApplicationForm existingApplication={existingApplication} />;
 };
 export default HackerApplicationPage;

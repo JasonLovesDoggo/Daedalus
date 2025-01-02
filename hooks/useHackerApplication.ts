@@ -151,7 +151,7 @@ export function useHackerApplication(
       }
 
       toast.success("Application submitted successfully!");
-      setSubmitted(true);
+      router.push("/applications/hacker/submitted");
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to submit application";
@@ -169,7 +169,6 @@ export function useHackerApplication(
     isSubmitting,
     validationErrors,
     formErrors,
-    submitted,
     onSave,
     onSubmit,
   };

@@ -51,14 +51,14 @@ export default function SubmissionSuccess() {
 
         <div className="flex w-full flex-col items-center gap-3 sm:gap-4 md:w-fit md:items-start xl:w-fit">
           <a
-            href="/applications/hacker/review"
+            href="/"
             className="group flex w-full items-center justify-center gap-2 rounded-full border border-zinc-700 px-4 py-2 text-sm transition-all duration-200 hover:bg-primary hover:text-white hover:shadow-lg sm:w-fit sm:px-6 sm:py-2 sm:text-base md:px-8 md:text-lg xl:px-10 xl:py-3"
           >
             <span>Dashboard</span>
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1 xl:size-5" />
           </a>
           <Link
-            href="/"
+            href="/applications/hacker/review"
             className="flex w-full items-center justify-center gap-2 text-textMuted transition-colors duration-200 hover:text-textPrimary max-md:text-sm sm:w-fit xl:mx-auto"
           >
             <ExternalLink className="size-4 xl:size-5" />
