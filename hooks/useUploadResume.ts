@@ -4,6 +4,33 @@ import { toast } from "sonner";
 export function useUploadResume() {
   const [isUploading, setIsUploading] = useState(false);
 
+  const getResumeUrl = (key: string) => {
+    return `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${key}`;
+  };
+
+  const deleteResume = async (key: string) => {
+    try {
+      const response = await fetch("/api/upload/resume", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ key }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete resume");
+      }
+
+      toast.success("Resume deleted successfully");
+      return true;
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Failed to delete resume");
+      return false;
+    }
+  };
+
   const handleFileUpload = async (
     file: File,
     onChange: (url: string) => void,
@@ -21,39 +48,20 @@ export function useUploadResume() {
     try {
       setIsUploading(true);
 
-      // Get presigned URL from API
+      const formData = new FormData();
+      formData.append("file", file);
+
       const response = await fetch("/api/upload/resume", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileName: file.name,
-          fileType: file.type,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get upload URL");
+        throw new Error("Failed to upload file");
       }
 
-      const { url, key } = await response.json();
-
-      // Upload file to S3
-      const uploadResponse = await fetch(url, {
-        method: "PUT",
-        body: file,
-        headers: {
-          "Content-Type": file.type,
-        },
-      });
-
-      if (!uploadResponse.ok) {
-        throw new Error("Upload failed");
-      }
-
-      // Return the S3 key or URL
-      onChange(key);
+      const { data } = await response.json();
+      onChange(data.key);
       toast.success("Resume uploaded successfully");
     } catch (error) {
       console.error("Upload error:", error);
@@ -65,6 +73,8 @@ export function useUploadResume() {
 
   return {
     handleFileUpload,
+    deleteResume,
+    getResumeUrl,
     isUploading,
   };
 }

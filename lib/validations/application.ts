@@ -137,8 +137,7 @@ export const HackerApplicationDraftSchema = z
     levelOfStudy: z.string().trim().optional(),
     graduationYear: z
       .string()
-      .min(4, { message: "Invalid year provided." })
-      .max(4, { message: "Invalid year provided." })
+      .min(1, { message: "Invalid year provided." })
       .refine(
         (value) => {
           const year = parseInt(value);
@@ -295,8 +294,7 @@ export const HackerApplicationSubmissionSchema = z
       .min(1, { message: "Level of study is required" }),
     graduationYear: z
       .string()
-      .min(4, { message: "Invalid year provided." })
-      .max(4, { message: "Invalid year provided." })
+      .min(1, { message: "Invalid year provided." })
       .refine(
         (value) => {
           const year = parseInt(value);

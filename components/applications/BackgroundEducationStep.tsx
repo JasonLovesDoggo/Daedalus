@@ -308,7 +308,7 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <UploadResume control={control} />
+      <UploadResume control={control} watch={watch} />
     </div>
   );
 }

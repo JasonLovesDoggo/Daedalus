@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 
 import { ApiResponse } from "@/types/api";
 
@@ -13,20 +16,21 @@ const s3Client = new S3Client({
 });
 
 export async function POST(request: Request) {
-  const { fileName, fileType } = await request.json();
+  const formData = await request.formData();
+  const file = formData.get("file") as File;
 
-  if (!fileName || !fileType) {
+  if (!file) {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
         message: "Validation error",
-        error: "Missing required fields",
+        error: "No file provided",
       },
       { status: 400 },
     );
   }
 
-  if (fileType !== "application/pdf") {
+  if (file.type !== "application/pdf") {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -37,31 +41,82 @@ export async function POST(request: Request) {
     );
   }
 
-  const key = `resumes/${Date.now()}-${fileName}`;
+  if (file.size > 5 * 1024 * 1024) {
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Validation error",
+        error: "File size must be less than 5MB",
+      },
+      { status: 400 },
+    );
+  }
 
-  const putObjectCommand = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
-    Key: key,
-    ContentType: fileType,
-  });
+  const key = `resumes/${Date.now()}-${file.name}`;
 
   try {
-    const url = await getSignedUrl(s3Client, putObjectCommand, {
-      expiresIn: 3600, // 1 hour
-    });
+    const buffer = await file.arrayBuffer();
 
-    return NextResponse.json<ApiResponse<{ url: string; key: string }>>({
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: key,
+        Body: Buffer.from(buffer),
+        ContentType: file.type,
+      }),
+    );
+
+    return NextResponse.json<ApiResponse<{ key: string }>>({
       success: true,
-      message: "Presigned URL generated successfully",
-      data: { url, key },
+      message: "File uploaded successfully",
+      data: { key },
     });
   } catch (error) {
-    console.error("Error generating presigned URL:", error);
+    console.error("Error uploading file:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,
         message: "Internal server error",
-        error: "Failed to generate upload URL",
+        error: "Failed to upload file",
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  const { key } = await request.json();
+
+  if (!key) {
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Validation error",
+        error: "Missing required field: key",
+      },
+      { status: 400 },
+    );
+  }
+
+  try {
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: key,
+      }),
+    );
+
+    return NextResponse.json<ApiResponse>({
+      success: true,
+      message: "File deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Internal server error",
+        error: "Failed to delete file",
       },
       { status: 500 },
     );
