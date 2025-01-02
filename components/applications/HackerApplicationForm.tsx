@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import { toast } from "sonner";
+import Link from "next/link";
 
 import { HackerApplicationsSelectData } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
@@ -18,6 +17,7 @@ import { ReviewDisplay } from "./ReviewDisplay";
 import { ShortAnswersStep } from "./ShortAnswersStep";
 import { StepContentWrapper } from "./StepContentWrapper";
 import { StepNavigation } from "./StepNavigation";
+import SubmissionSuccess from "./SubmissionSuccess";
 
 type Props = {
   existingApplication: HackerApplicationsSelectData | null;
@@ -37,30 +37,8 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
     onSubmit,
   } = useHackerApplication(existingApplication);
 
-  useEffect(() => {
-    if (existingApplication) {
-      toast.success("Retrieved existing application!");
-    }
-  }, [existingApplication]);
-
   if (submitted) {
-    return (
-      <div className="mt-20 flex flex-col items-center justify-center text-center md:mt-28 xl:mt-36">
-        <h1 className="mb-4 font-rubik text-3xl font-bold md:text-4xl xl:text-5xl">
-          🎉🎊 Submitted Successfully! 🎊🎉
-        </h1>
-        <p className="mb-8 max-w-lg md:text-lg xl:text-xl">
-          Your response has been saved, keep an eye out on your emails in the
-          coming weeks for updates.
-        </p>
-        <a
-          href="/"
-          className={buttonVariants({ variant: "primary", size: "lg" })}
-        >
-          Back to Dashboard
-        </a>
-      </div>
-    );
+    return <SubmissionSuccess />;
   }
 
   return (

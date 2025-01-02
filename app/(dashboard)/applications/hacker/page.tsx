@@ -17,7 +17,7 @@ const HackerApplicationPage = async () => {
   );
 
   return (
-    <PageWrapper>
+    <PageWrapper className="flex h-full items-center bg-center">
       <HackerApplicationForm existingApplication={existingApplication} />
     </PageWrapper>
   );

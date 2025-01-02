@@ -30,9 +30,7 @@ export default async function RootLayout({
       <body className={cn("", fredoka.className, rubik.variable)}>
         <Toaster richColors position="bottom-center" />
         <SessionProvider session={session}>
-          <div className="flex h-full min-h-svh flex-col">
-            <div>{children}</div>
-          </div>
+          <div className="flex h-full min-h-svh flex-col">{children}</div>
         </SessionProvider>
       </body>
     </html>
