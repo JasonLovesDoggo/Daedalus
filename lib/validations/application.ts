@@ -49,16 +49,48 @@ export const HackerApplicationDraftSchema = z
       .string()
       .trim()
       .optional()
-      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
-        message: "Invalid URL provided.",
-      }),
+      .refine(
+        (val) => {
+          if (val === "") return true;
+          if (typeof val !== "string") return false;
+          try {
+            const url = new URL(val);
+            return (
+              url.hostname === "github.com" &&
+              url.pathname.split("/").filter(Boolean).length >= 1
+            );
+          } catch {
+            return false;
+          }
+        },
+        {
+          message:
+            "Please provide a valid GitHub profile URL (e.g., https://github.com/username)",
+        },
+      ),
     linkedin: z
       .string()
       .trim()
       .optional()
-      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
-        message: "Invalid URL provided.",
-      }),
+      .refine(
+        (val) => {
+          if (val === "") return true;
+          if (typeof val !== "string") return false;
+          try {
+            const url = new URL(val);
+            return (
+              url.hostname === "www.linkedin.com" &&
+              /^\/in\/[a-zA-Z0-9-]+(\/)?$/.test(url.pathname)
+            );
+          } catch {
+            return false;
+          }
+        },
+        {
+          message:
+            "Please provide a valid LinkedIn profile URL (e.g., https://www.linkedin.com/in/username)",
+        },
+      ),
     personalWebsite: z
       .string()
       .trim()
@@ -141,7 +173,7 @@ export const HackerApplicationSubmissionSchema = z
       .refine(
         (value) => {
           const age = parseInt(value);
-          return age >= 1 && age <= 111;
+          return age >= 1 && age <= 123;
         },
         {
           message: "Invalid age provided.",
@@ -150,7 +182,13 @@ export const HackerApplicationSubmissionSchema = z
     pronouns: z
       .object({
         value: z.string().trim().min(1, { message: "Pronouns are required" }),
-        customValue: z.string().trim().optional(),
+        customValue: z
+          .string()
+          .trim()
+          .max(50, {
+            message: "Pronouns must be 50 characters or less.",
+          })
+          .optional(),
       })
       .refine(
         (data) => {
@@ -168,15 +206,47 @@ export const HackerApplicationSubmissionSchema = z
     github: z
       .string()
       .trim()
-      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
-        message: "Invalid URL provided.",
-      }),
+      .refine(
+        (val) => {
+          if (val === "") return true;
+          if (typeof val !== "string") return false;
+          try {
+            const url = new URL(val);
+            return (
+              url.hostname === "github.com" &&
+              url.pathname.split("/").filter(Boolean).length >= 1
+            );
+          } catch {
+            return false;
+          }
+        },
+        {
+          message:
+            "Please provide a valid GitHub profile URL (e.g., https://github.com/username)",
+        },
+      ),
     linkedin: z
       .string()
       .trim()
-      .refine((val) => val === "" || z.string().url().safeParse(val).success, {
-        message: "Invalid URL provided.",
-      }),
+      .refine(
+        (val) => {
+          if (val === "") return true;
+          if (typeof val !== "string") return false;
+          try {
+            const url = new URL(val);
+            return (
+              url.hostname === "www.linkedin.com" &&
+              /^\/in\/[a-zA-Z0-9-]+(\/)?$/.test(url.pathname)
+            );
+          } catch {
+            return false;
+          }
+        },
+        {
+          message:
+            "Please provide a valid LinkedIn profile URL (e.g., https://www.linkedin.com/in/username)",
+        },
+      ),
     personalWebsite: z
       .string()
       .trim()
@@ -204,7 +274,7 @@ export const HackerApplicationSubmissionSchema = z
       ),
     major: z
       .object({
-        value: z.string().trim().min(1, { message: "Major is required" }),
+        value: z.string().trim().min(1, { message: "Major/Field is required" }),
         customValue: z.string().trim().optional(),
       })
       .refine(
@@ -230,7 +300,7 @@ export const HackerApplicationSubmissionSchema = z
       .refine(
         (value) => {
           const year = parseInt(value);
-          return year >= 2000 && year <= 2077;
+          return year >= 1900 && year <= 2077;
         },
         {
           message: "Invalid year provided.",
@@ -239,16 +309,26 @@ export const HackerApplicationSubmissionSchema = z
     gender: z.string().trim().min(1, { message: "Gender is required" }),
     race: z.string().trim().min(1, { message: "Race is required" }),
     country: z.string().trim().min(1, { message: "Country is required" }),
-    shortAnswer1: z
-      .string()
-      .trim()
-      .min(1, { message: "This field is required" }),
-    shortAnswer2: z
-      .string()
-      .trim()
-      .min(1, { message: "This field is required" }),
+    shortAnswer1: z.string().trim().min(32, {
+      message: "Your answer must be at least 32 characters in length.",
+    }),
+    shortAnswer2: z.string().trim().min(32, {
+      message: "Your answer must be at least 32 characters in length.",
+    }),
     technicalInterests: z.string().trim(),
-    hackathonsAttended: z.string(),
+    hackathonsAttended: z
+      .string()
+      .min(1, { message: "Invalid value provided." })
+      .max(3, { message: "Invalid value provided." })
+      .refine(
+        (value) => {
+          const attended = parseInt(value);
+          return attended >= 0 && attended <= 2077;
+        },
+        {
+          message: "Invalid value provided.",
+        },
+      ),
     mlhCheckbox1: z.boolean(),
     mlhCheckbox2: z.boolean(),
     mlhCheckbox3: z.boolean(),

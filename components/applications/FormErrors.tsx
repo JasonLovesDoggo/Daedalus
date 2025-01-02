@@ -45,7 +45,7 @@ export default function FormErrors({ errors, saveErrors }: FormErrorsProps) {
           ? "Please fix the following errors before saving your application:"
           : "Please fix the following errors to complete your application:"}
       </h3>
-      <div className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 sm:gap-x-8 lg:gap-x-12">
+      <div className="grid grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-2 sm:gap-x-8 lg:gap-x-12">
         {errors.map(([key, error]) => (
           <>
             <p
