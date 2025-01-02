@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 import { APPLICATION_STEPS } from "../../config/application-form";
 import { useHackerApplication } from "../../hooks/useHackerApplication";
+import { buttonVariants } from "../ui/button";
 import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
 import FormErrors from "./FormErrors";
@@ -31,6 +32,7 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
     isSubmitting,
     validationErrors,
     formErrors,
+    submitted,
     onSave,
     onSubmit,
   } = useHackerApplication(existingApplication);
@@ -40,6 +42,26 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
       toast.success("Retrieved existing application!");
     }
   }, [existingApplication]);
+
+  if (submitted) {
+    return (
+      <div className="mt-20 flex flex-col items-center justify-center text-center md:mt-28 xl:mt-36">
+        <h1 className="mb-4 font-rubik text-3xl font-bold md:text-4xl xl:text-5xl">
+          🎉🎊 Submitted Successfully! 🎊🎉
+        </h1>
+        <p className="mb-8 max-w-lg md:text-lg xl:text-xl">
+          Your response has been saved, keep an eye out on your emails in the
+          coming weeks for updates.
+        </p>
+        <a
+          href="/"
+          className={buttonVariants({ variant: "primary", size: "lg" })}
+        >
+          Back to Dashboard
+        </a>
+      </div>
+    );
+  }
 
   return (
     <div>

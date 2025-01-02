@@ -69,6 +69,7 @@ export function useHackerApplication(
   const [validationErrors, setValidationErrors] = useState<
     [string, { message: string }][]
   >([]);
+  const [submitted, setSubmitted] = useState(true);
 
   const defaultValues = getDefaultValues(existingApplication);
   const form = useForm<THackerApplicationSubmission>({
@@ -149,7 +150,7 @@ export function useHackerApplication(
       }
 
       toast.success("Application submitted successfully!");
-      router.push("/");
+      setSubmitted(true);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to submit application";
@@ -167,6 +168,7 @@ export function useHackerApplication(
     isSubmitting,
     validationErrors,
     formErrors,
+    submitted,
     onSave,
     onSubmit,
   };
