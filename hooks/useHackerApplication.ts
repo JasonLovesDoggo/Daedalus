@@ -149,7 +149,7 @@ export function useHackerApplication(
       }
 
       toast.success("Application submitted successfully!");
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to submit application";

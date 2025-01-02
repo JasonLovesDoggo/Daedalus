@@ -25,23 +25,7 @@ export async function POST(
     }
 
     const body = await req.json();
-    const { userId } = body;
 
-    if (!userId) {
-      return NextResponse.json({
-        success: false,
-        message: "User ID is required",
-      });
-    }
-
-    if (currentUser.id !== userId) {
-      return NextResponse.json({
-        success: false,
-        message: "You can only submit your own application",
-      });
-    }
-
-    // TODO correct role checking?
     if (currentUser.role !== "unassigned") {
       return NextResponse.json({
         success: false,
@@ -83,7 +67,7 @@ export async function POST(
       validationResult.data.major.customValue ||
       validationResult.data.major.value;
 
-    const application = await getHackerApplicationByUserId(userId);
+    const application = await getHackerApplicationByUserId(currentUser.id);
 
     if (!application) {
       return NextResponse.json({
