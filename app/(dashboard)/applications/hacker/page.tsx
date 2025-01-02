@@ -16,10 +16,6 @@ const HackerApplicationPage = async () => {
     currentUser.id,
   );
 
-  return (
-    <PageWrapper className="flex h-full items-center bg-center">
-      <HackerApplicationForm existingApplication={existingApplication} />
-    </PageWrapper>
-  );
+  return <HackerApplicationForm existingApplication={existingApplication} />;
 };
 export default HackerApplicationPage;

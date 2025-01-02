@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 import { APPLICATION_STEPS } from "../../config/application-form";
 import { useHackerApplication } from "../../hooks/useHackerApplication";
+import PageWrapper from "../PageWrapper";
 import { buttonVariants } from "../ui/button";
 import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
@@ -42,13 +43,12 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
   }
 
   return (
-    <div>
+    <PageWrapper className="flex h-full items-center bg-center">
       <StepNavigation
         steps={APPLICATION_STEPS}
         currentStep={currentStep}
         onStepChange={setCurrentStep}
       />
-
       <Form {...form}>
         <form
           className={cn("mx-auto w-full max-w-4xl", {
@@ -101,6 +101,6 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
           />
         </form>
       </Form>
-    </div>
+    </PageWrapper>
   );
 }

@@ -37,6 +37,9 @@ importers:
       "@radix-ui/react-select":
         specifier: ^2.1.4
         version: 2.1.4(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@types/canvas-confetti":
+        specifier: ^1.9.0
+        version: 1.9.0
       "@types/react-select":
         specifier: ^5.0.1
         version: 5.0.1(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -46,6 +49,9 @@ importers:
       better-sqlite3:
         specifier: ^11.7.0
         version: 11.7.0
+      canvas-confetti:
+        specifier: ^1.9.3
+        version: 1.9.3
       cmdk:
         specifier: 1.0.0
         version: 1.0.0(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2376,6 +2382,12 @@ packages:
         integrity: sha512-fnQmj8lELIj7BSrZQAdBMHEHX8OZLYIHXqAKT1O7tDfLxaINzf00PMjw22r3N/xXh0w/sGHlO6SVaCQ2mj78lg==,
       }
 
+  "@types/canvas-confetti@1.9.0":
+    resolution:
+      {
+        integrity: sha512-aBGj/dULrimR1XDZLtG9JwxX1b4HPRF6CX9Yfwh3NvstZEm1ZL7RBnel4keCPSqs1ANRu1u2Aoz9R+VmtjYuTg==,
+      }
+
   "@types/cookie@0.6.0":
     resolution:
       {
@@ -2799,6 +2811,12 @@ packages:
     resolution:
       {
         integrity: sha512-5ExiE3qQN6oF8Clf8ifIDcMRCRE/dMGcETG/XGMD8/XiXm6HXQgQTh1yZYLXXpSOsEUlJm1Xr7kGULZTuGtP/w==,
+      }
+
+  canvas-confetti@1.9.3:
+    resolution:
+      {
+        integrity: sha512-rFfTURMvmVEX1gyXFgn5QMn81bYk70qa0HLzcIOSVEyl57n6o9ItHeBtUSWdvKAPY0xlvBHno4/v3QPrT83q9g==,
       }
 
   chalk@4.1.2:
@@ -7503,6 +7521,8 @@ snapshots:
     dependencies:
       "@types/node": 20.17.10
 
+  "@types/canvas-confetti@1.9.0": {}
+
   "@types/cookie@0.6.0": {}
 
   "@types/json5@0.0.29": {}
@@ -7772,6 +7792,8 @@ snapshots:
   camelcase-css@2.0.1: {}
 
   caniuse-lite@1.0.30001690: {}
+
+  canvas-confetti@1.9.3: {}
 
   chalk@4.1.2:
     dependencies:
