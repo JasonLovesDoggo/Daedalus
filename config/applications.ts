@@ -13,12 +13,12 @@ export type Application = {
 export const applications: Application[] = [
   {
     title: "Hacker Applications",
-    href: "/application/hacker",
-    status: "coming soon",
+    href: "/applications/hacker",
+    status: "open",
     deadline: "TBD",
     description: "Submit your application to join as a participant.",
     icon: User,
-    disabled: true,
+    disabled: false,
   },
   {
     title: "Mentor Applications",

@@ -8,7 +8,7 @@ export const APPLICATION_STEPS = [
 export const DEFAULT_FORM_VALUES = {
   firstName: "",
   lastName: "",
-  age: undefined,
+  age: "",
   pronouns: {
     value: "",
     customValue: "",
@@ -25,7 +25,7 @@ export const DEFAULT_FORM_VALUES = {
     value: "",
     customValue: "",
   },
-  graduationYear: undefined,
+  graduationYear: "",
   levelOfStudy: "",
   technicalInterests: "",
   hackathonsAttended: "",

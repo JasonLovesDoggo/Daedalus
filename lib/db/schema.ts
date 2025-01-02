@@ -108,6 +108,7 @@ export const hackerApplications = sqliteTable("hackerApplication", {
   linkedin: text("linkedin"),
   personalWebsite: text("personalWebsite"),
   resumeUrl: text("resume"),
+  shareResume: integer("shareResume", { mode: "boolean" }),
   school: text("school"),
   major: text("major"),
   levelOfStudy: text("levelOfStudy"),

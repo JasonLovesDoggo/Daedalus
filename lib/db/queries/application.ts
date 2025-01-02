@@ -2,8 +2,6 @@
 
 import { eq, sql } from "drizzle-orm";
 
-import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
-
 import { db } from "..";
 import {
   hackerApplications,
@@ -11,7 +9,6 @@ import {
   HackerApplicationsSelectData,
   users,
 } from "../schema";
-import { updateUserHackerApplicationStatus } from "./user";
 
 export const getHackerApplicationByUserId = async (userId: string) => {
   try {

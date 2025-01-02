@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { HackerApplicationsSelectData } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 import {
   HackerApplicationDraftSchema,
@@ -27,27 +28,73 @@ import { ShortAnswersStep } from "./ShortAnswersStep";
 import { StepContentWrapper } from "./StepContentWrapper";
 import { StepNavigation } from "./StepNavigation";
 
-export default function HackerApplicationForm() {
+type Props = {
+  existingApplication: HackerApplicationsSelectData | null;
+};
+
+function getDefaultValues(
+  existingApplication: HackerApplicationsSelectData | null,
+): THackerApplicationSubmission {
+  if (!existingApplication) {
+    return DEFAULT_FORM_VALUES;
+  }
+
+  return {
+    firstName: existingApplication.firstName || "",
+    lastName: existingApplication.lastName || "",
+    age: existingApplication.age?.toString() || "",
+    pronouns: {
+      value: existingApplication.pronouns || "",
+      customValue: "",
+    },
+    email: existingApplication.email || "",
+    github: existingApplication.github || "",
+    linkedin: existingApplication.linkedin || "",
+    personalWebsite: existingApplication.personalWebsite || "",
+    school: {
+      value: existingApplication.school || "",
+      customValue: "",
+    },
+    major: {
+      value: existingApplication.major || "",
+      customValue: "",
+    },
+    graduationYear: existingApplication.graduationYear?.toString() || "",
+    levelOfStudy: existingApplication.levelOfStudy || "",
+    technicalInterests: existingApplication.technicalInterests || "",
+    hackathonsAttended: existingApplication.hackathonsAttended || "",
+    gender: existingApplication.gender || "",
+    race: existingApplication.race || "",
+    country: existingApplication.country || "",
+    shortAnswer1: existingApplication.shortAnswer1 || "",
+    shortAnswer2: existingApplication.shortAnswer2 || "",
+    mlhCheckbox1: existingApplication.mlhCheckbox1 ? true : false,
+    mlhCheckbox2: existingApplication.mlhCheckbox2 ? true : false,
+    mlhCheckbox3: existingApplication.mlhCheckbox3 ? true : false,
+    resumeUrl: existingApplication.resumeUrl || "",
+    shareResume: existingApplication.shareResume ? true : false,
+  };
+}
+
+export default function HackerApplicationForm({ existingApplication }: Props) {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
-
-  const form = useForm<THackerApplicationSubmission>({
-    resolver: zodResolver(HackerApplicationSubmissionSchema),
-    defaultValues: DEFAULT_FORM_VALUES,
-  });
-
-  const formErrors = Object.entries(form.formState.errors);
-
   const [isSaving, setIsSaving] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     [string, { message: string }][]
   >([]);
-  const router = useRouter();
+
+  const defaultValues = getDefaultValues(existingApplication);
+  const form = useForm<THackerApplicationSubmission>({
+    resolver: zodResolver(HackerApplicationSubmissionSchema),
+    defaultValues,
+  });
+  const formErrors = Object.entries(form.formState.errors);
 
   const onSave = async () => {
     const values = form.getValues();
-    const isModified =
-      JSON.stringify(values) !== JSON.stringify(DEFAULT_FORM_VALUES);
+    const isModified = JSON.stringify(values) !== JSON.stringify(defaultValues);
 
     if (!isModified) {
       toast.error("No changes to save");
@@ -96,6 +143,14 @@ export default function HackerApplicationForm() {
       setIsSaving(false);
     }
   };
+
+  useEffect(() => {
+    console.log("rendering");
+
+    if (existingApplication) {
+      toast.success("Retrieved existing application!");
+    }
+  }, []);
 
   return (
     <div>
