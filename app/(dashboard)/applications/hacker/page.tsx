@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/auth";
 
 import { getHackerApplicationByUserId } from "@/lib/db/queries/application";
 import HackerApplicationForm from "@/components/applications/HackerApplicationForm";
-import PageWrapper from "@/components/PageWrapper";
 
 const HackerApplicationPage = async () => {
   const currentUser = await getCurrentUser();

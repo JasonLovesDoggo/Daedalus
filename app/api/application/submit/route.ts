@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
 import {
-  getHackerApplicationByUserId,
+  createOrUpdateApplication,
   submitApplication,
 } from "@/lib/db/queries/application";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
@@ -34,11 +34,11 @@ export async function POST(
       });
     }
 
-    const validationResult = HackerApplicationSubmissionSchema.safeParse(body);
+    const validatedFields = HackerApplicationSubmissionSchema.safeParse(body);
 
-    if (!validationResult.success) {
+    if (!validatedFields.success) {
       const errorMessages = Object.values(
-        validationResult.error.flatten().fieldErrors,
+        validatedFields.error.flatten().fieldErrors,
       )
         .flat()
         .join(", ");
@@ -52,49 +52,67 @@ export async function POST(
       );
     }
 
+    const { data } = validatedFields;
+
     // Convert string fields to numbers
-    const age = parseInt(validationResult.data.age);
-    const graduationYear = parseInt(validationResult.data.graduationYear);
+    const age = parseInt(data.age);
+    const graduationYear = parseInt(data.graduationYear);
 
     // Convert object fields to strings
-    const pronouns =
-      validationResult.data.pronouns.customValue ||
-      validationResult.data.pronouns.value;
-    const school =
-      validationResult.data.school.customValue ||
-      validationResult.data.school.value;
-    const major =
-      validationResult.data.major.customValue ||
-      validationResult.data.major.value;
+    const pronouns = data.pronouns.customValue || data.pronouns.value;
+    const school = data.school.customValue || data.school.value;
+    const major = data.major.customValue || data.major.value;
 
-    const application = await getHackerApplicationByUserId(currentUser.id);
-
-    if (!application) {
-      return NextResponse.json({
-        success: false,
-        message: "Application must have been started and saved to submit",
-      });
-    }
-
-    if (application.submissionStatus !== "draft") {
-      return NextResponse.json({
-        success: false,
-        message: "Application has already been submitted",
-      });
-    }
-
+    // Create new application data from validated input
     const applicationData = {
-      ...application,
+      userId: currentUser.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
       age,
       pronouns,
+      email: data.email,
+      github: data.github,
+      linkedin: data.linkedin,
+      personalWebsite: data.personalWebsite,
+      resumeUrl: data.resumeUrl,
+      shareResume: data.shareResume,
       school,
       major,
+      levelOfStudy: data.levelOfStudy,
       graduationYear,
+      gender: data.gender,
+      race: data.race,
+      country: data.country,
+      shortAnswer1: data.shortAnswer1,
+      shortAnswer2: data.shortAnswer2,
+      technicalInterests: data.technicalInterests,
+      hackathonsAttended: data.hackathonsAttended,
+      mlhCheckbox1: data.mlhCheckbox1,
+      mlhCheckbox2: data.mlhCheckbox2,
+      mlhCheckbox3: data.mlhCheckbox3,
       submissionStatus: "submitted",
       submittedAt: new Date(),
+      createdAt: new Date(),
     };
 
-    const updatedApplication = await submitApplication(applicationData);
+    // First create/update the application
+    const createResult = await createOrUpdateApplication(applicationData);
+    if (!createResult.success) {
+      return NextResponse.json({
+        success: false,
+        message: "Failed to create application. Please try again.",
+      });
+    }
+
+    // Then submit the application
+    if (!createResult.data) {
+      return NextResponse.json({
+        success: false,
+        message: "Failed to create application data. Please try again.",
+      });
+    }
+
+    const updatedApplication = await submitApplication(createResult.data);
 
     if (!updatedApplication.success) {
       console.error(
