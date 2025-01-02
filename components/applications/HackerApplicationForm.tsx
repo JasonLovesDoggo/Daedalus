@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import {
+  HackerApplicationDraftSchema,
   HackerApplicationSubmissionSchema,
   THackerApplicationSubmission,
 } from "@/lib/validations/application";
@@ -35,7 +37,14 @@ export default function HackerApplicationForm() {
 
   const formErrors = Object.entries(form.formState.errors);
 
-  const onSave = () => {
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<
+    [string, { message: string }][]
+  >([]);
+  const router = useRouter();
+
+  const onSave = async () => {
     const values = form.getValues();
     const isModified =
       JSON.stringify(values) !== JSON.stringify(DEFAULT_FORM_VALUES);
@@ -45,8 +54,47 @@ export default function HackerApplicationForm() {
       return;
     }
 
-    console.log("Form draft saved", values);
-    toast.success("Application draft saved");
+    const validatedFields = HackerApplicationDraftSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+      const fieldErrors = validatedFields.error.flatten().fieldErrors as Record<
+        string,
+        string[] | undefined
+      >;
+      const errors = Object.entries(fieldErrors).map(([field, messages]) => [
+        field,
+        { message: messages?.join(", ") || "" },
+      ]) as [string, { message: string }][];
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors([]);
+
+    setIsSaving(true);
+    try {
+      const response = await fetch("/api/application/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.message || "Failed to save application");
+      }
+
+      toast.success("Application draft saved");
+      router.push("/");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to save application";
+      toast.error(message);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -62,10 +110,38 @@ export default function HackerApplicationForm() {
           className={cn("mx-auto w-full max-w-4xl", {
             "max-w-5xl": currentStep === 3,
           })}
-          onSubmit={form.handleSubmit((values) => {
+          onSubmit={form.handleSubmit(async (values) => {
             if (currentStep !== 3) return;
-            console.log("Form submission values", values);
-            alert("Form submitted!");
+
+            setIsSubmitting(true);
+            try {
+              const response = await fetch("/api/application/submit", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+              });
+
+              const result = await response.json();
+
+              if (!result.success) {
+                throw new Error(
+                  result.message || "Failed to submit application",
+                );
+              }
+
+              toast.success("Application submitted successfully!");
+              router.push("/dashboard");
+            } catch (error) {
+              const message =
+                error instanceof Error
+                  ? error.message
+                  : "Failed to submit application";
+              toast.error(message);
+            } finally {
+              setIsSubmitting(false);
+            }
           })}
         >
           <div className="mb-6 space-y-8 md:mb-8">
@@ -97,6 +173,7 @@ export default function HackerApplicationForm() {
             )}
 
             <FormErrors errors={formErrors} />
+            <FormErrors saveErrors errors={validationErrors} />
           </div>
 
           <hr className="mb-6 md:mb-8" />
@@ -107,6 +184,8 @@ export default function HackerApplicationForm() {
             onPrevious={() => setCurrentStep((prev) => prev - 1)}
             onNext={() => setCurrentStep((prev) => prev + 1)}
             onSave={onSave}
+            isSaving={isSaving}
+            isSubmitting={isSubmitting}
           />
         </form>
       </Form>

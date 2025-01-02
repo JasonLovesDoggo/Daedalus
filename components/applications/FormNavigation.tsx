@@ -8,6 +8,8 @@ interface FormNavigationProps {
   onPrevious: () => void;
   onNext: () => void;
   onSave: () => void;
+  isSaving?: boolean;
+  isSubmitting?: boolean;
 }
 
 export function FormNavigation({
@@ -16,6 +18,8 @@ export function FormNavigation({
   onPrevious,
   onNext,
   onSave,
+  isSaving = false,
+  isSubmitting = false,
 }: FormNavigationProps) {
   const isLastStep = currentStep === totalSteps - 1;
   const isFirstStep = currentStep === 0;
@@ -36,9 +40,10 @@ export function FormNavigation({
           variant="outline"
           type="button"
           onClick={onSave}
+          disabled={isSaving}
           className="w-full px-8 sm:w-auto md:text-base"
         >
-          Save for Later
+          {isSaving ? "Saving..." : "Save for Later"}
         </Button>
       </div>
       <div className="flex w-full gap-4 sm:w-auto">
@@ -47,8 +52,9 @@ export function FormNavigation({
             variant="primary"
             type="submit"
             className="px-10 max-sm:w-full md:text-base"
+            disabled={isSubmitting}
           >
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         ) : (
           <Button
