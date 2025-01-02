@@ -6,6 +6,7 @@ import {
   getHackerApplicationByUserId,
   submitApplication,
 } from "@/lib/db/queries/application";
+import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
 
 // TODO figure out how / when submit will be called
 // e.g. ensure /save is called before /submit
@@ -49,7 +50,41 @@ export async function POST(
       });
     }
 
+    const validationResult = HackerApplicationSubmissionSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errorMessages = Object.values(
+        validationResult.error.flatten().fieldErrors,
+      )
+        .flat()
+        .join(", ");
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid application data",
+          error: errorMessages,
+        },
+        { status: 400 },
+      );
+    }
+
+    // Convert string fields to numbers
+    const age = parseInt(validationResult.data.age);
+    const graduationYear = parseInt(validationResult.data.graduationYear);
+
+    // Convert object fields to strings
+    const pronouns =
+      validationResult.data.pronouns.customValue ||
+      validationResult.data.pronouns.value;
+    const school =
+      validationResult.data.school.customValue ||
+      validationResult.data.school.value;
+    const major =
+      validationResult.data.major.customValue ||
+      validationResult.data.major.value;
+
     const application = await getHackerApplicationByUserId(userId);
+
     if (!application) {
       return NextResponse.json({
         success: false,
@@ -64,7 +99,18 @@ export async function POST(
       });
     }
 
-    const updatedApplication = await submitApplication(application);
+    const applicationData = {
+      ...application,
+      age,
+      pronouns,
+      school,
+      major,
+      graduationYear,
+      submissionStatus: "submitted",
+      submittedAt: new Date(),
+    };
+
+    const updatedApplication = await submitApplication(applicationData);
 
     if (!updatedApplication.success) {
       console.error(

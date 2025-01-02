@@ -9,6 +9,7 @@ import {
   hackerApplications,
   HackerApplicationsInsertData,
   HackerApplicationsSelectData,
+  users,
 } from "../schema";
 import { updateUserHackerApplicationStatus } from "./user";
 
@@ -57,27 +58,32 @@ export const submitApplication = async (
   application: HackerApplicationsSelectData,
 ) => {
   try {
-    const result = HackerApplicationSubmissionSchema.safeParse(application);
-    if (!result.success) {
-      return { success: false, errors: result.error.errors };
-    }
-
     const { userId } = application;
 
-    const updatedUser = await updateUserHackerApplicationStatus(
-      userId,
-      "pending",
-    );
+    const result = await db.transaction(async (tx) => {
+      // Update application
+      const [updatedApplication] = await tx
+        .update(hackerApplications)
+        .set({
+          ...application,
+          updatedAt: new Date(),
+        })
+        .where(eq(hackerApplications.userId, userId))
+        .returning();
 
-    const updatedApplication = await db
-      .update(hackerApplications)
-      .set({
-        submissionStatus: "submitted",
-      })
-      .where(eq(hackerApplications.userId, userId))
-      .returning();
+      // Update user status
+      await tx
+        .update(users)
+        .set({
+          applicationStatus: "pending",
+          updatedAt: new Date(),
+        })
+        .where(eq(users.id, userId));
 
-    return { success: true, data: updatedApplication };
+      return updatedApplication;
+    });
+
+    return { success: true, data: result };
   } catch (error) {
     return { success: false, errors: [error] };
   }
