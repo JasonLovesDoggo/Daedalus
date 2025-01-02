@@ -6,10 +6,9 @@ export const HackerApplicationDraftSchema = z
     lastName: z.string().trim(),
     age: z
       .string()
-      .min(1, { message: "Invalid age provided." })
-      .max(3, { message: "Invalid age provided." })
       .refine(
         (value) => {
+          if (!value) return true;
           const age = parseInt(value);
           return age >= 1 && age <= 111;
         },
@@ -137,9 +136,9 @@ export const HackerApplicationDraftSchema = z
     levelOfStudy: z.string().trim().optional(),
     graduationYear: z
       .string()
-      .min(1, { message: "Invalid year provided." })
       .refine(
         (value) => {
+          if (!value) return true;
           const year = parseInt(value);
           return year >= 2000 && year <= 2077;
         },
@@ -327,8 +326,16 @@ export const HackerApplicationSubmissionSchema = z
           message: "Invalid value provided.",
         },
       ),
-    mlhCheckbox1: z.boolean(),
-    mlhCheckbox2: z.boolean(),
+    mlhCheckbox1: z
+      .boolean({ required_error: "You must agree to the MLH Code of Conduct." })
+      .refine((val) => val === true, {
+        message: "You must agree to the MLH Code of Conduct.",
+      }),
+    mlhCheckbox2: z
+      .boolean({ required_error: "You must agree to the MLH Privacy Policy." })
+      .refine((val) => val === true, {
+        message: "You must agree to the MLH Privacy Policy and Contest Terms.",
+      }),
     mlhCheckbox3: z.boolean(),
   })
   .strict();

@@ -68,7 +68,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Short Answer 2" value={values.shortAnswer2} />
       </ReviewSection>
 
-      <ReviewSection title="MLH Agreements">
+      <ReviewSection title="MLH Agreements" columns="1">
         <MLHStep control={form.control} />
       </ReviewSection>
     </div>

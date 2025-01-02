@@ -121,6 +121,7 @@ export function useHackerApplication(
 
       toast.success("Application draft saved");
       router.push("/");
+      router.refresh();
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to save application";
