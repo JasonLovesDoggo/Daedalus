@@ -23,6 +23,7 @@ const buttonVariants = cva(
         ghost:
           "text-textSecondary hover:bg-primary/10 hover:text-primary focus-visible:ring-primary",
         link: "text-primary underline-offset-4 hover:underline hover:text-primaryDark focus-visible:ring-primary",
+        auth: "rounded-sm bg-gradient-to-r from-[#132C57] to-[#0A1F44] text-white shadow-md hover:shadow-lg hover:tracking-widest hover:shadow-[#0A1F44]/50 focus-visible:ring-[#0A1F44]",
         unstyled: "",
       },
       size: {

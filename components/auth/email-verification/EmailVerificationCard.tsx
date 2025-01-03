@@ -78,7 +78,7 @@ export function EmailVerificationCard() {
         </InputOTP>
         {error && <p className="text-center text-sm text-red-500">{error}</p>}
         <Button
-          variant="primary"
+          variant="auth"
           className="w-full text-sm"
           onClick={() => router.push("/login")}
           disabled={isLoading}

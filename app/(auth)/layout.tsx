@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { AnimatedSnowflake } from "@/components/ui/AnimatedSnowflake";
 import { BackButton } from "@/components/ui/back-button";
 import { Tabs } from "@/components/ui/tabs";
 
@@ -9,11 +10,27 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center bg-gradient-to-b from-[#0A1F44] via-slate-200 to-white px-4 pb-12 pt-24 md:pb-20 md:pt-36">
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-gradient-to-b from-[#0A1F44] via-slate-200 to-white px-4 pb-12 pt-24 md:pb-20 md:pt-36">
+      {/* Aurora background */}
+      <Image
+        src="/aurora.webp"
+        fill
+        alt="Aurora background"
+        className="pointer-events-none absolute inset-0 animate-aurora object-cover opacity-20"
+      />
+
+      {/* Snowflakes */}
+
+      {/* Additional Animated Snowflakes */}
+      <AnimatedSnowflake className="-left-40 -top-40 scale-75" />
+      <AnimatedSnowflake className="right-0 top-0" />
+      <AnimatedSnowflake className="inset-x-0 bottom-0 scale-150" />
+
+      {/* Grainy texture */}
       <Image
         src="/grainy-texture.jpg"
         fill
-        alt="idk"
+        alt="Grainy texture"
         className="pointer-events-none absolute inset-0 object-cover opacity-5"
       />
 

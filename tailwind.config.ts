@@ -112,11 +112,23 @@ const config = {
             opacity: "0.8",
           },
         },
+        aurora: {
+          "0%": {
+            transform: "translateX(0) translateY(-5%)",
+          },
+          "50%": {
+            transform: "translateX(0) translateY(0%)",
+          },
+          "100%": {
+            transform: "translateX(0) translateY(-5%)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "snow-float": "snow-float 8s ease-in-out infinite",
+        aurora: "aurora 30s ease-in-out infinite alternate",
       },
     },
   },

@@ -82,7 +82,7 @@ const ForgotPasswordForm = ({}: Props) => {
         />
 
         <Button
-          variant="primary"
+          variant="auth"
           type="submit"
           className="w-full"
           disabled={isPending}

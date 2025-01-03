@@ -20,7 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
 type ResetPasswordParamsProps = {
   token: string;
@@ -114,7 +113,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
         />
 
         <Button
-          variant="primary"
+          variant="auth"
           type="submit"
           className="w-full"
           disabled={isPending}
