@@ -1,4 +1,4 @@
-import SignInFooter from "./SignInFooter";
+import AuthFooter from "../AuthFooter";
 import SignInForm from "./SignInForm";
 import SignInHeader from "./SignInHeader";
 
@@ -10,7 +10,7 @@ const SignInCard = ({}: Props) => {
       <SignInHeader />
       <SignInForm />
       <hr className="border-gray-300" />
-      <SignInFooter />
+      <AuthFooter showSignIn={false} />
     </div>
   );
 };

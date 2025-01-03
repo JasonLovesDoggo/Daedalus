@@ -11,6 +11,8 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
+import AuthFooter from "../AuthFooter";
+
 export function EmailVerificationCard() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -54,10 +56,10 @@ export function EmailVerificationCard() {
   return (
     <div className="w-full space-y-4 rounded-md p-4 md:space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="font-rubik text-2xl font-semibold md:text-3xl">
+        <h1 className="font-rubik text-2xl font-semibold text-white md:text-3xl">
           Verify Your Email
         </h1>
-        <p className="text-gray-500 max-md:text-sm">
+        <p className="text-white/75 max-md:text-sm">
           Enter the 6-digit code sent to your email
         </p>
       </div>
@@ -84,17 +86,7 @@ export function EmailVerificationCard() {
         </Button>
       </div>
       <hr className="border-gray-300" />
-      <div className="flex flex-col">
-        <p className="text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <a
-            href="/sign-in"
-            className="underline underline-offset-4 hover:text-primary"
-          >
-            Sign In
-          </a>
-        </p>
-      </div>
+      <AuthFooter showSignUp={false} showResetPassword={false} />
     </div>
   );
 }

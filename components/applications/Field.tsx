@@ -35,7 +35,7 @@ export function Field({ label, value, customValue }: FieldProps) {
 
   return (
     <div className="space-y-1 overflow-hidden">
-      <p className="text-sm font-medium text-gray-600 max-md:text-xs">
+      <p className="text-sm font-medium text-white/75 max-md:text-xs">
         {label}
       </p>
       {isEmpty ? (
