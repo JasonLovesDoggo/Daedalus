@@ -8,41 +8,40 @@ import { cn } from "@/lib/utils";
 
 export function Tabs() {
   const pathname = usePathname();
-  const activeTab = pathname?.includes("sign-up") ? "sign-up" : "sign-in";
 
   return (
-    <div className="absolute left-1/2 top-12 flex w-fit -translate-x-1/2 gap-4 rounded-full border-2 border-white bg-white/10 p-1 backdrop-blur-sm md:top-20">
+    <div className="absolute left-1/2 top-12 flex w-fit -translate-x-1/2 gap-4 rounded-full border-2 border-white bg-white/50 p-1 backdrop-blur-sm md:top-20">
       <Link
         href="/sign-in"
         className={cn(
-          "relative text-sm font-medium transition-colors hover:text-primary",
-          activeTab === "sign-in" ? "text-foreground" : "text-muted-foreground",
+          "relative px-3 py-1 text-sm font-medium transition-colors hover:text-textSecondary md:px-4 md:py-1.5 md:text-base",
+          pathname?.includes("sign-in") ? "text-textPrimary" : "text-zinc-500",
         )}
       >
-        {activeTab === "sign-in" && (
+        {pathname?.includes("sign-in") && (
           <motion.div
-            layoutId="underline"
-            className="absolute bottom-[-4px] left-0 right-0 h-[2px] bg-primary"
+            layoutId="background"
+            className="absolute inset-0 rounded-full bg-white/75"
             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
           />
         )}
-        Sign In
+        <span className="relative">Sign In</span>
       </Link>
       <Link
         href="/sign-up"
         className={cn(
-          "relative text-sm font-medium transition-colors hover:text-primary",
-          activeTab === "sign-up" ? "text-foreground" : "text-muted-foreground",
+          "relative px-3 py-1 text-sm font-medium transition-colors hover:text-textSecondary md:px-4 md:py-1.5 md:text-base",
+          pathname?.includes("sign-up") ? "text-textPrimary" : "text-zinc-500",
         )}
       >
-        {activeTab === "sign-up" && (
+        {pathname?.includes("sign-up") && (
           <motion.div
-            layoutId="underline"
-            className="absolute bottom-[-4px] left-0 right-0 h-[2px] bg-primary"
+            layoutId="background"
+            className="absolute inset-0 rounded-full bg-white/75"
             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
           />
         )}
-        Sign Up
+        <span className="relative">Sign Up</span>
       </Link>
     </div>
   );
