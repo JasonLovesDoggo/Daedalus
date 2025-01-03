@@ -2,7 +2,7 @@ import React from "react";
 import { LucideIcon } from "lucide-react";
 
 interface ApplicationCardHeaderProps {
-  title: string;
+  title: React.ReactNode;
   description: string;
   icon: LucideIcon;
 }
