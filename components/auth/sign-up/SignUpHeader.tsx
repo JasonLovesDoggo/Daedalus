@@ -1,16 +1,12 @@
-import AuthProviders from "../AuthProviders";
-
 type Props = {};
+
 const SignUpHeader = ({}: Props) => {
   return (
     <div>
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Sign Up</h1>
-        <p className="text-sm text-muted-foreground">
-          to get started with Hack Canada
-        </p>
-      </div>
-      <AuthProviders />
+      <h1 className="font-rubik text-2xl font-bold md:text-3xl">Sign Up</h1>
+      <p className="text-muted-foreground max-md:text-sm">
+        to get started with Hack Canada
+      </p>
     </div>
   );
 };

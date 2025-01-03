@@ -1,16 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "../ui/button";
-
 export const ContactSection = () => {
   return (
-    <div className="relative rounded-md border border-gray-300 p-4 md:p-8 xl:p-12">
+    <div className="relative rounded-md border border-gray-300 p-4 shadow-sm md:p-8 xl:p-12">
       <Image
         src="/hills-1.png"
         alt="hills"
         fill
         className="absolute inset-0 -z-10 object-cover blur-sm"
+        sizes="200px"
       />
 
       <span className="absolute left-2 top-2 text-5xl font-light text-black/25 md:text-6xl">

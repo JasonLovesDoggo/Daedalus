@@ -28,14 +28,20 @@ export const ApplicationCard = ({
   } = application;
 
   return (
-    <Link
-      href={disabled || alreadyApplied ? "" : href}
+    <div
       className={cn(
         "group relative block rounded-lg border border-border bg-white p-6 shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800",
-        disabled && "cursor-not-allowed opacity-60",
+        disabled && "opacity-60",
         alreadyApplied && "cursor-default border-primary/50",
+        // !alreadyApplied && "cursor-pointer",
       )}
     >
+      {!alreadyApplied && (
+        <Link
+          href={disabled ? "" : href}
+          className={`absolute inset-0 z-10 ${disabled ? "cursor-not-allowed" : ""}`}
+        />
+      )}
       {alreadyApplied && (
         <div className="absolute -right-2 -top-2 rounded-full bg-primary px-2 py-1 text-xs text-white">
           Applied
@@ -83,6 +89,6 @@ export const ApplicationCard = ({
           </Link>
         </div>
       )}
-    </Link>
+    </div>
   );
 };

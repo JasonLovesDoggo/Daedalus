@@ -78,7 +78,7 @@ const SignInForm = ({}: Props) => {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="pb-2">
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
