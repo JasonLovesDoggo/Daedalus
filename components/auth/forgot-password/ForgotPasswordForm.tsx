@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -16,13 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
 type Props = {};
 
 const ForgotPasswordForm = ({}: Props) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -43,14 +44,16 @@ const ForgotPasswordForm = ({}: Props) => {
 
         if (res.success) {
           toast.success(res.message);
+          router.push("/sign-in");
         } else {
           toast.error(res.message);
           setError(res.message);
         }
       });
     } catch (error) {
-      console.error("Fetch error:", error);
-      toast.error("Something bad happened.");
+      toast.error(
+        "Something went wrong. Please try again or contact us if the error persists.",
+      );
     }
   };
 
@@ -84,7 +87,7 @@ const ForgotPasswordForm = ({}: Props) => {
           className="w-full"
           disabled={isPending}
         >
-          {isPending ? "Sending Email..." : "Reset My Password"}
+          {isPending ? "Sending Email..." : "Send Reset Link"}
         </Button>
       </form>
     </Form>

@@ -1,3 +1,4 @@
+import AuthCardWrapper from "../AuthCardWrapper";
 import AuthFooter from "../AuthFooter";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import ForgotPasswordHeader from "./ForgotPasswordHeader";
@@ -6,12 +7,12 @@ type Props = {};
 
 const ForgotPasswordCard = ({}: Props) => {
   return (
-    <div className="w-full space-y-4 rounded-md p-4 md:space-y-6">
+    <AuthCardWrapper>
       <ForgotPasswordHeader />
       <ForgotPasswordForm />
-      <hr />
-      <AuthFooter showResetPassword={false} />
-    </div>
+      <hr className="border-gray-400" />
+      <AuthFooter showResetPassword={false} showSignUp={false} />
+    </AuthCardWrapper>
   );
 };
 

@@ -1,15 +1,16 @@
+import AuthCardWrapper from "../AuthCardWrapper";
 import AuthFooter from "../AuthFooter";
 import ResetPasswordForm from "./ResetPasswordForm";
 import ResetPasswordHeader from "./ResetPasswordHeader";
 
 const ResetPasswordCard = ({ token }: { token: string }) => {
   return (
-    <div className="w-full space-y-4 rounded-md p-4 md:space-y-6">
+    <AuthCardWrapper>
       <ResetPasswordHeader />
       <ResetPasswordForm token={token} />
-      <hr />
+      <hr className="border-gray-400" />
       <AuthFooter showResetPassword={false} />
-    </div>
+    </AuthCardWrapper>
   );
 };
 

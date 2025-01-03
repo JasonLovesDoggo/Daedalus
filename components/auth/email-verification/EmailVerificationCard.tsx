@@ -11,6 +11,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
+import AuthCardWrapper from "../AuthCardWrapper";
 import AuthFooter from "../AuthFooter";
 
 export function EmailVerificationCard() {
@@ -54,12 +55,12 @@ export function EmailVerificationCard() {
   };
 
   return (
-    <div className="w-full space-y-4 rounded-md p-4 md:space-y-6">
+    <AuthCardWrapper>
       <div className="space-y-2 text-center">
-        <h1 className="font-rubik text-2xl font-semibold text-white md:text-3xl">
+        <h1 className="font-rubik text-2xl font-semibold text-textPrimary md:text-3xl">
           Verify Your Email
         </h1>
-        <p className="text-white/75 max-md:text-sm">
+        <p className="text-black/50 max-md:text-sm">
           Enter the 6-digit code sent to your email
         </p>
       </div>
@@ -70,7 +71,7 @@ export function EmailVerificationCard() {
               <InputOTPSlot
                 key={index}
                 index={index}
-                className="border-textSecondary"
+                className="border-textSecondary/70"
               />
             ))}
           </InputOTPGroup>
@@ -82,11 +83,11 @@ export function EmailVerificationCard() {
           onClick={() => router.push("/login")}
           disabled={isLoading}
         >
-          Didn't receive a code? Resend
+          Need a new code?
         </Button>
       </div>
-      <hr className="border-gray-300" />
+      <hr className="border-gray-400" />
       <AuthFooter showSignUp={false} showResetPassword={false} />
-    </div>
+    </AuthCardWrapper>
   );
 }

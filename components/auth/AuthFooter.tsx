@@ -35,28 +35,25 @@ const AuthFooter = ({
           </a>
         </p>
       )}
-      {showResetPassword && (
-        <p className="text-center text-sm text-muted-foreground">
-          Forgot your password?{" "}
+      <div className="flex items-center justify-around">
+        {showResetPassword && (
           <a
             href="/forgot-password"
-            className="font-medium text-primary transition-all hover:text-primary/80 hover:underline"
+            className="text-center text-sm font-medium text-primary transition-all hover:text-primary/80 hover:underline"
           >
-            Reset Password
+            Forgot your password?
           </a>
-        </p>
-      )}
-      {showContactUs && (
-        <p className="text-center text-sm text-muted-foreground">
-          Having trouble?{" "}
+        )}
+        {showContactUs && (
           <a
-            href="/contact"
-            className="font-medium text-primary transition-all hover:text-primary/80 hover:underline"
+            href="mailto:admin@hackcanada.org"
+            target="_blank"
+            className="text-right text-sm font-medium text-primary transition-all hover:text-primary/80 hover:underline"
           >
-            Contact Us
+            Having trouble?
           </a>
-        </p>
-      )}
+        )}
+      </div>
     </div>
   );
 };
