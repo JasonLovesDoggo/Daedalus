@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export const Snowflakes = () => {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      {[...Array(30)].map((_, i) => {
+      {[...Array(15)].map((_, i) => {
         const size = Math.random() * 24 + 12;
         const duration = Math.random() * 10 + 10;
         const delay = Math.random() * 5;
