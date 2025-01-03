@@ -26,24 +26,15 @@ const ApplicationPage = async () => {
         </p>
       </div>
       <div className="flex w-full flex-col gap-6">
-        {applications.map((application) => {
-          if (alreadyApplied && application.title === "Hacker Applications") {
-            return (
-              <ApplicationCard
-                key={application.title}
-                application={application}
-                alreadyApplied
-              />
-            );
-          }
-
-          return (
-            <ApplicationCard
-              key={application.title}
-              application={application}
-            />
-          );
-        })}
+        {applications.map((application) => (
+          <ApplicationCard
+            key={application.title}
+            application={application}
+            alreadyApplied={
+              alreadyApplied && application.title === "Hacker Applications"
+            }
+          />
+        ))}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Check, CheckCheck } from "lucide-react";
+import { Check } from "lucide-react";
 
 import { Application } from "@/config/applications";
 import { cn } from "@/lib/utils";
@@ -10,12 +10,12 @@ import { ApplicationCardStatus } from "./ApplicationCardStatus";
 
 interface ApplicationCardProps {
   application: Application;
-  alreadyApplied?: boolean;
+  alreadyApplied: boolean;
 }
 
 export const ApplicationCard = ({
   application,
-  alreadyApplied,
+  alreadyApplied = false,
 }: ApplicationCardProps) => {
   const {
     title,
@@ -29,11 +29,11 @@ export const ApplicationCard = ({
 
   return (
     <Link
-      href={disabled ? "" : href}
+      href={disabled || alreadyApplied ? "" : href}
       className={cn(
         "group relative block rounded-lg border border-border bg-white p-6 shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800",
         disabled && "cursor-not-allowed opacity-60",
-        alreadyApplied && "border-primary/50",
+        alreadyApplied && "cursor-default border-primary/50",
       )}
     >
       {alreadyApplied && (
@@ -41,7 +41,7 @@ export const ApplicationCard = ({
           Applied
         </div>
       )}
-      <div className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-br from-primaryLight to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
+      <div className="pointer-events-auto absolute inset-0 -z-10 rounded-lg bg-gradient-to-br from-primaryLight to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
       <ApplicationCardHeader
         title={
           <div className="flex items-center gap-2">
@@ -61,10 +61,10 @@ export const ApplicationCard = ({
       <ApplicationCardStatus status={status} deadline={deadline} />
 
       {alreadyApplied && (
-        <div className="mt-4">
+        <div className="mt-4 max-xs:w-full">
           <Link
             href="/applications/hacker/review"
-            className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+            className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20 max-xs:w-full max-xs:justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

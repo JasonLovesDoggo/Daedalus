@@ -73,7 +73,7 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
         <h3 className="text-lg font-medium md:text-xl">
           Interested in anything else?
         </h3>
-        <div className="flex items-center gap-2.5 max-sm:flex-col">
+        <div className="flex gap-2.5 max-xs:flex-col xs:items-center">
           <Link
             href="/applications"
             className={buttonVariants({ variant: "primary" })}
