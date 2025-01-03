@@ -11,7 +11,11 @@ const ForgotPasswordCard = ({}: Props) => {
       <ForgotPasswordHeader />
       <ForgotPasswordForm />
       <hr className="border-gray-400" />
-      <AuthFooter showResetPassword={false} showSignUp={false} />
+      <AuthFooter
+        showResetPassword={false}
+        showSignUp={false}
+        customSignInLabel="Remember your password"
+      />
     </AuthCardWrapper>
   );
 };
