@@ -52,10 +52,12 @@ export function EmailVerificationCard() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-8 rounded-md border p-6 md:p-10">
+    <div className="w-full space-y-4 rounded-md p-4 md:space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold">Verify Your Email</h1>
-        <p className="text-muted-foreground">
+        <h1 className="font-rubik text-2xl font-semibold md:text-3xl">
+          Verify Your Email
+        </h1>
+        <p className="text-gray-500 max-md:text-sm">
           Enter the 6-digit code sent to your email
         </p>
       </div>
@@ -63,19 +65,35 @@ export function EmailVerificationCard() {
         <InputOTP maxLength={6} onComplete={handleSubmit} disabled={isLoading}>
           <InputOTPGroup className="mx-auto">
             {[...Array(6)].map((_, index) => (
-              <InputOTPSlot key={index} index={index} />
+              <InputOTPSlot
+                key={index}
+                index={index}
+                className="border-textSecondary"
+              />
             ))}
           </InputOTPGroup>
         </InputOTP>
         {error && <p className="text-center text-sm text-red-500">{error}</p>}
         <Button
-          variant="link"
-          className="w-full text-sm text-muted-foreground"
+          variant="primary"
+          className="w-full text-sm"
           onClick={() => router.push("/login")}
           disabled={isLoading}
         >
           Didn't receive a code? Resend
         </Button>
+      </div>
+      <hr className="border-gray-300" />
+      <div className="flex flex-col">
+        <p className="text-center text-sm text-gray-500">
+          Already have an account?{" "}
+          <a
+            href="/sign-in"
+            className="underline underline-offset-4 hover:text-primary"
+          >
+            Sign In
+          </a>
+        </p>
       </div>
     </div>
   );

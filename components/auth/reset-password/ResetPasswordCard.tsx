@@ -3,7 +3,7 @@ import ResetPasswordHeader from "./ResetPasswordHeader";
 
 const ResetPasswordCard = ({ token }: { token: string }) => {
   return (
-    <div className="w-full max-w-md space-y-8 rounded-md border p-6 md:p-10">
+    <div className="w-full space-y-4 rounded-md p-4 md:space-y-6">
       <ResetPasswordHeader />
       <ResetPasswordForm token={token} />
       <hr />
@@ -18,7 +18,7 @@ const ResetPasswordCard = ({ token }: { token: string }) => {
           </a>
         </p>
         <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          New to Hack Canada?{" "}
           <a
             href="/sign-up"
             className="underline underline-offset-4 hover:text-primary"
