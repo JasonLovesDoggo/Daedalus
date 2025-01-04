@@ -3,7 +3,13 @@ import { render } from "@react-email/render";
 
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 
-const ses = new SES({ region: process.env.AWS_SES_REGION });
+const ses = new SES({
+  region: process.env.AWS_SES_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY || "",
+  },
+});
 
 export const sendEmail = async (to: string, subject: string, body: string) => {
   const params: SendEmailCommandInput = {
