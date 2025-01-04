@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import SidebarLogo from "./SidebarLogo";
 import SidebarNav from "./SidebarNav";
 import SidebarUser from "./SidebarUser";
@@ -12,6 +14,14 @@ const Sidebar = ({}: Props) => {
         <SidebarNav />
         <SidebarUser />
       </div>
+
+      <Image
+        src="/sidebar-waves.svg"
+        alt="Sidebar waves"
+        width={1}
+        height={1}
+        className="pointer-events-none absolute bottom-0 left-0 w-full select-none object-cover"
+      />
     </div>
   );
 };
