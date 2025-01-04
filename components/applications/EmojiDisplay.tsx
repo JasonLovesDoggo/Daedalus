@@ -7,10 +7,14 @@ interface EmojiDisplayProps {
 const EMOJI_RANGES = [
   { min: -Infinity, max: 0, emoji: "🫵😹" },
   { min: 1, max: 3, emoji: "😊" },
-  { min: 4, max: 7, emoji: "🤓" },
-  { min: 8, max: 15, emoji: "😎" },
-  { min: 16, max: 24, emoji: "🤯" },
-  { min: 25, max: Infinity, emoji: "💀" },
+  { min: 4, max: 5, emoji: "🤓" },
+  { min: 6, max: 7, emoji: "🧐" },
+  { min: 8, max: 10, emoji: "😎" },
+  { min: 11, max: 13, emoji: "🥳" },
+  { min: 14, max: 16, emoji: "🤩" },
+  { min: 17, max: 19, emoji: "🤯" },
+  { min: 20, max: 22, emoji: "🥴" },
+  { min: 23, max: Infinity, emoji: "💀" },
 ];
 
 export function EmojiDisplay({ count }: EmojiDisplayProps) {
@@ -21,7 +25,7 @@ export function EmojiDisplay({ count }: EmojiDisplayProps) {
   )?.emoji;
 
   return matchedEmoji ? (
-    <p className="pointer-events-none absolute right-3 top-2 z-20 text-lg md:right-8 md:top-1.5 md:text-xl">
+    <p className="pointer-events-none z-20 text-lg md:text-xl">
       {matchedEmoji}
     </p>
   ) : null;

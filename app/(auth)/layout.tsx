@@ -14,9 +14,10 @@ export default function AuthLayout({
       {/* Aurora background */}
       <Image
         src="/aurora.webp"
-        fill
+        width={1000}
+        height={20}
         alt="Aurora background"
-        className="pointer-events-none absolute inset-0 animate-aurora object-cover opacity-20"
+        className="pointer-events-none absolute right-0 top-0 w-[90%] animate-aurora object-contain opacity-90"
       />
 
       {/* Snowflakes */}

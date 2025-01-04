@@ -69,8 +69,6 @@ export function useHackerApplication(
   const [validationErrors, setValidationErrors] = useState<
     [string, { message: string }][]
   >([]);
-  const [submitted, setSubmitted] = useState(false);
-
   const defaultValues = getDefaultValues(existingApplication);
   const form = useForm<THackerApplicationSubmission>({
     resolver: zodResolver(HackerApplicationSubmissionSchema),

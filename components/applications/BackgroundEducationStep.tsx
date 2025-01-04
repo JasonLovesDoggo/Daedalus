@@ -250,7 +250,11 @@ export function BackgroundEducationStep({
             <FormControl>
               <div className="relative">
                 <Input type="number" placeholder="0" {...field} />
-                {field.value && <EmojiDisplay count={parseInt(field.value)} />}
+                {field.value && (
+                  <div className="absolute right-3 top-2 md:right-8 md:top-1.5">
+                    <EmojiDisplay count={parseInt(field.value)} />
+                  </div>
+                )}
               </div>
             </FormControl>
 

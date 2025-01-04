@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { APPLICATION_STEPS } from "../../config/application-form";
 import { useHackerApplication } from "../../hooks/useHackerApplication";
 import PageWrapper from "../PageWrapper";
-import { buttonVariants } from "../ui/button";
 import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
 import FormErrors from "./FormErrors";
@@ -16,7 +15,6 @@ import { ReviewDisplay } from "./ReviewDisplay";
 import { ShortAnswersStep } from "./ShortAnswersStep";
 import { StepContentWrapper } from "./StepContentWrapper";
 import { StepNavigation } from "./StepNavigation";
-import SubmissionSuccess from "./SubmissionSuccess";
 
 type Props = {
   existingApplication: HackerApplicationsSelectData | null;
