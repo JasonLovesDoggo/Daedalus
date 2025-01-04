@@ -17,41 +17,69 @@ interface WelcomeEmailProps {
   verificationUrl: string;
 }
 
-const WelcomeEmail: React.FC<WelcomeEmailProps> = ({
+const WelcomeEmail = ({
   name,
   verificationCode,
   verificationUrl,
-}) => {
+}: WelcomeEmailProps) => {
   return (
     <Html>
       <Head />
-      <Preview>Welcome to Hack Canada! Please verify your email.</Preview>
-      <Tailwind>
+      <Preview>
+        Welcome to Hack Canada! Your verification code: {verificationCode}
+      </Preview>
+      <Tailwind
+        config={{
+          theme: {
+            extend: {
+              colors: {
+                primary: "#1E90FF",
+                primaryDark: "#1565C0",
+                background: "#FFFFFF",
+                backgroundMuted: "#F8FAFC",
+                textPrimary: "#1F2937",
+                textSecondary: "#4B5563",
+                textMuted: "#9CA3AF",
+              },
+            },
+          },
+        }}
+      >
         <Body className="bg-backgroundMuted">
-          <Container className="mx-auto max-w-2xl px-3 py-6">
-            <Section className="rounded-lg bg-background p-6 shadow-md">
+          <Container className="mx-auto max-w-[42rem] px-3 py-6">
+            <Section className="rounded-lg bg-background p-6 shadow-sm">
               <Heading className="mb-4 text-2xl font-bold text-primary">
                 Welcome, {name}!
               </Heading>
               <Text className="mt-4 text-textPrimary">
-                Thank you for signing up. Please verify your email address by
-                clicking the button below.
+                Thank you for signing up. Please verify your email address using
+                the code below:
               </Text>
-              <Section className="mt-6 rounded-lg bg-backgroundMuted p-4">
-                <Heading className="text-xl font-bold text-primaryDark">
-                  Verification Code
-                </Heading>
-                <Text className="mt-2 text-textSecondary">
-                  Your verification code is: <strong>{verificationCode}</strong>
-                </Text>
+
+              <Section className="mt-6 rounded-md bg-backgroundMuted p-4">
+                <div className="text-center">
+                  <Text className="text-textSecondary">
+                    Your verification code is:
+                  </Text>
+                  <div className="mt-2 text-3xl font-bold tracking-wider text-primaryDark">
+                    {verificationCode}
+                  </div>
+                  <Text className="mt-4 text-textSecondary">
+                    Or click the button below to verify automatically:
+                  </Text>
+                </div>
               </Section>
-              <Button
-                href={verificationUrl}
-                className="mt-6 rounded-md bg-primary px-4 py-2 font-bold text-white"
-              >
-                Verify Email
-              </Button>
-              <Text className="mt-8 text-textMuted">
+
+              <div className="mt-6 text-center">
+                <Button
+                  href={verificationUrl}
+                  className="inline-block rounded-md bg-primary px-6 py-3 text-center font-bold text-white no-underline hover:bg-primaryDark"
+                >
+                  Verify Email
+                </Button>
+              </div>
+
+              <Text className="mt-8 text-center text-textMuted">
                 If you did not sign up for our platform, please ignore this
                 email.
               </Text>

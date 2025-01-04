@@ -1,45 +1,57 @@
-import { SES } from "@aws-sdk/client-ses";
+import { SendEmailCommandInput, SES } from "@aws-sdk/client-ses";
 import { render } from "@react-email/render";
 
-const ses = new SES({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
-  },
-});
+import WelcomeEmail from "@/components/emails/WelcomeEmail";
 
-interface EmailOptions {
-  to: string;
-  subject: string;
-  react: React.ReactElement;
-}
+const ses = new SES({ region: process.env.AWS_SES_REGION });
 
-export const sendEmail = async ({ to, subject, react }: EmailOptions) => {
-  const emailHtml = await render(react);
-
-  const params = {
+export const sendEmail = async (to: string, subject: string, body: string) => {
+  const params: SendEmailCommandInput = {
     Source: process.env.AWS_SES_VERIFIED_EMAIL || "",
     Destination: {
       ToAddresses: [to],
     },
     Message: {
-      Subject: {
-        Data: subject,
-      },
       Body: {
         Html: {
-          Data: emailHtml,
+          Charset: "UTF-8",
+          Data: body,
         },
+        Text: {
+          Charset: "UTF-8",
+          Data: body.replace(/<[^>]+>/g, ""),
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: subject,
       },
     },
   };
 
   try {
     await ses.sendEmail(params);
-    console.log("Email sent successfully!");
+    return { success: true };
   } catch (error) {
-    console.error("Error sending email:", error);
-    throw error;
+    console.error("Error sending email with SES:", error);
+    return { error: "Something went wrong. Email could not be sent." };
   }
+};
+
+export const sendWelcomeEmail = async (
+  name: string,
+  subject: string,
+  email: string,
+) => {
+  const body = await render(
+    WelcomeEmail({
+      name,
+      verificationCode: "123456",
+      verificationUrl: "https://google.com",
+    }),
+  );
+
+  const result = await sendEmail(email, subject, body);
+
+  return result;
 };
