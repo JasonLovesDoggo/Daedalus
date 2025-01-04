@@ -25,11 +25,7 @@ const SidebarNavLink = ({ name, href, icon: Icon }: SidebarNavLinkProps) => {
       )}
     >
       <Icon
-        size={24}
-        className={cn(
-          "transition-transform duration-300",
-          isActive && "scale-[1.2]",
-        )}
+        className={cn("size-6 transition-transform", isActive && "scale-[1.2]")}
       />
       <span
         className={cn(

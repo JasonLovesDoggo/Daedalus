@@ -19,21 +19,6 @@ export async function POST(
     }
 
     const body = await req.json();
-    const { userId } = body;
-
-    if (!userId) {
-      return NextResponse.json({
-        success: false,
-        message: "User ID is required",
-      });
-    }
-
-    if (currentUser.id !== userId) {
-      return NextResponse.json({
-        success: false,
-        message: "You can only save your own application",
-      });
-    }
 
     if (currentUser.role !== "unassigned") {
       return NextResponse.json({
@@ -45,13 +30,49 @@ export async function POST(
 
     const validationResult = HackerApplicationDraftSchema.safeParse(body);
     if (!validationResult.success) {
-      return NextResponse.json({
-        success: false,
-        message: "Invalid application data",
-        // error: validationResult.error.errors,
-      });
+      console.error("Invalid application data", validationResult.error);
+
+      const errorMessages = Object.values(
+        validationResult.error.flatten().fieldErrors,
+      )
+        .flat()
+        .join(", ");
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid application data",
+          error: errorMessages,
+        },
+        { status: 400 },
+      );
     }
-    const updatedApplication = await createOrUpdateApplication(body);
+
+    // Convert string fields to numbers
+    const age = validationResult.data.age
+      ? parseInt(validationResult.data.age)
+      : null;
+    const graduationYear = validationResult.data.graduationYear
+      ? parseInt(validationResult.data.graduationYear)
+      : null;
+
+    const applicationData = {
+      ...validationResult.data,
+      age,
+      graduationYear,
+      pronouns:
+        validationResult.data.pronouns.customValue ||
+        validationResult.data.pronouns.value,
+      school:
+        validationResult.data.school.customValue ||
+        validationResult.data.school.value,
+      major:
+        validationResult.data.major.customValue ||
+        validationResult.data.major.value,
+      userId: currentUser.id,
+      submissionStatus: "draft",
+    };
+
+    const updatedApplication = await createOrUpdateApplication(applicationData);
     if (!updatedApplication.success) {
       return NextResponse.json({
         success: false,
@@ -59,11 +80,9 @@ export async function POST(
       });
     }
 
-    // TODO return data?
     return NextResponse.json({
       success: true,
       message: "Application saved successfully",
-      //   data: updatedApplication.data,
     });
   } catch (error) {
     return NextResponse.json({

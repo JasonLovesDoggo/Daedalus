@@ -18,11 +18,7 @@ const SignInPage = () => {
     },
   });
 
-  return (
-    <div className="flex min-h-svh items-center justify-center px-4">
-      <SignInCard />
-    </div>
-  );
+  return <SignInCard />;
 };
 
 export default SignInPage;

@@ -6,7 +6,7 @@ const SidebarLogo = () => {
     <div className="flex items-center space-x-2">
       {/* TODO: Add Logo */}
       <Image src="/logo.webp" alt="Hack Canada Logo" width={48} height={48} />
-      <p className="font-bold">
+      <p className="text-lg font-bold">
         Hack
         <br />
         Canada

@@ -11,6 +11,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
+import AuthCardWrapper from "../AuthCardWrapper";
+import AuthFooter from "../AuthFooter";
+
 export function EmailVerificationCard() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -52,10 +55,12 @@ export function EmailVerificationCard() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-8 rounded-md border p-6 md:p-10">
+    <AuthCardWrapper>
       <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold">Verify Your Email</h1>
-        <p className="text-muted-foreground">
+        <h1 className="font-rubik text-2xl font-semibold text-textPrimary md:text-3xl">
+          Verify Your Email
+        </h1>
+        <p className="text-black/50 max-md:text-sm">
           Enter the 6-digit code sent to your email
         </p>
       </div>
@@ -63,20 +68,26 @@ export function EmailVerificationCard() {
         <InputOTP maxLength={6} onComplete={handleSubmit} disabled={isLoading}>
           <InputOTPGroup className="mx-auto">
             {[...Array(6)].map((_, index) => (
-              <InputOTPSlot key={index} index={index} />
+              <InputOTPSlot
+                key={index}
+                index={index}
+                className="border-textSecondary/70"
+              />
             ))}
           </InputOTPGroup>
         </InputOTP>
         {error && <p className="text-center text-sm text-red-500">{error}</p>}
         <Button
-          variant="link"
-          className="w-full text-sm text-muted-foreground"
+          variant="auth"
+          className="w-full text-sm"
           onClick={() => router.push("/login")}
           disabled={isLoading}
         >
-          Didn't receive a code? Resend
+          Need a new code?
         </Button>
       </div>
-    </div>
+      <hr className="border-gray-400" />
+      <AuthFooter showSignUp={false} showResetPassword={false} />
+    </AuthCardWrapper>
   );
 }

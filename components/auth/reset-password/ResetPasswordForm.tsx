@@ -20,7 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
 type ResetPasswordParamsProps = {
   token: string;
@@ -82,10 +81,11 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
+                <input
+                  {...field}
                   type="password"
                   placeholder="Enter new password"
-                  {...field}
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />
@@ -100,10 +100,11 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input
+                <input
+                  {...field}
                   type="password"
                   placeholder="Confirm new password"
-                  {...field}
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />
@@ -111,7 +112,12 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button
+          variant="auth"
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+        >
           {isPending ? "Resetting Password..." : "Reset Password"}
         </Button>
       </form>

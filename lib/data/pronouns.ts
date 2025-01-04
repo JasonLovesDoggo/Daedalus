@@ -4,6 +4,6 @@ export const pronouns = [
   "They/Them",
   "He/They",
   "She/They",
-  "Other",
+  "Other (please specify)",
   "Prefer not to say",
 ];

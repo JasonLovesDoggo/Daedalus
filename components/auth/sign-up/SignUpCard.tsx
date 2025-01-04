@@ -1,4 +1,5 @@
-import SignUpFooter from "./SignUpFooter";
+import AuthCardWrapper from "../AuthCardWrapper";
+import AuthFooter from "../AuthFooter";
 import SignUpForm from "./SignUpForm";
 import SignUpHeader from "./SignUpHeader";
 
@@ -6,11 +7,16 @@ type Props = {};
 
 const SignUpCard = ({}: Props) => {
   return (
-    <div className="w-full max-w-md space-y-8 rounded-md border p-6 md:p-10">
+    <AuthCardWrapper>
       <SignUpHeader />
       <SignUpForm />
-      <SignUpFooter />
-    </div>
+      <hr className="border-gray-400" />
+      <AuthFooter
+        showResetPassword={false}
+        showContactUs={false}
+        showSignUp={false}
+      />
+    </AuthCardWrapper>
   );
 };
 

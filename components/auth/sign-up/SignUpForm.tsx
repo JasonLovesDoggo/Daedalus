@@ -84,7 +84,12 @@ const SignUpForm = ({}: Props) => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your name" {...field} />
+                <input
+                  {...field}
+                  placeholder="Enter your name"
+                  type="text"
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +103,12 @@ const SignUpForm = ({}: Props) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <input
+                  {...field}
+                  placeholder="Enter your email"
+                  type="text"
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,13 +119,14 @@ const SignUpForm = ({}: Props) => {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="pb-2">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
+                <input
+                  {...field}
                   type="password"
                   placeholder="Enter your password"
-                  {...field}
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />
@@ -123,7 +134,12 @@ const SignUpForm = ({}: Props) => {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button
+          variant="auth"
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+        >
           {isPending ? "Signing Up..." : "Sign Up"}
         </Button>
       </form>

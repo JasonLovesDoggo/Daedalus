@@ -1,18 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
+import { HackerApplicationsSelectData } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
-import { hackerApplicationSchema } from "@/lib/validators/hacker-application";
 
-import {
-  APPLICATION_STEPS,
-  DEFAULT_FORM_VALUES,
-} from "../../config/application-form";
+import { APPLICATION_STEPS } from "../../config/application-form";
+import { useHackerApplication } from "../../hooks/useHackerApplication";
+import PageWrapper from "../PageWrapper";
 import { Form } from "../ui/form";
 import { BackgroundEducationStep } from "./BackgroundEducationStep";
+import FormErrors from "./FormErrors";
 import { FormNavigation } from "./FormNavigation";
 import { GeneralInformationStep } from "./GeneralInformationStep";
 import { ReviewDisplay } from "./ReviewDisplay";
@@ -20,64 +16,84 @@ import { ShortAnswersStep } from "./ShortAnswersStep";
 import { StepContentWrapper } from "./StepContentWrapper";
 import { StepNavigation } from "./StepNavigation";
 
-export default function HackerApplicationForm() {
-  const [currentStep, setCurrentStep] = useState(0);
+type Props = {
+  existingApplication: HackerApplicationsSelectData | null;
+};
 
-  const form = useForm<typeof hackerApplicationSchema._type>({
-    resolver: zodResolver(hackerApplicationSchema),
-    defaultValues: DEFAULT_FORM_VALUES as typeof hackerApplicationSchema._type,
-  });
+export default function HackerApplicationForm({ existingApplication }: Props) {
+  const {
+    form,
+    currentStep,
+    setCurrentStep,
+    isSaving,
+    isSubmitting,
+    validationErrors,
+    formErrors,
+    onSave,
+    onSubmit,
+  } = useHackerApplication(existingApplication);
 
   return (
-    <div>
-      <StepNavigation
-        steps={APPLICATION_STEPS}
-        currentStep={currentStep}
-        onStepChange={setCurrentStep}
-      />
+    <PageWrapper className="flex h-full items-center bg-center">
+      <div className="w-full">
+        <StepNavigation
+          steps={APPLICATION_STEPS}
+          currentStep={currentStep}
+          onStepChange={setCurrentStep}
+        />
+        <Form {...form}>
+          <form
+            className={cn("mx-auto w-full max-w-4xl", {
+              "max-w-5xl": currentStep === 3,
+            })}
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <div className="mb-6 space-y-8 md:mb-8">
+              {currentStep === 0 && (
+                <StepContentWrapper title="General Information">
+                  <GeneralInformationStep
+                    control={form.control}
+                    watch={form.watch}
+                  />
+                </StepContentWrapper>
+              )}
+              {currentStep === 1 && (
+                <StepContentWrapper title="Your Background">
+                  <BackgroundEducationStep
+                    control={form.control}
+                    watch={form.watch}
+                  />
+                </StepContentWrapper>
+              )}
+              {currentStep === 2 && (
+                <StepContentWrapper title="Short Answers">
+                  <ShortAnswersStep control={form.control} />
+                </StepContentWrapper>
+              )}
+              {currentStep === 3 && (
+                <StepContentWrapper title="Review Application">
+                  <ReviewDisplay form={form} />
+                </StepContentWrapper>
+              )}
 
-      <Form {...form}>
-        <form
-          className={cn("mx-auto w-full max-w-4xl", {
-            "max-w-5xl": currentStep === 3,
-          })}
-          onSubmit={form.handleSubmit((values) => {
-            if (currentStep !== 3) return;
-            console.log("Form submission values", values);
-            alert("Form submitted!");
-          })}
-        >
-          <div className="mb-4 space-y-8 md:mb-8">
-            {currentStep === 0 && (
-              <StepContentWrapper title="General Information">
-                <GeneralInformationStep control={form.control} />
-              </StepContentWrapper>
-            )}
-            {currentStep === 1 && (
-              <StepContentWrapper title="Your Background">
-                <BackgroundEducationStep control={form.control} />
-              </StepContentWrapper>
-            )}
-            {currentStep === 2 && (
-              <StepContentWrapper title="Short Answers">
-                <ShortAnswersStep control={form.control} />
-              </StepContentWrapper>
-            )}
-            {currentStep === 3 && (
-              <StepContentWrapper title="Review Application">
-                <ReviewDisplay form={form} />
-              </StepContentWrapper>
-            )}
-          </div>
+              <FormErrors errors={formErrors} />
+              <FormErrors saveErrors errors={validationErrors} />
+            </div>
 
-          <FormNavigation
-            currentStep={currentStep}
-            totalSteps={4}
-            onPrevious={() => setCurrentStep((prev) => prev - 1)}
-            onNext={() => setCurrentStep((prev) => prev + 1)}
-          />
-        </form>
-      </Form>
-    </div>
+            <hr className="mb-6 md:mb-8" />
+
+            <FormNavigation
+              currentStep={currentStep}
+              totalSteps={4}
+              onPrevious={() => setCurrentStep((prev) => prev - 1)}
+              onNext={() => setCurrentStep((prev) => prev + 1)}
+              onSave={onSave}
+              isSaving={isSaving}
+              isSubmitting={isSubmitting}
+            />
+          </form>
+        </Form>
+      </div>
+    </PageWrapper>
   );
 }

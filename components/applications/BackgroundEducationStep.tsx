@@ -1,11 +1,12 @@
 "use client";
 
-import { Control } from "react-hook-form";
+import { Control, UseFormWatch } from "react-hook-form";
 
 import { levelsOfStudy } from "@/lib/data/levelsOfStudy";
 import { majors } from "@/lib/data/majors";
 import { schools } from "@/lib/data/schools";
 import { technicalFields } from "@/lib/data/technicalFields";
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 import {
   FormControl,
   FormField,
@@ -17,20 +18,27 @@ import { Input } from "@/components/ui/input";
 
 import { AdvancedSelect } from "../ui/advanced-select";
 import { Checkbox } from "../ui/checkbox";
+import { EmojiDisplay } from "./EmojiDisplay";
+import { UploadResume } from "./UploadResume";
 
 interface BackgroundEducationStepProps {
-  control: Control<any>;
+  control: Control<THackerApplicationSubmission>;
+  watch: UseFormWatch<THackerApplicationSubmission>;
 }
 
 export function BackgroundEducationStep({
   control,
+  watch,
 }: BackgroundEducationStepProps) {
+  const major = watch("major");
+  const school = watch("school");
+
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
-          name="school"
+          name="school.value"
           render={({ field }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
@@ -63,9 +71,10 @@ export function BackgroundEducationStep({
             );
           }}
         />
+
         <FormField
           control={control}
-          name="major"
+          name="major.value"
           render={({ field }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
@@ -100,7 +109,39 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {school?.value === "Other (please specify)" && (
+        <FormField
+          control={control}
+          name="school.customValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>School/University (Other)</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your school/university" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
+      {major?.value === "Other (please specify)" && (
+        <FormField
+          control={control}
+          name="major.customValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Major (Other)</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your major" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="graduationYear"
@@ -151,71 +192,78 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="space-y-4">
-        <FormField
-          control={control}
-          name="technicalInterests"
-          render={({ field }) => {
-            const selected = field.value ? field.value.split(",") : [];
+      <FormField
+        control={control}
+        name="technicalInterests"
+        render={({ field }) => {
+          const selected = field.value ? field.value.split(",") : [];
 
-            const handleChange = (value: string, checked: boolean) => {
-              let newSelected = [...selected];
-              if (checked) {
-                if (newSelected.length < 3) {
-                  newSelected.push(value);
-                }
-              } else {
-                newSelected = newSelected.filter((v) => v !== value);
+          const handleChange = (value: string, checked: boolean) => {
+            let newSelected = [...selected];
+            if (checked) {
+              if (newSelected.length < 3) {
+                newSelected.push(value);
               }
-              field.onChange(newSelected.join(","));
-            };
+            } else {
+              newSelected = newSelected.filter((v) => v !== value);
+            }
+            field.onChange(newSelected.join(","));
+          };
 
-            return (
-              <FormItem>
-                <FormLabel>Technical Interests (Select up to 3)</FormLabel>
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                  {technicalFields.map((field) => (
-                    <div key={field} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={field}
-                        checked={selected.includes(field)}
-                        onCheckedChange={(checked) =>
-                          handleChange(field, !!checked)
-                        }
-                        disabled={
-                          selected.length >= 3 && !selected.includes(field)
-                        }
-                      />
-                      <label
-                        htmlFor={field}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {field}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        <FormField
-          control={control}
-          name="hackathonsAttended"
-          render={({ field }) => (
+          return (
             <FormItem>
-              <FormLabel>Number of Hackathons Attended</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="0" {...field} />
-              </FormControl>
+              <FormLabel>Technical Interests (Select up to 3)</FormLabel>
+              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                {technicalFields.map((field) => (
+                  <div key={field} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={field}
+                      checked={selected.includes(field)}
+                      onCheckedChange={(checked) =>
+                        handleChange(field, !!checked)
+                      }
+                      disabled={
+                        selected.length >= 3 && !selected.includes(field)
+                      }
+                    />
+                    <label
+                      htmlFor={field}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {field}
+                    </label>
+                  </div>
+                ))}
+              </div>
               <FormMessage />
             </FormItem>
-          )}
-        />
-      </div>
+          );
+        }}
+      />
 
-      <div className="grid grid-cols-2 gap-4">
+      <FormField
+        control={control}
+        name="hackathonsAttended"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Number of Hackathons Attended</FormLabel>
+            <FormControl>
+              <div className="relative">
+                <Input type="number" placeholder="0" {...field} />
+                {field.value && (
+                  <div className="absolute right-3 top-2 md:right-8 md:top-1.5">
+                    <EmojiDisplay count={parseInt(field.value)} />
+                  </div>
+                )}
+              </div>
+            </FormControl>
+
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="github"
@@ -229,6 +277,7 @@ export function BackgroundEducationStep({
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
           name="linkedin"
@@ -247,7 +296,7 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={control}
           name="personalWebsite"
@@ -263,93 +312,7 @@ export function BackgroundEducationStep({
         />
       </div>
 
-      <div className="space-y-4">
-        <FormField
-          control={control}
-          name="resumeUrl"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Resume</FormLabel>
-              <button
-                className="block w-full cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors hover:bg-gray-50"
-                onClick={() =>
-                  document.getElementById("resume-upload")?.click()
-                }
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  e.currentTarget.classList.add("bg-gray-50");
-                }}
-                onDragLeave={(e) => {
-                  e.preventDefault();
-                  e.currentTarget.classList.remove("bg-gray-50");
-                }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  e.currentTarget.classList.remove("bg-gray-50");
-                  if (e.dataTransfer.files[0]) {
-                    field.onChange(e.dataTransfer.files[0]);
-                  }
-                }}
-              >
-                <div className="flex flex-col items-center space-y-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    />
-                  </svg>
-                  <p className="text-sm text-gray-600">
-                    Drag and drop your resume here, or{" "}
-                    <span className="font-medium text-primary">
-                      click to upload
-                    </span>
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    PDF, DOC, DOCX (max 5MB)
-                  </p>
-                  <Input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={(e) => field.onChange(e.target.files?.[0])}
-                    id="resume-upload"
-                    className="hidden"
-                  />
-                </div>
-              </button>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="resumeSharingConsent"
-          render={({ field }) => (
-            <FormItem className="flex items-center space-x-3 space-y-0">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel className="cursor-pointer text-sm font-medium text-gray-700 transition-colors hover:text-gray-900 md:text-base">
-                  I consent to sharing my resume with potential sponsors and
-                  recruiters
-                </FormLabel>
-              </div>
-            </FormItem>
-          )}
-        />
-      </div>
+      <UploadResume control={control} watch={watch} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -16,13 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
 type Props = {};
 
 const ForgotPasswordForm = ({}: Props) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -43,14 +44,16 @@ const ForgotPasswordForm = ({}: Props) => {
 
         if (res.success) {
           toast.success(res.message);
+          router.push("/sign-in");
         } else {
           toast.error(res.message);
           setError(res.message);
         }
       });
     } catch (error) {
-      console.error("Fetch error:", error);
-      toast.error("Something bad happened.");
+      toast.error(
+        "Something went wrong. Please try again or contact us if the error persists.",
+      );
     }
   };
 
@@ -66,15 +69,25 @@ const ForgotPasswordForm = ({}: Props) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <input
+                  {...field}
+                  placeholder="Enter your email"
+                  type="text"
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Sending Email..." : "Reset My Password"}
+        <Button
+          variant="auth"
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+        >
+          {isPending ? "Sending Email..." : "Send Reset Link"}
         </Button>
       </form>
     </Form>

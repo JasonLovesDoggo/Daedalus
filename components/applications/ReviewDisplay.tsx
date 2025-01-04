@@ -2,14 +2,15 @@
 
 import { UseFormReturn } from "react-hook-form";
 
-import { HackerApplicationFormValues } from "@/lib/validators/hacker-application";
+import { getResumeUrl } from "@/lib/utils";
+import { THackerApplicationSubmission } from "@/lib/validations/application";
 
 import { Field } from "./Field";
 import { MLHStep } from "./MLHStep";
 import { ReviewSection } from "./ReviewSection";
 
 interface ReviewDisplayProps {
-  form: UseFormReturn<HackerApplicationFormValues>;
+  form: UseFormReturn<THackerApplicationSubmission>;
 }
 
 export function ReviewDisplay({ form }: ReviewDisplayProps) {
@@ -17,7 +18,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
 
   return (
     <div className="space-y-8 xl:space-y-12">
-      <p className="-mt-6 text-textMuted max-md:text-sm">
+      <p className="-mt-3 text-textMuted max-md:text-sm md:-mt-6">
         Please review your application carefully before submitting. Note that
         you will not be able to make changes or resubmit your application once
         it has been submitted.
@@ -27,7 +28,11 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="First Name" value={values.firstName} />
         <Field label="Last Name" value={values.lastName} />
         <Field label="Age" value={values.age} />
-        <Field label="Pronouns" value={values.pronouns} />
+        <Field
+          label="Pronouns"
+          value={values.pronouns.value}
+          customValue={values.pronouns.customValue}
+        />
         <Field label="Email" value={values.email} />
         <Field label="Gender" value={values.gender} />
         <Field label="Race/Ethnicity" value={values.race} />
@@ -35,8 +40,16 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
       </ReviewSection>
 
       <ReviewSection title="Your Background">
-        <Field label="School" value={values.school} />
-        <Field label="Major" value={values.major} />
+        <Field
+          label="School"
+          value={values.school.value}
+          customValue={values.school.customValue}
+        />
+        <Field
+          label="Major"
+          value={values.major.value}
+          customValue={values.major.customValue}
+        />
         <Field label="Graduation Year" value={values.graduationYear} />
         <Field label="Level of Study" value={values.levelOfStudy} />
         <Field label="Technical Interests" value={values.technicalInterests} />
@@ -44,8 +57,14 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Github" value={values.github} />
         <Field label="Linkedin" value={values.linkedin} />
         <Field label="Personal Website" value={values.personalWebsite} />
-        <Field label="Resume" value={values.resumeUrl} />
-        <Field label="Resume" value={values.shareResume ? "True" : "False"} />
+        <Field
+          label="Resume"
+          value={values.resumeUrl ? getResumeUrl(values.resumeUrl) : undefined}
+        />
+        <Field
+          label="Share resume with sponsors/recruiters"
+          value={values.shareResume ? "True" : "False"}
+        />
       </ReviewSection>
 
       <ReviewSection title="Short Answers" columns="1">
@@ -53,7 +72,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Short Answer 2" value={values.shortAnswer2} />
       </ReviewSection>
 
-      <ReviewSection title="MLH Agreements">
+      <ReviewSection title="MLH Agreements" columns="1">
         <MLHStep control={form.control} />
       </ReviewSection>
     </div>

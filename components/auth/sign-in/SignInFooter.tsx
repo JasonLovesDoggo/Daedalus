@@ -4,7 +4,7 @@ const SignInFooter = ({}: Props) => {
   return (
     <div className="flex flex-col">
       <p className="text-center text-sm text-muted-foreground">
-        Don't have an account?{" "}
+        New to Hack Canada?{" "}
         <a
           href="/sign-up"
           className="underline underline-offset-4 hover:text-primary"
