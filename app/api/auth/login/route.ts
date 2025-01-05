@@ -32,8 +32,6 @@ export async function POST(
       });
     }
 
-    // TODO: Email verification goes here
-
     const result = await signIn("credentials", {
       email,
       password,
@@ -44,6 +42,17 @@ export async function POST(
       return NextResponse.json({
         success: false,
         message: "Invalid email or password.",
+      });
+    }
+
+    // Handle email verification redirect
+    if (typeof result === "string" && result.includes("/email-verification")) {
+      return NextResponse.json({
+        success: false,
+        message: "Email verification required. Please check your email.",
+        data: {
+          redirect: result,
+        },
       });
     }
 

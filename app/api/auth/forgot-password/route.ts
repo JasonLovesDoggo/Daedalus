@@ -18,7 +18,7 @@ export async function POST(
       return NextResponse.json({
         success: true,
         message:
-          "A password reset link will be sent to this email if an account is registered under it.",
+          "A password reset link will be sent to the email if an account is registered under it.",
       });
     }
 
@@ -30,7 +30,7 @@ export async function POST(
       return NextResponse.json({
         success: true,
         message:
-          "A password reset link will be sent to this email if an account is registered under it.",
+          "A password reset link will be sent to the email if an account is registered under it.",
       });
     }
 
@@ -50,7 +50,7 @@ export async function POST(
     return NextResponse.json({
       success: true,
       message:
-        "A password reset link will be sent to this email if an account is registered under it.",
+        "A password reset link will be sent to the email if an account is registered under it.",
     });
   } catch (error) {
     console.error("Error during password reset request:", error);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -17,13 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
 type Props = {};
 
 const SignInForm = ({}: Props) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -36,12 +36,16 @@ const SignInForm = ({}: Props) => {
   const onSubmit = (values: { email: string; password: string }) => {
     try {
       startTransition(async () => {
-        const res = await fetcher("/api/auth/login", {
+        const res = await fetcher<{ redirect?: string }>("/api/auth/login", {
           method: "POST",
           body: JSON.stringify(values),
         });
 
-        if (res.success) {
+        if (res.data?.redirect) {
+          // Handle email verification redirect
+          toast.info(res.message);
+          router.push(res.data.redirect);
+        } else if (res.success) {
           toast.success(res.message);
           window.location.href = "/";
         } else {
