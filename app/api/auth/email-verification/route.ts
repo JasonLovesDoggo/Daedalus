@@ -13,10 +13,7 @@ export async function POST(request: Request) {
     const { code, token } = await request.json();
 
     if (!code || !token) {
-      return NextResponse.json(
-        { error: "Code and token are required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Code and token are required" });
     }
 
     // Use transaction for atomic operations

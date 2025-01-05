@@ -7,12 +7,14 @@ import { emailVerificationTokens } from "../schema";
 export async function createVerificationToken(email: string) {
   const verificationCode = generateRandomCode(6);
 
+  const now = new Date();
   const [token] = await db
     .insert(emailVerificationTokens)
     .values({
       email,
       code: verificationCode,
-      expires: new Date(Date.now() + 1000 * 60 * 15), // 15 minutes
+      createdAt: now,
+      expires: new Date(now.getTime() + 1000 * 60 * 15), // 15 minutes
     })
     .returning({ id: emailVerificationTokens.id });
 
