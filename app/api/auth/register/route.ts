@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
 
 import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
@@ -33,7 +32,8 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
     if (existingUser) {
       return NextResponse.json({
         success: false,
-        message: "An account with this email already exists.",
+        message:
+          "Failed to create account. Account may already exist, or the provided email is invalid.",
       });
     }
 

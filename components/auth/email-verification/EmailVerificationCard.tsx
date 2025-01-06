@@ -24,7 +24,7 @@ export function EmailVerificationCard() {
 
   const handleSubmit = async (code: string) => {
     if (!token) {
-      setError("Invalid verification link");
+      setError("Invalid verification link provided.");
       return;
     }
 
@@ -80,7 +80,7 @@ export function EmailVerificationCard() {
         <Button
           variant="auth"
           className="w-full text-sm"
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/email-verification/new-code")}
           disabled={isLoading}
         >
           Need a new code?

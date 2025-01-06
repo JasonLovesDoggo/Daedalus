@@ -19,7 +19,7 @@ const AuthFooter = ({
     <div className="flex flex-col space-y-3">
       {showSignIn && (
         <p className="text-center text-sm text-muted-foreground">
-          {customSignInLabel || "Already have an account"}?{" "}
+          {customSignInLabel || "Already have an account?"}{" "}
           <Link
             href="/sign-in"
             className="font-medium text-primary transition-all hover:text-primary/80 hover:underline"

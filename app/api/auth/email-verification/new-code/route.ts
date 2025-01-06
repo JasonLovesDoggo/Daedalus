@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 import { ApiResponse } from "@/types/api";
-import { db } from "@/lib/db";
 import {
   createVerificationToken,
   deleteExpiredTokens,
@@ -9,6 +8,7 @@ import {
   getVerificationTokenByEmail,
 } from "@/lib/db/queries/email-verification-tokens";
 import { getUserByEmail } from "@/lib/db/queries/user";
+import { EmailValidationSchema } from "@/lib/validations/email-verification";
 
 type ResponseData = {
   tokenId: string;
@@ -18,28 +18,33 @@ export async function POST(
   req: Request,
 ): Promise<NextResponse<ApiResponse<ResponseData>>> {
   try {
-    const { email } = await req.json();
+    const body = await req.json();
 
-    if (!email) {
+    const validatedFields = EmailValidationSchema.safeParse(body);
+
+    if (!validatedFields.success) {
       return NextResponse.json({
         success: false,
-        message: "Email is required",
+        message: validatedFields.error.message,
       });
     }
 
-    const existingUser = await getUserByEmail(email);
-    if (!existingUser) {
+    const { data } = validatedFields;
+
+    const existingUser = await getUserByEmail(data.email);
+    if (!existingUser || existingUser.emailVerified) {
       return NextResponse.json({
         success: false,
-        message: "User not found",
+        // Do not let the user know if the email is invalid
+        message: "Failed to send verification code to the provided email.",
       });
     }
 
     // Delete any expired tokens first
-    await deleteExpiredTokens(email);
+    await deleteExpiredTokens(data.email);
 
     // Check for existing verification tokens
-    const existingTokens = await getVerificationTokenByEmail(email);
+    const existingTokens = await getVerificationTokenByEmail(data.email);
 
     // If there's an active token within the last 2 minutes
     const activeToken = existingTokens.find((token) => {
@@ -50,13 +55,9 @@ export async function POST(
     });
 
     if (activeToken) {
-      // Convert createdAt to UTC and calculate remaining time
-      const createdAtUTC = new Date(activeToken.createdAt.toISOString());
-      const tokenAge = Date.now() - createdAtUTC.getTime();
-      const remainingSeconds = Math.ceil((2 * 60 * 1000 - tokenAge) / 1000);
       return NextResponse.json({
         success: false,
-        message: `Please wait ${remainingSeconds} seconds before requesting a new code`,
+        message: `Please wait 2 minutes before requesting for a new code.`,
       });
     }
 
@@ -66,11 +67,7 @@ export async function POST(
     );
 
     // Create new verification token
-    let tokenId = "";
-    await db.transaction(async (tx) => {
-      const result = await createVerificationToken(email);
-      tokenId = result.tokenId;
-    });
+    const { code, tokenId } = await createVerificationToken(data.email);
 
     // TODO: Send verification email here
     // await sendVerificationEmail({
@@ -85,11 +82,11 @@ export async function POST(
       data: { tokenId },
     });
   } catch (error) {
-    console.error("Error generating new verification code:", error);
+    console.error("Error generating new verification code", error);
     return NextResponse.json({
       success: false,
-      message: "Failed to generate new code. Please try again.",
-      error: error instanceof Error ? error.message : "Unknown error",
+      message: "Something went wrong. Please try again later.",
+      error: "Something went wrong. Please try again later.",
     });
   }
 }

@@ -14,7 +14,7 @@ const NewCodeCard = ({}: Props) => {
       <AuthFooter
         showResetPassword={false}
         showSignUp={false}
-        customSignInLabel="Remember your code?"
+        customSignInLabel="Remember your password?"
       />
     </AuthCardWrapper>
   );

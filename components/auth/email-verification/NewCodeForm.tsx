@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { fetcher } from "@/lib/utils";
-import { NewCodeSchema } from "@/lib/validations/email-verification";
+import {
+  EmailValidationSchema,
+  EmailValidationType,
+} from "@/lib/validations/email-verification";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,16 +25,27 @@ import { Input } from "@/components/ui/input";
 export default function NewCodeForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState<number>(0);
   const router = useRouter();
 
-  const form = useForm({
-    resolver: zodResolver(NewCodeSchema),
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (cooldown > 0) {
+      interval = setInterval(() => {
+        setCooldown((prev) => Math.max(0, prev - 1));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [cooldown]);
+
+  const form = useForm<EmailValidationType>({
+    resolver: zodResolver(EmailValidationSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = (values: { email: string }) => {
+  const onSubmit = (values: EmailValidationType) => {
     try {
       startTransition(async () => {
         const { data, success, message } = await fetcher<{
@@ -47,6 +61,9 @@ export default function NewCodeForm() {
         if (!success || !data) {
           toast.error(message || "Failed to send new code");
           setError(message || "Failed to send new code");
+          if (message.includes("Please wait")) {
+            setCooldown(120); // 2 minutes
+          }
           return;
         }
 
@@ -84,7 +101,7 @@ export default function NewCodeForm() {
                   {...field}
                   placeholder="Enter your email"
                   className="rounded-sm"
-                  disabled={isPending}
+                  disabled={isPending || cooldown > 0}
                 />
               </FormControl>
               <FormMessage />
@@ -96,9 +113,13 @@ export default function NewCodeForm() {
           variant="auth"
           type="submit"
           className="w-full text-sm"
-          disabled={isPending}
+          disabled={isPending || cooldown > 0}
         >
-          {isPending ? "Sending..." : "Send New Code"}
+          {isPending
+            ? "Sending..."
+            : cooldown > 0
+              ? `Try again in ${cooldown}s`
+              : "Send New Code"}
         </Button>
       </form>
     </Form>
