@@ -8,6 +8,7 @@ import {
   getVerificationTokenByEmail,
 } from "@/lib/db/queries/email-verification-tokens";
 import { getUserByEmail } from "@/lib/db/queries/user";
+import { sendWelcomeEmail } from "@/lib/emails/ses";
 import { EmailValidationSchema } from "@/lib/validations/email-verification";
 
 type ResponseData = {
@@ -32,7 +33,7 @@ export async function POST(
     const { data } = validatedFields;
 
     const existingUser = await getUserByEmail(data.email);
-    if (!existingUser || existingUser.emailVerified) {
+    if (!existingUser || !existingUser.email || existingUser.emailVerified) {
       return NextResponse.json({
         success: false,
         // Do not let the user know if the email is invalid
@@ -69,12 +70,21 @@ export async function POST(
     // Create new verification token
     const { code, tokenId } = await createVerificationToken(data.email);
 
-    // TODO: Send verification email here
-    // await sendVerificationEmail({
-    //   email,
-    //   name: existingUser.name,
-    //   token: tokenId,
-    // });
+    const emailResult = await sendWelcomeEmail({
+      name: existingUser.name,
+      email: existingUser.email,
+      subject: "Your new email verification code for Hack Canada",
+      token: tokenId,
+      verificationCode: code,
+    });
+
+    if (!emailResult.success) {
+      return NextResponse.json({
+        success: false,
+        message:
+          "Failed to send verification email. Please try again later or contact us if the error persists.",
+      });
+    }
 
     return NextResponse.json({
       success: true,
