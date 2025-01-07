@@ -6,7 +6,7 @@ const authPages = [
   "/sign-up",
   "/forgot-password",
   "/email-verification",
-  "reset-password",
+  "/reset-password",
   "/email-verification/new-code",
 ];
 

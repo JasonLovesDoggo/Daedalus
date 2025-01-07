@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(
-      { message: "Email verified successfully" },
+      { message: "Email verified successfully. Please sign in." },
       { status: 200 },
     );
   } catch (error) {

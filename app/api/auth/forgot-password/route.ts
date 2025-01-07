@@ -4,6 +4,7 @@ import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/lib/db/queries/user";
 import { passwordResetTokens } from "@/lib/db/schema";
+import { sendResetPasswordEmail } from "@/lib/emails/ses";
 import { ForgotPasswordSchema } from "@/lib/validations/forgot-password";
 
 export async function POST(
@@ -43,9 +44,18 @@ export async function POST(
       userId: existingUser.id,
     });
 
-    // TODO: Send email with reset link
-    // For development purposes only
-    console.log("Reset token:", token);
+    // Send reset password email
+    const resetUrl =
+      process.env.NODE_ENV === "production"
+        ? `https://app.hackcanada.org/auth/reset-password?token=${token}`
+        : `http://localhost:3000/auth/reset-password?token=${token}`;
+
+    await sendResetPasswordEmail({
+      name: existingUser.name,
+      email: existingUser.email,
+      subject: "Reset your Hack Canada password",
+      token,
+    });
 
     return NextResponse.json({
       success: true,
