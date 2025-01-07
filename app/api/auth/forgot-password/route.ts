@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 
 import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
@@ -35,32 +36,65 @@ export async function POST(
       });
     }
 
-    // Generate a UUID for the reset token
-    const token = crypto.randomUUID();
+    await db.transaction(async (tx) => {
+      const [existingToken] = await tx
+        .select()
+        .from(passwordResetTokens)
+        .where(eq(passwordResetTokens.userId, existingUser.id));
 
-    // Create a new password reset token
-    await db.insert(passwordResetTokens).values({
-      token,
-      userId: existingUser.id,
-    });
+      if (existingToken) {
+        const tokenAge =
+          new Date().getTime() - existingToken.createdAt.getTime();
 
-    // Send reset password email
-    const resetUrl =
-      process.env.NODE_ENV === "production"
-        ? `https://app.hackcanada.org/auth/reset-password?token=${token}`
-        : `http://localhost:3000/auth/reset-password?token=${token}`;
+        console.log("Token age:", tokenAge);
 
-    await sendResetPasswordEmail({
-      name: existingUser.name,
-      email: existingUser.email,
-      subject: "Reset your Hack Canada password",
-      token,
+        if (tokenAge < 1000 * 60 * 2) {
+          console.log("Token age is less than 2 minutes, deleting token");
+
+          // 2 minutes
+          return NextResponse.json({
+            success: false,
+            message:
+              "A password reset link was already sent recently. Please check your email.",
+          });
+        } else {
+          console.log("Token age is greater than 2 minutes, continuing");
+        }
+
+        await tx
+          .delete(passwordResetTokens)
+          .where(eq(passwordResetTokens.id, existingToken.id));
+      }
+
+      // Generate a UUID for the reset token
+      const token = crypto.randomUUID();
+
+      // Create a new password reset token
+      await tx.insert(passwordResetTokens).values({
+        token,
+        userId: existingUser.id,
+        createdAt: new Date(),
+      });
+
+      const emailResult = await sendResetPasswordEmail({
+        name: existingUser.name,
+        email: existingUser.email,
+        subject: "Reset your Hack Canada password",
+        token,
+      });
+
+      if (!emailResult.success) {
+        return NextResponse.json({
+          success: false,
+          message:
+            "Failed to send reset password email. Please try again later or contact us if the error persists.",
+        });
+      }
     });
 
     return NextResponse.json({
       success: true,
-      message:
-        "A password reset link will be sent to the email if an account is registered under it.",
+      message: "A password reset link has been sent to your email.",
     });
   } catch (error) {
     console.error("Error during password reset request:", error);
