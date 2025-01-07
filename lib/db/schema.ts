@@ -7,7 +7,7 @@ export const users = sqliteTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
-  email: text("email"),
+  email: text("email").notNull(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   password: text("password"),
   role: text("role").default("unassigned").notNull(),

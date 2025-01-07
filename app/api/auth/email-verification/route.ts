@@ -1,33 +1,25 @@
 import { NextResponse } from "next/server";
-import { and, eq, gt } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { emailVerificationTokens, users } from "@/lib/db/schema";
+import {
+  deleteVerificationTokenById,
+  getVerificationTokenById,
+} from "@/lib/db/queries/email-verification-tokens";
+import { users } from "@/lib/db/schema";
 
 export async function POST(request: Request) {
   try {
     const { code, token } = await request.json();
 
     if (!code || !token) {
-      return NextResponse.json(
-        { error: "Code and token are required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Code and token are required" });
     }
 
     // Use transaction for atomic operations
     await db.transaction(async (tx) => {
       // Find the email verification token
-      const verificationToken = await tx
-        .select()
-        .from(emailVerificationTokens)
-        .where(
-          and(
-            eq(emailVerificationTokens.id, token),
-            gt(emailVerificationTokens.expires, new Date()),
-          ),
-        )
-        .get();
+      const verificationToken = await getVerificationTokenById(token);
 
       if (!verificationToken) {
         throw new Error("Invalid or expired token");
@@ -45,13 +37,11 @@ export async function POST(request: Request) {
         .where(eq(users.email, verificationToken.email));
 
       // Delete the email verification token
-      await tx
-        .delete(emailVerificationTokens)
-        .where(eq(emailVerificationTokens.id, token));
+      await deleteVerificationTokenById(token);
     });
 
     return NextResponse.json(
-      { message: "Email verified successfully" },
+      { message: "Email verified successfully. Please sign in." },
       { status: 200 },
     );
   } catch (error) {

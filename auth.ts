@@ -4,7 +4,13 @@ import NextAuth, { DefaultSession } from "next-auth";
 
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
+import {
+  createVerificationToken,
+  getVerificationTokenByEmail,
+} from "./lib/db/queries/email-verification-tokens";
 import { getUserById } from "./lib/db/queries/user";
+import { sendWelcomeEmail } from "./lib/emails/ses";
+import { generateRandomCode } from "./lib/utils";
 
 declare module "next-auth" {
   interface Session {
@@ -29,9 +35,50 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ account, user }) {
+    async signIn({ account, user }): Promise<boolean | string> {
       if (!user.id) {
         return false;
+      }
+
+      const existingUser = await getUserById(user.id);
+
+      if (!existingUser || !existingUser.email) {
+        return false;
+      }
+
+      // Check email verification status after successful authentication
+      if (!existingUser.emailVerified) {
+        // Check for existing verification token
+        const [existingToken] = await getVerificationTokenByEmail(
+          existingUser.email,
+        );
+
+        if (existingToken) {
+          console.log("Existing token:", existingToken);
+          return `/email-verification?token=${existingToken.id}`;
+        }
+
+        // No valid token exists - create a new one
+        console.log("No token found, creating new one...");
+        const { tokenId, code } = await createVerificationToken(
+          existingUser.email,
+        );
+        console.log("New token created with ID:", tokenId);
+
+        const result = await sendWelcomeEmail({
+          name: existingUser.name,
+          email: existingUser.email,
+          subject: "Verify your email address for Hack Canada",
+          token: tokenId,
+          verificationCode: code,
+        });
+
+        if (!result.success) {
+          console.error("Error sending verification email:", result.error);
+          return "Failed to send verification email.";
+        }
+
+        return `/email-verification?token=${tokenId}`;
       }
 
       return true;

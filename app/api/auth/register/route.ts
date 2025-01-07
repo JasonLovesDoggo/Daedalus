@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { and, eq, lt } from "drizzle-orm";
 
 import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
+import {
+  createVerificationToken,
+  deleteExpiredTokens,
+  getVerificationTokenByEmail,
+} from "@/lib/db/queries/email-verification-tokens";
 import { getUserByEmail } from "@/lib/db/queries/user";
-import { emailVerificationTokens, users } from "@/lib/db/schema";
+import { users } from "@/lib/db/schema";
+import { sendWelcomeEmail } from "@/lib/emails/ses";
 import { generateRandomCode } from "@/lib/utils";
 import { registerSchema } from "@/lib/validations/register";
 
@@ -28,29 +33,20 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
     if (existingUser) {
       return NextResponse.json({
         success: false,
-        message: "An account with this email already exists.",
+        message:
+          "Failed to create account. Account may already exist, or the provided email is invalid.",
       });
     }
 
-    // Check for existing verification tokens
-    const existingTokens = await db
-      .select()
-      .from(emailVerificationTokens)
-      .where(eq(emailVerificationTokens.email, email));
-
     // Delete any expired tokens
-    await db
-      .delete(emailVerificationTokens)
-      .where(
-        and(
-          eq(emailVerificationTokens.email, email),
-          lt(emailVerificationTokens.expires, new Date()),
-        ),
-      );
+    await deleteExpiredTokens(email);
+
+    // Check for existing verification tokens
+    const existingTokens = await getVerificationTokenByEmail(email);
 
     // If there's an active token, return message to check email
     const activeToken = existingTokens.find(
-      (token) => token.expires > new Date(),
+      (token: { expires: Date }) => token.expires > new Date(),
     );
     if (activeToken) {
       return NextResponse.json({
@@ -75,16 +71,22 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       });
 
       // Create new verification token
-      const result = await tx
-        .insert(emailVerificationTokens)
-        .values({
-          email,
-          code: verificationCode,
-          expires: new Date(Date.now() + 1000 * 60 * 15), // 15 minutes
-        })
-        .returning({ id: emailVerificationTokens.id });
+      const { tokenId, code } = await createVerificationToken(email);
 
-      verificationTokenId = result[0].id;
+      // Send verification email
+      const emailResult = await sendWelcomeEmail({
+        name,
+        email,
+        subject: "Verify your email address for Hack Canada",
+        token: tokenId,
+        verificationCode: code,
+      });
+
+      if (!emailResult.success) {
+        throw new Error("Failed to send verification email.");
+      }
+
+      verificationTokenId = tokenId;
     });
 
     return NextResponse.json({

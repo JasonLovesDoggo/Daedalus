@@ -56,7 +56,9 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
         });
 
         if (res.success) {
-          toast.success("Password reset successfully");
+          toast.success(
+            "Password reset successful. Please sign in with your new password.",
+          );
           redirect("/");
         } else {
           toast.error(res.message);
