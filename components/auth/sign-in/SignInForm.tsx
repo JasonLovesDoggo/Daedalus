@@ -46,7 +46,6 @@ const SignInForm = ({}: Props) => {
           toast.info(res.message);
           router.push(res.data.redirect);
         } else if (res.success) {
-          toast.success(res.message);
           window.location.href = "/";
         } else {
           toast.error(res.message);

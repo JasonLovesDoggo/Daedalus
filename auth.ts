@@ -9,6 +9,7 @@ import {
   getVerificationTokenByEmail,
 } from "./lib/db/queries/email-verification-tokens";
 import { getUserById } from "./lib/db/queries/user";
+import { sendWelcomeEmail } from "./lib/emails/ses";
 import { generateRandomCode } from "./lib/utils";
 
 declare module "next-auth" {
@@ -34,7 +35,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ account, user, credentials }): Promise<boolean | string> {
+    async signIn({ account, user }): Promise<boolean | string> {
       if (!user.id) {
         return false;
       }
@@ -59,16 +60,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // No valid token exists - create a new one
         console.log("No token found, creating new one...");
-        const { tokenId } = await createVerificationToken(existingUser.email);
+        const { tokenId, code } = await createVerificationToken(
+          existingUser.email,
+        );
         console.log("New token created with ID:", tokenId);
 
-        // TODO: Send verification email
-        // await sendVerificationEmail({
-        //   email: existingUser.email,
-        //   name: existingUser.name,
-        //   code: verificationCode,
-        //   token: tokenId,
-        // });
+        const result = await sendWelcomeEmail({
+          name: existingUser.name,
+          email: existingUser.email,
+          subject: "Verify your email address for Hack Canada",
+          token: tokenId,
+          verificationCode: code,
+        });
+
+        if (!result.success) {
+          console.error("Error sending verification email:", result.error);
+          return "Failed to send verification email.";
+        }
+
         return `/email-verification?token=${tokenId}`;
       }
 

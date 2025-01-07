@@ -11,7 +11,16 @@ const ses = new SES({
   },
 });
 
-export const sendEmail = async (to: string, subject: string, body: string) => {
+type SendEmailResult = {
+  success: boolean;
+  error?: string;
+};
+
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  body: string,
+): Promise<SendEmailResult> => {
   const params: SendEmailCommandInput = {
     Source: process.env.AWS_SES_VERIFIED_EMAIL || "",
     Destination: {
@@ -40,20 +49,32 @@ export const sendEmail = async (to: string, subject: string, body: string) => {
     return { success: true };
   } catch (error) {
     console.error("Error sending email with SES:", error);
-    return { error: "Something went wrong. Email could not be sent." };
+    return {
+      success: false,
+      error: "Something went wrong. Email could not be sent.",
+    };
   }
 };
 
-export const sendWelcomeEmail = async (
-  name: string,
-  subject: string,
-  email: string,
-) => {
+type WelcomeEmailProps = {
+  name: string;
+  email: string;
+  subject: string;
+  verificationCode: string;
+  token: string;
+};
+
+export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
+  const { name, email, subject, verificationCode, token } = data;
+
   const body = await render(
     WelcomeEmail({
       name,
-      verificationCode: "123456",
-      verificationUrl: "https://google.com",
+      verificationCode,
+      verificationUrl:
+        process.env.NODE_ENV === "production"
+          ? `https://app.hackcanada.org/email/verification?token=${token}`
+          : `http://localhost:3000/email-verification?token=${token}`,
     }),
   );
 

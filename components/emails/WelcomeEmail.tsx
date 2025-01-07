@@ -65,7 +65,7 @@ const WelcomeEmail = ({
                     {verificationCode}
                   </div>
                   <Text className="mt-4 text-textSecondary">
-                    Or click the button below to verify automatically:
+                    Or click the button below to go to the verification page:
                   </Text>
                 </div>
               </Section>

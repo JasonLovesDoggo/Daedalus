@@ -18,6 +18,7 @@ const Sidebar = ({}: Props) => {
       <Image
         src="/sidebar-waves.svg"
         alt="Sidebar waves"
+        priority
         width={1}
         height={1}
         className="pointer-events-none absolute bottom-0 left-0 w-full select-none object-cover"

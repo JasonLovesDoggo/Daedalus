@@ -10,6 +10,7 @@ import {
 } from "@/lib/db/queries/email-verification-tokens";
 import { getUserByEmail } from "@/lib/db/queries/user";
 import { users } from "@/lib/db/schema";
+import { sendWelcomeEmail } from "@/lib/emails/ses";
 import { generateRandomCode } from "@/lib/utils";
 import { registerSchema } from "@/lib/validations/register";
 
@@ -70,7 +71,21 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       });
 
       // Create new verification token
-      const { tokenId } = await createVerificationToken(email);
+      const { tokenId, code } = await createVerificationToken(email);
+
+      // Send verification email
+      const emailResult = await sendWelcomeEmail({
+        name,
+        email,
+        subject: "Verify your email address for Hack Canada",
+        token: tokenId,
+        verificationCode: code,
+      });
+
+      if (!emailResult.success) {
+        throw new Error("Failed to send verification email.");
+      }
+
       verificationTokenId = tokenId;
     });
 
