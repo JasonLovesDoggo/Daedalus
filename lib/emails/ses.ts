@@ -21,9 +21,10 @@ export const sendEmail = async (
   to: string,
   subject: string,
   body: string,
+  from?: string,
 ): Promise<SendEmailResult> => {
   const params: SendEmailCommandInput = {
-    Source: process.env.AWS_SES_VERIFIED_EMAIL || "",
+    Source: from || process.env.AWS_SES_VERIFIED_EMAIL || "",
     Destination: {
       ToAddresses: [to],
     },
@@ -79,7 +80,12 @@ export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
     }),
   );
 
-  const result = await sendEmail(email, subject, body);
+  const result = await sendEmail(
+    email,
+    subject,
+    body,
+    process.env.AWS_SES_NO_REPLY_EMAIL,
+  );
 
   return result;
 };
@@ -106,7 +112,12 @@ export const sendResetPasswordEmail = async (data: ResetPasswordEmailProps) => {
     }),
   );
 
-  const result = await sendEmail(email, subject, body);
+  const result = await sendEmail(
+    email,
+    subject,
+    body,
+    process.env.AWS_SES_NO_REPLY_EMAIL,
+  );
 
   return result;
 };

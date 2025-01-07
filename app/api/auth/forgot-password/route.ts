@@ -8,6 +8,8 @@ import { passwordResetTokens } from "@/lib/db/schema";
 import { sendResetPasswordEmail } from "@/lib/emails/ses";
 import { ForgotPasswordSchema } from "@/lib/validations/forgot-password";
 
+const TOKEN_EXPIRATION_TIME = 1000 * 60 * 2;
+
 export async function POST(
   req: NextRequest,
 ): Promise<NextResponse<ApiResponse>> {
@@ -36,36 +38,32 @@ export async function POST(
       });
     }
 
-    await db.transaction(async (tx) => {
-      const [existingToken] = await tx
-        .select()
-        .from(passwordResetTokens)
-        .where(eq(passwordResetTokens.userId, existingUser.id));
+    // Check for existing token before starting transaction
+    const [existingToken] = await db
+      .select()
+      .from(passwordResetTokens)
+      .where(eq(passwordResetTokens.userId, existingUser.id));
 
-      if (existingToken) {
-        const tokenAge =
-          new Date().getTime() - existingToken.createdAt.getTime();
+    if (existingToken) {
+      const tokenAge = new Date().getTime() - existingToken.createdAt.getTime();
+      console.log("Token age:", tokenAge);
 
-        console.log("Token age:", tokenAge);
-
-        if (tokenAge < 1000 * 60 * 2) {
-          console.log("Token age is less than 2 minutes, deleting token");
-
-          // 2 minutes
-          return NextResponse.json({
-            success: false,
-            message:
-              "A password reset link was already sent recently. Please check your email.",
-          });
-        } else {
-          console.log("Token age is greater than 2 minutes, continuing");
-        }
-
-        await tx
-          .delete(passwordResetTokens)
-          .where(eq(passwordResetTokens.id, existingToken.id));
+      if (tokenAge < TOKEN_EXPIRATION_TIME) {
+        console.log("Token is still valid, not sending new one");
+        return NextResponse.json({
+          success: false,
+          message:
+            "A password reset link was already sent recently. Please check your email.",
+        });
       }
 
+      // Delete expired token
+      await db
+        .delete(passwordResetTokens)
+        .where(eq(passwordResetTokens.id, existingToken.id));
+    }
+
+    await db.transaction(async (tx) => {
       // Generate a UUID for the reset token
       const token = crypto.randomUUID();
 
@@ -84,11 +82,7 @@ export async function POST(
       });
 
       if (!emailResult.success) {
-        return NextResponse.json({
-          success: false,
-          message:
-            "Failed to send reset password email. Please try again later or contact us if the error persists.",
-        });
+        throw new Error("Failed to send reset password email");
       }
     });
 
