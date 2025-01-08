@@ -7,6 +7,7 @@ import {
   Hr,
   Html,
   Img,
+  Link,
   Preview,
   Section,
   Text,
@@ -99,6 +100,105 @@ const WelcomeEmail = ({
                 ❗ If you did not sign up for our platform, please ignore this
                 email. ❗
               </Text>
+              <div style={{ textAlign: "center", padding: "16px 0" }}>
+                <div style={{ marginBottom: "16px" }}>
+                  <Link
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                    }}
+                    href="https://hackcanada.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Hack Canada
+                  </Link>
+                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <Link
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                    }}
+                    href="https://app.hackcanada.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Dashboard
+                  </Link>
+                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <Link
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                    }}
+                    href="https://discord.gg/wp42amwcWy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Discord
+                  </Link>
+                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <Link
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                    }}
+                    href="https://www.instagram.com/hackcanada/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Instagram
+                  </Link>
+                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <Link
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                    }}
+                    href="https://www.linkedin.com/company/hack-canada"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                  </Link>
+                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <Link
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                    }}
+                    href="mailto:contact@hackcanada.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Email
+                  </Link>
+                </div>
+                <Text
+                  style={{
+                    color: "#9CA3AF",
+                    fontSize: "12px",
+                    margin: "8px 0",
+                  }}
+                >
+                  Copyright © 2025 Hack Canada
+                </Text>
+                <Text
+                  style={{
+                    color: "#9CA3AF",
+                    fontSize: "12px",
+                    margin: "8px 0",
+                  }}
+                >
+                  All rights reserved.
+                </Text>
+              </div>
             </Section>
           </Container>
         </Body>
