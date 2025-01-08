@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     // Use transaction for atomic operations
     await db.transaction(async (tx) => {
       // Find the email verification token
-      const verificationToken = await getVerificationTokenById(token);
+      const verificationToken = await getVerificationTokenById(token, tx);
 
       if (!verificationToken) {
         throw new Error("Invalid or expired token");
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         .where(eq(users.email, verificationToken.email));
 
       // Delete the email verification token
-      await deleteVerificationTokenById(token);
+      await deleteVerificationTokenById(token, tx);
     });
 
     return NextResponse.json(

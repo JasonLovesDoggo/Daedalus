@@ -1,25 +1,34 @@
-import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
-import { migrate } from "drizzle-orm/libsql/migrator";
-
-import * as schema from "./schema";
 
 declare global {
   var _db: ReturnType<typeof drizzle> | undefined;
 }
 
-const client = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN!,
-});
-
-const db = globalThis._db || drizzle(client, { schema });
+export const db =
+  globalThis._db ||
+  drizzle({
+    connection: {
+      url: process.env.TURSO_DATABASE_URL!,
+      authToken: process.env.TURSO_AUTH_TOKEN!,
+    },
+  });
 
 if (process.env.NODE_ENV !== "production") {
   globalThis._db = db;
 }
 
-export { db };
+// export async function withTransaction<T>(
+//   fn: (tx: typeof db.transaction) => Promise<T>,
+// ) {
+//   return db.transaction(async (tx) => {
+//     try {
+//       return await fn(tx);
+//     } catch (error) {
+//       tx.rollback();
+//       throw error;
+//     }
+//   });
+// }
 
 // Run migrations
-migrate(db, { migrationsFolder: "drizzle" });
+// migrate(db, { migrationsFolder: "drizzle" });
