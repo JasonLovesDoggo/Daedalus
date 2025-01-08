@@ -6,6 +6,7 @@ import {
   createOrUpdateApplication,
   submitApplication,
 } from "@/lib/db/queries/application";
+import { sendApplicationSubmittedEmail } from "@/lib/emails/ses";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
 
 // TODO figure out how / when submit will be called
@@ -125,10 +126,16 @@ export async function POST(
       });
     }
 
+    // Send confirmation email
+    await sendApplicationSubmittedEmail({
+      name: data.firstName,
+      email: currentUser.email || data.email,
+      subject: "Thanks for applying to Hack Canada!",
+    });
+
     return NextResponse.json({
       success: true,
-      message: "Application submitted successfully",
-      data: updatedApplication,
+      message: "Application submitted successfully!",
     });
   } catch (error) {
     return NextResponse.json({
