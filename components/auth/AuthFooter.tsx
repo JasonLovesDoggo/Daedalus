@@ -50,7 +50,7 @@ const AuthFooter = ({
         )}
         {showContactUs && (
           <Link
-            href="mailto:admin@hackcanada.org"
+            href="mailto:hello@hackcanada.org"
             target="_blank"
             className="text-right text-sm font-medium text-primary transition-all hover:text-primary/80 hover:underline"
           >

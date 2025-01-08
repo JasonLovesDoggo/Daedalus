@@ -30,7 +30,7 @@ export const ContactSection = () => {
           FAQs
         </Link>
         <Link
-          href="mailto:admin@hackcanada.org"
+          href="mailto:hello@hackcanada.org"
           target="_blank"
           className="block w-full rounded-full border-2 border-zinc-500 px-3 py-2 text-center font-medium transition-all hover:border-black hover:bg-white/25 hover:tracking-widest md:text-lg"
         >
