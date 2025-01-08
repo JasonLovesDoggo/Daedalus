@@ -4,7 +4,9 @@ import {
   Container,
   Head,
   Heading,
+  Hr,
   Html,
+  Img,
   Preview,
   Section,
   Text,
@@ -26,7 +28,7 @@ const WelcomeEmail = ({
     <Html>
       <Head />
       <Preview>
-        Welcome to Hack Canada! Your verification code: {verificationCode}
+        {verificationCode} - Your verification code. Welcome to Hack Canada!
       </Preview>
       <Tailwind
         config={{
@@ -34,54 +36,68 @@ const WelcomeEmail = ({
             extend: {
               colors: {
                 primary: "#1E90FF",
+                primaryLight: "#87CEEB",
                 primaryDark: "#1565C0",
-                background: "#FFFFFF",
-                backgroundMuted: "#F8FAFC",
+                background: "#F8FAFC",
+                backgroundMuted: "#E5E7EB",
                 textPrimary: "#1F2937",
                 textSecondary: "#4B5563",
                 textMuted: "#9CA3AF",
+                border: "#E5E7EB",
+                success: "#4CAF50",
+                error: "#F44336",
               },
             },
           },
         }}
       >
-        <Body className="bg-backgroundMuted">
-          <Container className="mx-auto max-w-[42rem] px-3 py-6">
-            <Section className="rounded-lg bg-background p-6 shadow-sm">
-              <Heading className="mb-4 text-2xl font-bold text-primary">
-                Welcome, {name}!
+        <Body className="rounded-lg bg-primary/5">
+          <Container className="mx-auto max-w-2xl px-4 py-8">
+            <Img
+              src="https://i.imgur.com/OBbPUOD.png"
+              width={500}
+              alt="Hack Canada"
+              className="w-full rounded-t-lg"
+            />
+            <Section className="rounded-b-lg bg-background/95 p-6 shadow-lg backdrop-blur-sm">
+              <Heading className="text-2xl font-semibold text-textPrimary">
+                Welcome, {name}! 🎉
               </Heading>
-              <Text className="mt-4 text-textPrimary">
-                Thank you for signing up. Please verify your email address using
+              <Text
+                className="text-textSecondary"
+                style={{ marginTop: "-1rem" }}
+              >
+                Thank you for signing up! Please verify your email address using
                 the code below:
               </Text>
+              <Hr className="mb-6 border-gray-200" />
 
-              <Section className="mt-6 rounded-md bg-backgroundMuted p-4">
+              <Section className="mb-4 rounded-lg border border-blue-500/10 bg-primary/5 to-primary/5 p-6 shadow-sm">
                 <div className="text-center">
                   <Text className="text-textSecondary">
-                    Your verification code is:
+                    🔐 Your verification code is:
                   </Text>
-                  <div className="mt-2 text-3xl font-bold tracking-wider text-primaryDark">
+                  <div className="mt-2 rounded-lg bg-primary/5 px-6 py-4 text-4xl font-bold tracking-wider text-primary">
                     {verificationCode}
                   </div>
-                  <Text className="mt-4 text-textSecondary">
-                    Or click the button below to go to the verification page:
-                  </Text>
                 </div>
               </Section>
 
-              <div className="mt-6 text-center">
+              <div className="text-center">
+                <Text className="mb-4 text-textSecondary">
+                  Click the button below to go to the verification page:
+                </Text>
                 <Button
                   href={verificationUrl}
-                  className="inline-block rounded-md bg-primary px-6 py-3 text-center font-bold text-white no-underline hover:bg-primaryDark"
+                  className="inline-block rounded-lg bg-[#0A1F44] px-8 py-3 text-center font-semibold text-white no-underline transition-all duration-200 hover:brightness-110"
                 >
                   Verify Email
                 </Button>
               </div>
 
-              <Text className="mt-8 text-center text-textMuted">
-                If you did not sign up for our platform, please ignore this
-                email.
+              <Text className="mt-8 text-center text-sm text-textMuted">
+                ❗ If you did not sign up for our platform, please ignore this
+                email. ❗
               </Text>
             </Section>
           </Container>
