@@ -100,7 +100,11 @@ const WelcomeEmail = ({
                 ❗ If you did not sign up for our platform, please ignore this
                 email. ❗
               </Text>
-              <div style={{ textAlign: "center", padding: "16px 0" }}>
+
+              <Hr className="my-6 border-gray-200" />
+
+              {/* Footer */}
+              <div style={{ textAlign: "center" }}>
                 <div style={{ marginBottom: "16px" }}>
                   <Link
                     style={{
