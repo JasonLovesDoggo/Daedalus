@@ -51,7 +51,7 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
         />
         <Field label="Github" value={application.github} />
         <Field label="Linkedin" value={application.linkedin} />
-        <Field label="Personal Website" value={"https://apple.com"} />
+        <Field label="Personal Website" value={application.personalWebsite} />
         <Field
           label="Resume"
           value={getResumeUrl(application.resumeUrl || "")}

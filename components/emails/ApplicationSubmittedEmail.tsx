@@ -44,7 +44,7 @@ const ApplicationSubmittedEmail = ({
         <Body className="bg-backgroundMuted">
           <Container className="mx-auto max-w-[42rem] px-3 py-6">
             <Img
-              src="https://i.imgur.com/CAOraYh.png"
+              src="https://i.imgur.com/pjSy91v.png"
               width={500}
               alt="Hack Canada"
               className="w-full rounded-t-lg"
@@ -85,7 +85,7 @@ const ApplicationSubmittedEmail = ({
                 </Text>
               </Section>
 
-              <Text className="mx-auto mt-6 max-w-xl text-center text-textPrimary">
+              <Text className="mt-6 text-textPrimary">
                 If you have any questions or concerns, please email us at{" "}
                 <Link
                   href="mailto:hello@hackcanada.org"
@@ -96,7 +96,7 @@ const ApplicationSubmittedEmail = ({
                 , or reach out via our socials.
               </Text>
 
-              <Text className="mt-6 text-center text-sm text-textMuted">
+              <Text className="mt-2 text-sm text-textMuted">
                 We look forward to seeing you at Hack Canada!
               </Text>
 
