@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
@@ -6,6 +7,10 @@ import type { hackerApplications } from "@/lib/db/schema";
 import { ReviewApplication } from "@/components/applications/ReviewApplication";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
+
+export const metadata: Metadata = {
+  title: "Review Application",
+};
 
 export default async function HackerApplicationReviewPage() {
   const currentUser = await getCurrentUser();

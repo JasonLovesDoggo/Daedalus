@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
 import { applications } from "@/config/applications";
 import { ApplicationCard } from "@/components/applications/ApplicationCard";
+
+export const metadata: Metadata = {
+  title: "Applications",
+};
 
 const ApplicationPage = async () => {
   const user = await getCurrentUser();

@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
+
 import ResetPasswordCard from "@/components/auth/reset-password/ResetPasswordCard";
+
+export const metadata: Metadata = {
+  title: "Reset Password",
+};
 
 const ResetPasswordPage = ({
   params,
