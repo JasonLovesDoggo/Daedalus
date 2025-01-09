@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
 import { applications } from "@/config/applications";
+import { BackButton } from "@/components/ui/back-button";
 import { ApplicationCard } from "@/components/applications/ApplicationCard";
 import PageWrapper from "@/components/PageWrapper";
 
@@ -42,6 +43,7 @@ const ApplicationPage = async () => {
           />
         ))}
       </div>
+      <BackButton label="Back to Dashboard" />
     </PageWrapper>
   );
 };
