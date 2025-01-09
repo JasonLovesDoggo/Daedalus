@@ -11,7 +11,7 @@ interface EmptyPageProps {
 
 export const EmptyPage = ({ title, message, buttonLabel }: EmptyPageProps) => {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <div className="flex min-h-[calc(100svh-64px)] items-center justify-center px-4 lg:min-h-svh">
       <MagicCard
         gradientColor="#87CEEB40"
         className="w-full max-w-md bg-background p-4 shadow-lg md:p-8 xl:p-10"

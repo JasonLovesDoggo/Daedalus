@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const UnauthorizedState = () => {
   return (
-    <div className="grid min-h-svh place-items-center">
+    <div className="grid min-h-[calc(100svh-64px)] place-items-center lg:min-h-svh">
       <p>You're not logged in.</p>
 
       <div className="flex flex-col gap-8 sm:flex-row md:gap-12 xl:gap-16">

@@ -6,7 +6,7 @@ import { Confetti } from "@/components/ui/confetti";
 
 export default function SubmissionSuccess() {
   return (
-    <div className="relative mx-auto flex min-h-svh w-full max-w-5xl flex-grow flex-col items-center justify-center px-4 sm:px-6 xl:px-10">
+    <div className="relative mx-auto flex min-h-[calc(100svh-64px)] w-full max-w-5xl flex-grow flex-col items-center justify-center px-4 sm:px-6 lg:min-h-svh xl:px-10">
       <Confetti className="confetti-container pointer-events-none absolute inset-0 h-svh w-full" />
 
       {/* Main content */}

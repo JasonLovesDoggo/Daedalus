@@ -3,18 +3,19 @@ import Image from "next/image";
 
 type Props = {
   className?: string;
+  mobile?: boolean;
 };
 
-const SidebarLogo = ({ className }: Props) => {
+const SidebarLogo = ({ className, mobile }: Props) => {
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
       {/* TODO: Add Logo */}
       <Image
-        src="/beaver-wave.webp"
+        src={mobile ? "/beaver-wave.webp" : "/logo.webp"}
         alt="Hack Canada Logo"
         width={48}
         height={48}
-        className="translate-y-1"
+        className={mobile ? "translate-y-1" : ""}
       />
       <p className="text-lg font-bold">
         Hack

@@ -16,7 +16,7 @@ const Navbar = ({}: Props) => {
     <>
       <nav className="fixed top-0 z-40 flex h-16 w-full items-center bg-background px-4 shadow-md sm:px-6 md:px-8 lg:hidden">
         <div className="flex w-full items-center justify-between gap-4">
-          <SidebarLogo className="h-8 w-auto" />
+          <SidebarLogo className="h-8 w-auto" mobile />
 
           <Button
             variant="ghost"

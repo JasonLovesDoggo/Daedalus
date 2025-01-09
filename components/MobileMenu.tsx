@@ -12,6 +12,8 @@ type MobileMenuProps = {
 
 const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
   useEffect(() => {
+    if (typeof document === "undefined") return;
+
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
     } else {
