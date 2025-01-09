@@ -10,7 +10,6 @@ import { sendApplicationSubmittedEmail } from "@/lib/emails/ses";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
 
 // TODO figure out how / when submit will be called
-// e.g. ensure /save is called before /submit
 
 export async function POST(
   req: NextRequest,

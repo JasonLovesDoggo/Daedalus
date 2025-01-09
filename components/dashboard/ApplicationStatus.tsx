@@ -149,7 +149,6 @@ export const ApplicationStatus = ({
                 Review Application
               </Link>
               <hr className="mb-2.5" />
-              {/* TODO: Cancel RSVP Section */}
               <CancelRSVP />
             </>
           );

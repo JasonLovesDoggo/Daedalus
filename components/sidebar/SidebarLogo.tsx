@@ -13,7 +13,6 @@ const SidebarLogo = ({ className, mobile }: Props) => {
       href={"/"}
       className={`flex w-fit items-center space-x-2 ${className}`}
     >
-      {/* TODO: Add Logo */}
       <Image
         src={"/beaver-wave.webp"}
         alt="Hack Canada Logo"

@@ -43,7 +43,7 @@ const ApplicationPage = async () => {
           />
         ))}
       </div>
-      <BackButton label="Back to Dashboard" />
+      <BackButton />
     </PageWrapper>
   );
 };

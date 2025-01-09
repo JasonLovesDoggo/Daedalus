@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import { AnimatedSnowflake } from "@/components/ui/AnimatedSnowflake";
-import { BackButton } from "@/components/ui/back-button";
 import { Tabs } from "@/components/ui/tabs";
 
 export default function AuthLayout({
@@ -10,7 +9,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-gradient-to-b from-[#0A1F44] via-slate-200 to-white px-4 pb-12 pt-24 md:pb-20 md:pt-36">
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-gradient-to-b from-[#0A1F44] via-slate-200 to-white px-4 pb-12 pt-28 md:pb-20 md:pt-36">
       {/* Aurora background */}
       <Image
         src="/aurora.webp"
