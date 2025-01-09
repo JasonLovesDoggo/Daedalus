@@ -1,6 +1,24 @@
-// No need for an over-the-top site config for SEO purposes as almost the entire site is password protected and cannot be access by bots or scrapers anyway
 export const siteConfig = {
   title: "Hack Canada",
   description:
-    "Canada's largest hackathon with over 5000+ hackers and sponsors.",
+    "First hackathon Hosted by Hackathons Canada, the biggest hacker community in Canada of 3000 members.",
+  openGraph: {
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1500,
+        height: 1000,
+        alt: "Hack Canada",
+      },
+    ],
+  },
+  keywords: [
+    "hackathon",
+    "canada",
+    "programming",
+    "coding",
+    "hackers",
+    "technology",
+    "innovation",
+  ],
 };
