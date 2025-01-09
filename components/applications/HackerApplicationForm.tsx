@@ -81,7 +81,16 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
                 </StepContentWrapper>
               )}
               {currentStep === 2 && (
-                <StepContentWrapper title="Short Answers">
+                <StepContentWrapper
+                  title="Short Answers"
+                  className="space-y-0 md:space-y-0 xl:space-y-0"
+                >
+                  <p className="pb-4 pt-1 text-textMuted max-md:text-sm md:pb-8 md:pt-2">
+                    Please answer either one or both of the following questions.
+                    Note that your chances of acceptance will not be impacted if
+                    you only answer one of the questions. Minimum length of 32
+                    characters.
+                  </p>
                   <ShortAnswersStep control={form.control} />
                 </StepContentWrapper>
               )}

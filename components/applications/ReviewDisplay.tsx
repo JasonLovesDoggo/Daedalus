@@ -68,8 +68,14 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
       </ReviewSection>
 
       <ReviewSection title="Short Answers" columns="1">
-        <Field label="Short Answer 1" value={values.shortAnswer1} />
-        <Field label="Short Answer 2" value={values.shortAnswer2} />
+        <Field
+          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing?"
+          value={values.shortAnswer1}
+        />
+        <Field
+          label="What inspired you to start participating in hackathons, and what motivates you to dedicate your weekends to them?"
+          value={values.shortAnswer2}
+        />
       </ReviewSection>
 
       <ReviewSection title="MLH Agreements" columns="1">

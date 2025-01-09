@@ -63,8 +63,14 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
       </ReviewSection>
 
       <ReviewSection title="Short Answers" columns="1">
-        <Field label="Short Answer 1" value={application.shortAnswer1} />
-        <Field label="Short Answer 2" value={application.shortAnswer2} />
+        <Field
+          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing?"
+          value={application.shortAnswer1}
+        />
+        <Field
+          label="What inspired you to start participating in hackathons, and what motivates you to dedicate your weekends to them?"
+          value={application.shortAnswer2}
+        />
       </ReviewSection>
 
       <hr />

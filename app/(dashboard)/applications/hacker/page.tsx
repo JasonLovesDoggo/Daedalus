@@ -10,8 +10,6 @@ export const metadata: Metadata = {
 };
 
 const HackerApplicationPage = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
-
   const currentUser = await getCurrentUser();
 
   if (!currentUser || !currentUser.id) {
