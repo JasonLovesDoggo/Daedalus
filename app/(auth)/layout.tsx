@@ -35,9 +35,9 @@ export default function AuthLayout({
         className="pointer-events-none absolute inset-0 object-cover opacity-5"
       />
 
-      <div className="absolute left-4 top-4">
+      {/* <div className="absolute left-4 top-4">
         <BackButton className="border border-transparent text-gray-300 hover:border-white/25 hover:bg-white/10 hover:text-white" />
-      </div>
+      </div> */}
       <div className="w-full max-w-sm">
         <Tabs />
         {children}

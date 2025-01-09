@@ -1,5 +1,4 @@
 import { and, eq, gt, lt } from "drizzle-orm";
-import { SQLiteTransaction } from "drizzle-orm/sqlite-core";
 
 import { generateRandomCode } from "../../utils";
 import { db } from "../index";

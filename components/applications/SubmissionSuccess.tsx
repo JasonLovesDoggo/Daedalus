@@ -11,7 +11,7 @@ export default function SubmissionSuccess() {
 
       {/* Main content */}
       <div className="relative text-center md:text-left">
-        <div className="pointer-events-none absolute -bottom-24 right-0 size-32 sm:-bottom-16 sm:right-4 sm:size-48 md:-bottom-32 md:left-48 md:size-64 lg:right-44 xl:left-56">
+        <div className="pointer-events-none absolute -bottom-28 right-0 size-32 sm:-bottom-16 sm:right-4 sm:size-48 md:-bottom-32 md:left-48 md:size-64 lg:right-44 xl:left-56">
           <Image
             src="/beaver-wave.webp"
             alt="Beaver waving"
@@ -20,7 +20,7 @@ export default function SubmissionSuccess() {
             className="h-full w-full object-contain"
           />
         </div>
-        <div className="pointer-events-none absolute -bottom-24 left-0 size-32 -scale-x-100 sm:-bottom-16 sm:right-4 sm:size-48 md:hidden">
+        <div className="pointer-events-none absolute -bottom-28 left-0 size-32 -scale-x-100 sm:-bottom-16 sm:right-4 sm:size-48 md:hidden">
           <Image
             src="/beaver-wave.webp"
             alt="Beaver waving"
@@ -31,7 +31,7 @@ export default function SubmissionSuccess() {
         </div>
 
         {/* Emoji for all screens */}
-        <div className="absolute -top-4 right-4 animate-bounce text-5xl xs:right-12 sm:right-24 sm:text-6xl md:-top-8 md:right-20 md:text-7xl xl:right-12 xl:text-8xl">
+        <div className="absolute -top-4 right-4 text-5xl xs:right-12 sm:right-24 sm:text-6xl md:-top-8 md:right-20 md:text-7xl xl:right-12 xl:text-8xl">
           🎉
         </div>
 

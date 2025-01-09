@@ -17,18 +17,5 @@ if (process.env.NODE_ENV !== "production") {
   globalThis._db = db;
 }
 
-// export async function withTransaction<T>(
-//   fn: (tx: typeof db.transaction) => Promise<T>,
-// ) {
-//   return db.transaction(async (tx) => {
-//     try {
-//       return await fn(tx);
-//     } catch (error) {
-//       tx.rollback();
-//       throw error;
-//     }
-//   });
-// }
-
 // Run migrations
 // migrate(db, { migrationsFolder: "drizzle" });

@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
-    template: `%s - ${siteConfig.title}`,
+    template: `%s | ${siteConfig.title}`,
     default: siteConfig.title,
   },
   description: siteConfig.description,

@@ -10,9 +10,9 @@ const DashboardLayout = ({ children }: Props) => {
     <div className="flex-1">
       <Sidebar />
       <main className="h-full lg:ml-72">
-        <div className="absolute left-4 top-4">
+        {/* <div className="absolute left-4 top-4">
           <BackButton />
-        </div>
+        </div> */}
         {children}
       </main>
     </div>
