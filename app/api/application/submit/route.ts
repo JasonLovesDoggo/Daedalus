@@ -70,7 +70,7 @@ export async function POST(
       lastName: data.lastName,
       age,
       pronouns,
-      email: data.email,
+      email: data.email.toLowerCase(),
       github: data.github,
       linkedin: data.linkedin,
       personalWebsite: data.personalWebsite,

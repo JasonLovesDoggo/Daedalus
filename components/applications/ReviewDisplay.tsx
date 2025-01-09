@@ -36,7 +36,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Email" value={values.email} />
         <Field label="Gender" value={values.gender} />
         <Field label="Race/Ethnicity" value={values.race} />
-        <Field label="country" value={values.country} />
+        <Field label="Country" value={values.country} />
       </ReviewSection>
 
       <ReviewSection title="Your Background">

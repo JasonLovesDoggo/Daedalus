@@ -271,7 +271,11 @@ export function BackgroundEducationStep({
             <FormItem>
               <FormLabel>GitHub</FormLabel>
               <FormControl>
-                <Input placeholder="https://github.com/username" {...field} />
+                <Input
+                  {...field}
+                  placeholder="https://github.com/username"
+                  className="lowercase"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -286,8 +290,9 @@ export function BackgroundEducationStep({
               <FormLabel>LinkedIn</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="https://linkedin.com/in/username"
                   {...field}
+                  placeholder="https://linkedin.com/in/username"
+                  className="lowercase"
                 />
               </FormControl>
               <FormMessage />
@@ -304,7 +309,11 @@ export function BackgroundEducationStep({
             <FormItem>
               <FormLabel>Personal Website</FormLabel>
               <FormControl>
-                <Input placeholder="https://yourwebsite.com" {...field} />
+                <Input
+                  {...field}
+                  placeholder="https://yourwebsite.com"
+                  className="lowercase"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
