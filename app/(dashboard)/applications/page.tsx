@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/auth";
 
 import { applications } from "@/config/applications";
 import { ApplicationCard } from "@/components/applications/ApplicationCard";
+import PageWrapper from "@/components/PageWrapper";
 
 export const metadata: Metadata = {
   title: "Applications",
@@ -19,7 +20,7 @@ const ApplicationPage = async () => {
   const alreadyApplied = user.status !== "not_applied";
 
   return (
-    <div className="mx-auto h-full w-full max-w-screen-lg space-y-6 px-4 py-8 md:space-y-8 md:px-8 md:py-12 lg:space-y-10 lg:px-12 lg:py-20 xl:space-y-12 xl:px-16 xl:py-28 2xl:py-32 min-[1850px]:max-w-screen-xl">
+    <PageWrapper>
       <div className="mb-8 space-y-2">
         <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
           <h1 className="font-rubik text-3xl font-bold">
@@ -41,7 +42,7 @@ const ApplicationPage = async () => {
           />
         ))}
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
