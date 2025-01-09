@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Menu } from "lucide-react";
 
+import MobileMenu from "./MobileMenu";
 import SidebarLogo from "./sidebar/SidebarLogo";
-import SidebarNav from "./sidebar/SidebarNav";
-import SidebarUser from "./sidebar/SidebarUser";
 import { Button } from "./ui/button";
 
 type Props = {};
@@ -32,33 +30,7 @@ const Navbar = ({}: Props) => {
       </nav>
 
       {/* Mobile Menu */}
-      <div
-        className={`fixed inset-0 z-30 bg-black/50 transition-opacity lg:hidden ${
-          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        onClick={() => setIsOpen(false)}
-      >
-        <div
-          className={`fixed inset-y-0 right-0 z-40 flex w-72 flex-col overflow-y-auto bg-background shadow-lg shadow-black/25 transition-transform duration-300 ${
-            isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="mb-16 mt-24 flex h-full w-full flex-col space-y-24 px-10">
-            <SidebarNav />
-            <SidebarUser />
-          </div>
-
-          <Image
-            src="/sidebar-waves.svg"
-            alt="Sidebar waves"
-            priority
-            width={1}
-            height={1}
-            className="pointer-events-none absolute bottom-0 left-0 w-full select-none object-cover"
-          />
-        </div>
-      </div>
+      <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };
