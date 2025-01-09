@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Menu } from "lucide-react";
 
 import MobileMenu from "./MobileMenu";
 import SidebarLogo from "./sidebar/SidebarLogo";
+import AnimatedMenuIcon from "./ui/AnimatedMenuIcon";
 import { Button } from "./ui/button";
 
 type Props = {};
@@ -24,7 +24,7 @@ const Navbar = ({}: Props) => {
             onClick={() => setIsOpen(!isOpen)}
             className={isOpen ? "bg-primary/10 text-primary" : ""}
           >
-            <Menu className="size-6" />
+            <AnimatedMenuIcon isOpen={isOpen} />
           </Button>
         </div>
       </nav>

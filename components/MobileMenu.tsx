@@ -42,7 +42,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="mb-16 mt-24 flex h-full w-full flex-col space-y-24 px-10 pb-8">
-            <SidebarNav />
+            <SidebarNav setIsOpen={setIsOpen} />
             <SidebarUser />
           </div>
         </div>

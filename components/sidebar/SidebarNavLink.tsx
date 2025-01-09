@@ -8,9 +8,15 @@ interface SidebarNavLinkProps {
   name: string;
   href: string;
   icon: LucideIcon;
+  setIsOpen?: (open: boolean) => void;
 }
 
-const SidebarNavLink = ({ name, href, icon: Icon }: SidebarNavLinkProps) => {
+const SidebarNavLink = ({
+  name,
+  href,
+  icon: Icon,
+  setIsOpen,
+}: SidebarNavLinkProps) => {
   const pathname = usePathname();
   const isActive = pathname === href;
 
@@ -23,15 +29,19 @@ const SidebarNavLink = ({ name, href, icon: Icon }: SidebarNavLinkProps) => {
           ? "bg-primary/10 text-primary"
           : "text-textSecondary hover:bg-backgroundMuted",
       )}
+      onClick={() => setTimeout(() => setIsOpen?.(false), 300)}
     >
       <Icon
-        className={cn("size-6 transition-transform", isActive && "scale-[1.2]")}
+        className={cn(
+          "size-6 transition-transform",
+          isActive && "lg:scale-[1.2]",
+        )}
       />
       <span
         className={cn(
           "transition-all duration-300",
           isActive
-            ? "translate-x-2 font-semibold tracking-wider"
+            ? "translate-x-2 tracking-wider lg:font-semibold"
             : "font-normal group-hover:translate-x-1",
         )}
       >

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   className?: string;
@@ -8,7 +9,10 @@ type Props = {
 
 const SidebarLogo = ({ className, mobile }: Props) => {
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <Link
+      href={mobile ? "/" : ""}
+      className={`flex items-center space-x-2 ${className}`}
+    >
       {/* TODO: Add Logo */}
       <Image
         src={mobile ? "/beaver-wave.webp" : "/logo.webp"}
@@ -22,7 +26,7 @@ const SidebarLogo = ({ className, mobile }: Props) => {
         <br className="max-lg:hidden" />
         Canada
       </p>
-    </div>
+    </Link>
   );
 };
 
