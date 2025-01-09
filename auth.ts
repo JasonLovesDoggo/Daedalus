@@ -10,7 +10,6 @@ import {
 } from "./lib/db/queries/email-verification-tokens";
 import { getUserById } from "./lib/db/queries/user";
 import { sendWelcomeEmail } from "./lib/emails/ses";
-import { generateRandomCode } from "./lib/utils";
 
 declare module "next-auth" {
   interface Session {
