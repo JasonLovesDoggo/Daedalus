@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { AnimatedSnowflake } from "@/components/ui/AnimatedSnowflake";
 import { Tabs } from "@/components/ui/tabs";
@@ -40,6 +41,15 @@ export default function AuthLayout({
       <div className="w-full max-w-sm">
         <Tabs />
         {children}
+        <div className="mt-4 text-center">
+          <Link
+            href="https://hackcanada.org"
+            target="_blank"
+            className="mx-auto mt-4 text-textMuted transition-colors hover:text-textPrimary"
+          >
+            Back to landing page
+          </Link>
+        </div>
       </div>
     </div>
   );

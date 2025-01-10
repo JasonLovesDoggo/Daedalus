@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ChevronsLeft } from "lucide-react";
 
 import SidebarLogo from "./SidebarLogo";
 import SidebarNav from "./SidebarNav";
@@ -9,7 +11,7 @@ type Props = {};
 const Sidebar = ({}: Props) => {
   return (
     <div className="fixed inset-y-0 z-30 flex w-72 flex-col overflow-y-auto bg-background shadow-lg shadow-black/25 max-lg:hidden">
-      <div className="flex h-full w-full flex-col space-y-24 px-10 pb-32 pt-24">
+      <div className="sidebar-content relative flex h-full w-full flex-col space-y-24 px-10 pb-32 pt-24">
         <SidebarLogo />
         <SidebarNav />
         <SidebarUser />

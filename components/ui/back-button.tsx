@@ -10,9 +10,10 @@ import { Button } from "./button";
 type Props = {
   className?: string;
   label?: string;
+  href?: string;
 };
 
-export function BackButton({ className, label }: Props) {
+export function BackButton({ className, label, href }: Props) {
   const router = useRouter();
 
   return (
@@ -22,7 +23,7 @@ export function BackButton({ className, label }: Props) {
         "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground",
         className,
       )}
-      onClick={() => router.back()}
+      onClick={() => (href ? router.push(href) : router.back())}
     >
       <ArrowLeft className="size-4" />
       {label ?? "Back"}

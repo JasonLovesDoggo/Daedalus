@@ -1,4 +1,8 @@
+import Link from "next/link";
+import { ChevronsLeft } from "lucide-react";
+
 import PageWrapper from "../PageWrapper";
+import { BackButton } from "../ui/back-button";
 import { ApplicationStatus } from "./ApplicationStatus";
 import { ContactSection } from "./ContactSection";
 import { CountdownSection } from "./CountdownSection";
@@ -18,6 +22,7 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
         <CountdownSection />
         <ContactSection />
       </div>
+      <BackButton label="Back to landing page" href="https://hackcanada.org" />
     </PageWrapper>
   );
 };

@@ -14,7 +14,7 @@ const SidebarUser = () => {
   }
 
   return (
-    <div className="z-10 space-y-6 pb-16">
+    <div className="z-10 space-y-6 pb-12">
       <div className="flex items-center space-x-2">
         <div className="w-full border-t-2 border-primary"></div>
         <Image src="/blue-leaf.png" alt="Leaf" width={16} height={16} />

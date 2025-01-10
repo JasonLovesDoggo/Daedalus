@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const lineVariants = {
   closed: { rotate: 0, y: 0 },
   open: (index: number) => ({
-    rotate: index === 0 ? 45 : -45,
+    rotate: index === 0 ? 405 : -405,
     y: index === 0 ? 6 : -6,
   }),
 };

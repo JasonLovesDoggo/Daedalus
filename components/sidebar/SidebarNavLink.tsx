@@ -23,6 +23,7 @@ const SidebarNavLink = ({
   return (
     <Link
       href={href}
+      target={href.includes("http") ? "_blank" : "_self"}
       className={cn(
         "group flex items-center space-x-4 rounded-md p-2 transition-colors duration-300",
         isActive
@@ -42,7 +43,7 @@ const SidebarNavLink = ({
           "transition-all duration-300",
           isActive
             ? "translate-x-2 tracking-wider lg:font-semibold"
-            : "font-normal group-hover:translate-x-1",
+            : "font-normal lg:group-hover:translate-x-1",
         )}
       >
         {name}
