@@ -67,3 +67,9 @@
     @apply bg-background text-foreground selection:bg-primaryLight selection:text-textPrimary;
   }
 }
+
+@media (max-height: 800px) {
+  .sidebar-waves {
+    display: none;
+  }
+}
