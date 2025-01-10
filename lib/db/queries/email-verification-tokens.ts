@@ -18,7 +18,7 @@ export async function createVerificationToken(email: string, tx?: any) {
         email,
         code: verificationCode,
         createdAt: now,
-        expires: new Date(now.getTime() + 1000 * 60 * 15), // 15 minutes
+        expires: new Date(now.getTime() + 1000 * 60 * 60), // 60 minutes
       })
       .returning({ id: emailVerificationTokens.id });
 
@@ -30,7 +30,7 @@ export async function createVerificationToken(email: string, tx?: any) {
         email,
         code: verificationCode,
         createdAt: now,
-        expires: new Date(now.getTime() + 1000 * 60 * 15), // 15 minutes
+        expires: new Date(now.getTime() + 1000 * 60 * 60), // 60 minutes
       })
       .returning({ id: emailVerificationTokens.id });
 
