@@ -7,7 +7,7 @@ import { db } from "@/lib/db";
 import { passwordResetTokens, users } from "@/lib/db/schema";
 import { ResetPasswordSchema } from "@/lib/validations/reset-password";
 
-const RESET_TOKEN_EXPIRY = 15 * 60 * 1000; // 15 minutes in milliseconds
+const RESET_TOKEN_EXPIRY = 60 * 60 * 1000; // 60 minutes in milliseconds
 
 /**
  * Validates and retrieves the user ID associated with a reset token

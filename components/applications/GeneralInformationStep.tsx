@@ -143,7 +143,12 @@ export function GeneralInformationStep({
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
+                <Input
+                  {...field}
+                  type="email"
+                  placeholder="john@example.com"
+                  className="lowercase"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

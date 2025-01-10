@@ -1,6 +1,7 @@
 import { SendEmailCommandInput, SES } from "@aws-sdk/client-ses";
 import { render } from "@react-email/render";
 
+import ApplicationSubmittedEmail from "@/components/emails/ApplicationSubmittedEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 
@@ -75,7 +76,7 @@ export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
       verificationCode,
       verificationUrl:
         process.env.NODE_ENV === "production"
-          ? `https://app.hackcanada.org/email/verification?token=${token}`
+          ? `https://app.hackcanada.org/email-verification?token=${token}`
           : `http://localhost:3000/email-verification?token=${token}`,
     }),
   );
@@ -109,6 +110,33 @@ export const sendResetPasswordEmail = async (data: ResetPasswordEmailProps) => {
     ResetPasswordEmail({
       name,
       resetUrl,
+    }),
+  );
+
+  const result = await sendEmail(
+    email,
+    subject,
+    body,
+    process.env.AWS_SES_NO_REPLY_EMAIL,
+  );
+
+  return result;
+};
+
+type ApplicationSubmittedEmailProps = {
+  name: string;
+  email: string;
+  subject: string;
+};
+
+export const sendApplicationSubmittedEmail = async (
+  data: ApplicationSubmittedEmailProps,
+) => {
+  const { name, email, subject } = data;
+
+  const body = await render(
+    ApplicationSubmittedEmail({
+      name,
     }),
   );
 

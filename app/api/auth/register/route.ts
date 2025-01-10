@@ -71,7 +71,7 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       });
 
       // Create new verification token
-      const { tokenId, code } = await createVerificationToken(email);
+      const { tokenId, code } = await createVerificationToken(email, tx);
 
       // Send verification email
       const emailResult = await sendWelcomeEmail({

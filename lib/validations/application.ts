@@ -150,8 +150,20 @@ export const HackerApplicationDraftSchema = z
     gender: z.string().trim().optional(),
     race: z.string().trim().optional(),
     country: z.string().trim().optional(),
-    shortAnswer1: z.string().trim().optional(),
-    shortAnswer2: z.string().trim().optional(),
+    shortAnswer1: z
+      .string()
+      .trim()
+      .max(1000, {
+        message: "Your answer must be 1000 characters or less.",
+      })
+      .optional(),
+    shortAnswer2: z
+      .string()
+      .trim()
+      .max(1000, {
+        message: "Your answer must be 1000 characters or less.",
+      })
+      .optional(),
     technicalInterests: z.string().trim().optional(),
     hackathonsAttended: z.string().optional(),
     mlhCheckbox1: z.boolean().optional(),
@@ -306,12 +318,20 @@ export const HackerApplicationSubmissionSchema = z
     gender: z.string().trim().min(1, { message: "Gender is required" }),
     race: z.string().trim().min(1, { message: "Race is required" }),
     country: z.string().trim().min(1, { message: "Country is required" }),
-    shortAnswer1: z.string().trim().min(32, {
-      message: "Your answer must be at least 32 characters in length.",
-    }),
-    shortAnswer2: z.string().trim().min(32, {
-      message: "Your answer must be at least 32 characters in length.",
-    }),
+    shortAnswer1: z
+      .string()
+      .trim()
+      .max(1000, {
+        message: "Your answer must be 1000 characters or less.",
+      })
+      .optional(),
+    shortAnswer2: z
+      .string()
+      .trim()
+      .max(1000, {
+        message: "Your answer must be 1000 characters or less.",
+      })
+      .optional(),
     technicalInterests: z.string().trim(),
     hackathonsAttended: z
       .string()
@@ -338,7 +358,39 @@ export const HackerApplicationSubmissionSchema = z
       }),
     mlhCheckbox3: z.boolean(),
   })
-  .strict();
+  .superRefine((data, ctx) => {
+    // Require at least one answer
+    if (!data.shortAnswer1 && !data.shortAnswer2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "You must answer at least one of the short answer questions",
+        path: ["shortAnswer1"],
+      });
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "You must answer at least one of the short answer questions",
+        path: ["shortAnswer2"],
+      });
+    }
+
+    // If shortAnswer1 is provided, require min 32 chars
+    if (data.shortAnswer1 && data.shortAnswer1.trim().length < 32) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Your answer must be at least 32 characters in length",
+        path: ["shortAnswer1"],
+      });
+    }
+
+    // If shortAnswer2 is provided, require min 32 chars
+    if (data.shortAnswer2 && data.shortAnswer2.trim().length < 32) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Your answer must be at least 32 characters in length",
+        path: ["shortAnswer2"],
+      });
+    }
+  });
 
 export type THackerApplicationDraft = z.infer<
   typeof HackerApplicationDraftSchema

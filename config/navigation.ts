@@ -1,4 +1,10 @@
-import { Clock, LayoutDashboard, NotebookPen, QrCode } from "lucide-react";
+import {
+  Clock,
+  Home,
+  LayoutDashboard,
+  NotebookPen,
+  QrCode,
+} from "lucide-react";
 
 export const navigation = [
   {
@@ -21,4 +27,5 @@ export const navigation = [
     href: "/qrcode",
     icon: QrCode,
   },
+  { name: "Landing Page", href: "https://hackcanada.org", icon: Home },
 ];

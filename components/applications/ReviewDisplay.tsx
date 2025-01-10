@@ -36,7 +36,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field label="Email" value={values.email} />
         <Field label="Gender" value={values.gender} />
         <Field label="Race/Ethnicity" value={values.race} />
-        <Field label="country" value={values.country} />
+        <Field label="Country" value={values.country} />
       </ReviewSection>
 
       <ReviewSection title="Your Background">
@@ -68,8 +68,14 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
       </ReviewSection>
 
       <ReviewSection title="Short Answers" columns="1">
-        <Field label="Short Answer 1" value={values.shortAnswer1} />
-        <Field label="Short Answer 2" value={values.shortAnswer2} />
+        <Field
+          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing?"
+          value={values.shortAnswer1}
+        />
+        <Field
+          label="What inspired you to start participating in hackathons, and what motivates you to dedicate your weekends to them?"
+          value={values.shortAnswer2}
+        />
       </ReviewSection>
 
       <ReviewSection title="MLH Agreements" columns="1">

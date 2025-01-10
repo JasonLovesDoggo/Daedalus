@@ -6,10 +6,10 @@ import {
   createOrUpdateApplication,
   submitApplication,
 } from "@/lib/db/queries/application";
+import { sendApplicationSubmittedEmail } from "@/lib/emails/ses";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
 
 // TODO figure out how / when submit will be called
-// e.g. ensure /save is called before /submit
 
 export async function POST(
   req: NextRequest,
@@ -70,7 +70,7 @@ export async function POST(
       lastName: data.lastName,
       age,
       pronouns,
-      email: data.email,
+      email: data.email.toLowerCase(),
       github: data.github,
       linkedin: data.linkedin,
       personalWebsite: data.personalWebsite,
@@ -155,9 +155,16 @@ export async function POST(
       });
     }
 
+    // Send confirmation email
+    await sendApplicationSubmittedEmail({
+      name: data.firstName,
+      email: currentUser.email || data.email,
+      subject: "Thanks for applying to Hack Canada!",
+    });
+
     return NextResponse.json({
       success: true,
-      message: "Application submitted successfully",
+      message: "Application submitted successfully!",
     });
   } catch (error) {
     return NextResponse.json({

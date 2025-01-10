@@ -23,14 +23,14 @@ export const ContactSection = () => {
 
       <div className="mt-6 space-y-2.5">
         <Link
-          href="https://hackcanada.com"
+          href="https://hackcanada.org"
           target="_blank"
           className="block w-full rounded-full border-2 border-zinc-500 px-3 py-2 text-center font-medium transition-all hover:border-black hover:bg-white/25 hover:tracking-widest md:text-lg"
         >
           FAQs
         </Link>
         <Link
-          href="mailto:admin@hackcanada.org"
+          href="mailto:hello@hackcanada.org"
           target="_blank"
           className="block w-full rounded-full border-2 border-zinc-500 px-3 py-2 text-center font-medium transition-all hover:border-black hover:bg-white/25 hover:tracking-widest md:text-lg"
         >

@@ -4,21 +4,40 @@ import { generateRandomCode } from "../../utils";
 import { db } from "../index";
 import { emailVerificationTokens } from "../schema";
 
-export async function createVerificationToken(email: string) {
+export async function createVerificationToken(email: string, tx?: any) {
   const verificationCode = generateRandomCode(6);
 
   const now = new Date();
-  const [token] = await db
-    .insert(emailVerificationTokens)
-    .values({
-      email,
-      code: verificationCode,
-      createdAt: now,
-      expires: new Date(now.getTime() + 1000 * 60 * 15), // 15 minutes
-    })
-    .returning({ id: emailVerificationTokens.id });
 
-  return { tokenId: token.id, code: verificationCode };
+  let tokenId = "";
+
+  if (!tx) {
+    const [token] = await db
+      .insert(emailVerificationTokens)
+      .values({
+        email,
+        code: verificationCode,
+        createdAt: now,
+        expires: new Date(now.getTime() + 1000 * 60 * 60), // 60 minutes
+      })
+      .returning({ id: emailVerificationTokens.id });
+
+    tokenId = token.id;
+  } else {
+    const [token] = await tx
+      .insert(emailVerificationTokens)
+      .values({
+        email,
+        code: verificationCode,
+        createdAt: now,
+        expires: new Date(now.getTime() + 1000 * 60 * 60), // 60 minutes
+      })
+      .returning({ id: emailVerificationTokens.id });
+
+    tokenId = token.id;
+  }
+
+  return { tokenId, code: verificationCode };
 }
 
 export async function getVerificationTokenByEmail(email: string) {
@@ -34,17 +53,30 @@ export async function getVerificationTokenByEmail(email: string) {
   return tokens;
 }
 
-export async function getVerificationTokenById(id: string) {
-  return await db
-    .select()
-    .from(emailVerificationTokens)
-    .where(
-      and(
-        eq(emailVerificationTokens.id, id),
-        gt(emailVerificationTokens.expires, new Date()),
-      ),
-    )
-    .get();
+export async function getVerificationTokenById(id: string, tx?: any) {
+  if (!tx) {
+    return await db
+      .select()
+      .from(emailVerificationTokens)
+      .where(
+        and(
+          eq(emailVerificationTokens.id, id),
+          gt(emailVerificationTokens.expires, new Date()),
+        ),
+      )
+      .get();
+  } else {
+    return await tx
+      .select()
+      .from(emailVerificationTokens)
+      .where(
+        and(
+          eq(emailVerificationTokens.id, id),
+          gt(emailVerificationTokens.expires, new Date()),
+        ),
+      )
+      .get();
+  }
 }
 
 export async function deleteExpiredTokens(email: string) {
@@ -58,8 +90,14 @@ export async function deleteExpiredTokens(email: string) {
     );
 }
 
-export async function deleteVerificationTokenById(id: string) {
-  return await db
-    .delete(emailVerificationTokens)
-    .where(eq(emailVerificationTokens.id, id));
+export async function deleteVerificationTokenById(id: string, tx?: any) {
+  if (!tx) {
+    return await db
+      .delete(emailVerificationTokens)
+      .where(eq(emailVerificationTokens.id, id));
+  } else {
+    return await tx
+      .delete(emailVerificationTokens)
+      .where(eq(emailVerificationTokens.id, id));
+  }
 }

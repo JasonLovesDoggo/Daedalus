@@ -25,13 +25,21 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         name="shortAnswer1"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Short Answer 1</FormLabel>
+            <FormLabel>
+              Are you concerned that AI will take over or impact a career that
+              you were looking forward to pursuing?
+            </FormLabel>
             <FormControl>
-              <Textarea
-                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                className="min-h-[150px]"
-                {...field}
-              />
+              <div className="relative">
+                <Textarea
+                  {...field}
+                  placeholder="No, AI should be worried about me taking over its career."
+                  className="min-h-[150px]"
+                />
+                <span className="absolute bottom-2 right-2 text-sm text-muted-foreground">
+                  {field.value?.length || 0}/1000
+                </span>
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -43,13 +51,21 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         name="shortAnswer2"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Short Answer 2</FormLabel>
+            <FormLabel>
+              What inspired you to start participating in hackathons, and what
+              motivates you to dedicate your weekends to them?
+            </FormLabel>
             <FormControl>
-              <Textarea
-                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                className="min-h-[150px]"
-                {...field}
-              />
+              <div className="relative">
+                <Textarea
+                  {...field}
+                  placeholder="The free food is always a motivator. But I also want to make a difference and change the world."
+                  className="min-h-[150px]"
+                />
+                <span className="absolute bottom-2 right-2 text-sm text-muted-foreground">
+                  {field.value?.length || 0}/1000
+                </span>
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -44,6 +44,8 @@ export function EmailVerificationCard() {
         throw new Error("Invalid verification code");
       }
 
+      const data = await response.json();
+
       toast.success("Email verified successfully!");
       router.push("/login");
     } catch (error) {
