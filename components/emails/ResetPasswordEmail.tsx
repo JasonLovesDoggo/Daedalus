@@ -154,7 +154,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
                       fontSize: "12px",
                       textDecoration: "none",
                     }}
-                    href="mailto:contact@hackcanada.org"
+                    href="mailto:hello@hackcanada.org"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

@@ -176,7 +176,7 @@ const ApplicationSubmittedEmail = ({
                       fontSize: "12px",
                       textDecoration: "none",
                     }}
-                    href="mailto:contact@hackcanada.org"
+                    href="mailto:hello@hackcanada.org"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
