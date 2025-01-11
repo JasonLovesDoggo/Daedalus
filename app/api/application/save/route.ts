@@ -75,7 +75,7 @@ export async function POST(
     // Check that the deadline has not passed
     const url = new URL(req.url);
     const response = await fetch(`${url.origin}/api/application/deadline`, {
-      next: { revalidate: 0 },
+      next: { revalidate: 5 * 60 }, // Cache for 5m
     });
     if (!response.ok) {
       return NextResponse.json({
