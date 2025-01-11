@@ -64,7 +64,7 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
 
       <ReviewSection title="Short Answers" columns="1">
         <Field
-          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing?"
+          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing? Why or why not?"
           value={application.shortAnswer1}
         />
         <Field
