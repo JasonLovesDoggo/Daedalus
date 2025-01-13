@@ -26,7 +26,9 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       });
     }
 
-    const { email, name, password } = validation.data;
+    const { email: validatedEmail, name, password } = validation.data;
+
+    const email = validatedEmail.toLowerCase();
 
     const existingUser = await getUserByEmail(email);
 

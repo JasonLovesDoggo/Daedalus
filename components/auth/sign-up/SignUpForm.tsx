@@ -110,7 +110,7 @@ const SignUpForm = ({}: Props) => {
                   {...field}
                   placeholder="Enter your email"
                   type="text"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 lowercase text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 lowercase text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:capitalize placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />

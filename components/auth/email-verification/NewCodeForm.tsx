@@ -100,7 +100,7 @@ export default function NewCodeForm() {
                 <Input
                   {...field}
                   placeholder="Enter your email"
-                  className="rounded-sm lowercase"
+                  className="rounded-sm lowercase placeholder:capitalize"
                   disabled={isPending || cooldown > 0}
                 />
               </FormControl>

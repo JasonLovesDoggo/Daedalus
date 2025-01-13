@@ -30,9 +30,10 @@ export async function POST(
       });
     }
 
-    const { data } = validatedFields;
+    const { email: validatedEmail } = validatedFields.data;
+    const email = validatedEmail.toLowerCase();
 
-    const existingUser = await getUserByEmail(data.email);
+    const existingUser = await getUserByEmail(email);
     if (!existingUser || !existingUser.email || existingUser.emailVerified) {
       return NextResponse.json({
         success: false,
@@ -42,10 +43,10 @@ export async function POST(
     }
 
     // Delete any expired tokens first
-    await deleteExpiredTokens(data.email);
+    await deleteExpiredTokens(email);
 
     // Check for existing verification tokens
-    const existingTokens = await getVerificationTokenByEmail(data.email);
+    const existingTokens = await getVerificationTokenByEmail(email);
 
     // If there's an active token within the last 2 minutes
     const activeToken = existingTokens.find((token) => {
@@ -68,7 +69,7 @@ export async function POST(
     );
 
     // Create new verification token
-    const { code, tokenId } = await createVerificationToken(data.email);
+    const { code, tokenId } = await createVerificationToken(email);
 
     const emailResult = await sendWelcomeEmail({
       name: existingUser.name,

@@ -21,7 +21,9 @@ export async function POST(
       });
     }
 
-    const { email, password } = validatedFields.data;
+    const { email: validatedEmail, password } = validatedFields.data;
+
+    const email = validatedEmail.toLowerCase();
 
     const existingUser = await getUserByEmail(email);
 
