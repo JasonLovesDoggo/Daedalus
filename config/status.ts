@@ -45,12 +45,12 @@ interface AcceptedStatusConfig {
 }
 
 export const statusStyles = {
-  not_applied: "bg-white text-textMuted",
+  not_applied: "bg-backgroundMuted text-textMuted",
   pending: "bg-primaryLight/20 text-secondaryDark",
-  accepted: "bg-white shadow-success/10",
+  accepted: "bg-backgroundMuted shadow-success/10",
   rejected: "bg-error/5 text-error border-error/50 shadow-error/10",
   waitlisted: "bg-warning/5 text-warning border-warning/50 shadow-warning/10",
-  coming_soon: "bg-white text-textMuted border-primary/50",
+  coming_soon: "bg-backgroundMuted text-textMuted border-primary/50",
   cancelled: "bg-error/5 text-error border-error/50 shadow-error/10",
 };
 

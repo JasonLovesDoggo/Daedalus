@@ -224,10 +224,7 @@ export function BackgroundEducationStep({
 
           return (
             <FormItem>
-              <FormLabel>
-                Technical Interests (Select up to 3)
-                <span className="text-error">*</span>
-              </FormLabel>
+              <FormLabel>Technical Interests (Select up to 3)</FormLabel>
               <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                 {technicalFields.map((field) => (
                   <div key={field} className="flex items-center space-x-2">
