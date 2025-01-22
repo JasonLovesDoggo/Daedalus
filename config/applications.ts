@@ -15,7 +15,7 @@ export const applications: Application[] = [
     title: "Hacker Applications",
     href: "/applications/hacker",
     status: "open",
-    deadline: "TBD",
+    deadline: "January 31st, 2025",
     description: "Submit your application to join as a participant.",
     icon: User,
     disabled: false,

@@ -1,22 +1,28 @@
-import Link from "next/link";
-import { ChevronsLeft } from "lucide-react";
-
 import PageWrapper from "../PageWrapper";
 import { BackButton } from "../ui/back-button";
 import { ApplicationStatus } from "./ApplicationStatus";
 import { ContactSection } from "./ContactSection";
 import { CountdownSection } from "./CountdownSection";
 import { DashboardHeader } from "./DashboardHeader";
+import DiscordInviteCard from "./DiscordInviteCard";
+import HackerPackageCard from "./HackerPackageCard";
 
 interface DashboardContentProps {
   user: User;
 }
 
 export const DashboardContent = ({ user }: DashboardContentProps) => {
+  const isLocked = user.role !== "hacker";
+
   return (
     <PageWrapper>
-      <DashboardHeader userName={user.name || ""} />
+      <DashboardHeader userName={user.name || "Hacker"} />
       <ApplicationStatus status={user.status} role={user.role} />
+
+      <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10 xl:gap-12">
+        <DiscordInviteCard isLocked={isLocked} />
+        <HackerPackageCard isLocked={isLocked} />
+      </div>
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:gap-12">
         <CountdownSection />
