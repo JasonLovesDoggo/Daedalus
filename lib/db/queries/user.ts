@@ -1,5 +1,3 @@
-// Reserved file for user-related queries that will often be used
-
 import { eq } from "drizzle-orm";
 
 import { db } from "..";
