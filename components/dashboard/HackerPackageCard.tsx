@@ -1,6 +1,7 @@
-import { Download } from "lucide-react";
+import { Download, ExternalLink } from "lucide-react";
 
 import { buttonVariants } from "../ui/button";
+import CardDecorativeElements from "./CardDecorativeElements";
 import LockedState from "./LockedState";
 
 interface HackerPackageCardProps {
@@ -19,9 +20,9 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
           <h2 className="text-2xl font-medium text-textPrimary">
             Hacker Package
           </h2>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
             <Download
-              className={`h-5 w-5 ${isLocked ? "text-gray-400" : "text-primary"}`}
+              className={`size-5 ${isLocked ? "text-gray-400" : "text-primary"}`}
             />
           </div>
         </div>
@@ -32,25 +33,21 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
         </p>
 
         <div className="mt-auto flex items-center gap-2">
-          <button
-            disabled={isLocked}
+          <a
+            href="/hacker-package.pdf"
+            aria-disabled={isLocked}
             className={buttonVariants({
               variant: isLocked ? "outline" : "default",
-              className: `inline-flex items-center gap-2 ${isLocked ? "cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
+              className: `inline-flex items-center gap-2 ${isLocked ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
             Get Package
-            <Download className="h-4 w-4" />
-          </button>
+            <ExternalLink className="size-4" />
+          </a>
         </div>
 
         {/* Decorative elements */}
-        <div
-          className={`ease-[cubic-bezier(0.25,0.1,0.25,1)] absolute -right-16 -top-16 h-32 w-32 rotate-12 rounded-lg ${isLocked ? "bg-gray-200/10" : "bg-primaryLight/10"} transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:opacity-80`}
-        />
-        <div
-          className={`ease-[cubic-bezier(0.25,0.1,0.25,1)] absolute -right-8 -top-8 h-24 w-24 rotate-12 rounded-lg ${isLocked ? "bg-gray-200/5" : "bg-primaryLight/5"} transition-all duration-500 group-hover:translate-y-1 group-hover:scale-110 group-hover:opacity-80`}
-        />
+        <CardDecorativeElements isLocked={isLocked} />
       </div>
     </div>
   );

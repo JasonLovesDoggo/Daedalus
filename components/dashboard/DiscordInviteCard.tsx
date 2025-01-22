@@ -1,6 +1,7 @@
 import { ExternalLink } from "lucide-react";
 
 import { buttonVariants } from "../ui/button";
+import CardDecorativeElements from "./CardDecorativeElements";
 import LockedState from "./LockedState";
 
 interface DiscordInviteCardProps {
@@ -34,30 +35,27 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
         </div>
 
         <p className="pb-2 text-textMuted">
-          Join our Discord server to connect with fellow hackers, get important
-          updates, and participate in our vibrant community!
+          Join our Discord server to connect with other hackers and get
+          important updates and announcements!
         </p>
 
         <div className="mt-auto flex items-center gap-2">
-          <button
-            disabled={isLocked}
+          <a
+            href="https://discord.gg/your-invite-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={isLocked}
             className={buttonVariants({
               variant: isLocked ? "outline" : "default",
-              className: `inline-flex items-center gap-2 ${isLocked ? "cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
+              className: `inline-flex items-center gap-2 ${isLocked ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
             Join Server
             <ExternalLink className="size-4" />
-          </button>
+          </a>
         </div>
 
-        {/* Decorative background elements */}
-        <div
-          className={`ease-[cubic-bezier(0.25,0.1,0.25,1)] absolute -right-16 -top-16 h-32 w-32 rotate-12 rounded-lg ${isLocked ? "bg-gray-200/10" : "bg-primaryLight/10"} transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:opacity-80`}
-        />
-        <div
-          className={`ease-[cubic-bezier(0.25,0.1,0.25,1)] absolute -right-8 -top-8 h-24 w-24 rotate-12 rounded-lg ${isLocked ? "bg-gray-200/5" : "bg-primaryLight/5"} transition-all duration-500 group-hover:translate-y-1 group-hover:scale-110 group-hover:opacity-80`}
-        />
+        <CardDecorativeElements isLocked={isLocked} />
       </div>
     </div>
   );
