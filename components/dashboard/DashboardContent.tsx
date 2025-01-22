@@ -17,12 +17,10 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
       <DashboardHeader userName={user.name || "Hacker"} />
       <ApplicationStatus status={user.status} role={user.role} />
 
-      {user.role !== "hacker" && (
-        <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10 xl:gap-12">
-          <DiscordInviteCard />
-          <HackerPackageCard />
-        </div>
-      )}
+      <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10 xl:gap-12">
+        <DiscordInviteCard isLocked={user.role !== "hacker"} />
+        <HackerPackageCard isLocked={user.role !== "hacker"} />
+      </div>
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:gap-12">
         <CountdownSection />
