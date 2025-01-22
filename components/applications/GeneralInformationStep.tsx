@@ -37,7 +37,9 @@ export function GeneralInformationStep({
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>
+                First Name<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="John" {...field} />
               </FormControl>
@@ -50,7 +52,9 @@ export function GeneralInformationStep({
           name="lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>
+                Last Name<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Doe" {...field} />
               </FormControl>
@@ -66,7 +70,9 @@ export function GeneralInformationStep({
           name="age"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Age</FormLabel>
+              <FormLabel>
+                Age<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input type="number" placeholder="21" {...field} />
               </FormControl>
@@ -91,7 +97,9 @@ export function GeneralInformationStep({
 
             return (
               <FormItem>
-                <FormLabel>Pronouns</FormLabel>
+                <FormLabel>
+                  Pronouns<span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <AdvancedSelect
                     name="pronouns"
@@ -121,7 +129,9 @@ export function GeneralInformationStep({
           name="pronouns.customValue"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Pronouns (Other)</FormLabel>
+              <FormLabel>
+                Pronouns (Other)<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -141,7 +151,9 @@ export function GeneralInformationStep({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                Email<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -170,7 +182,9 @@ export function GeneralInformationStep({
 
             return (
               <FormItem>
-                <FormLabel>Gender</FormLabel>
+                <FormLabel>
+                  Gender<span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <AdvancedSelect
                     name="gender"
@@ -208,7 +222,9 @@ export function GeneralInformationStep({
 
             return (
               <FormItem>
-                <FormLabel>Race/Ethnicity</FormLabel>
+                <FormLabel>
+                  Race/Ethnicity<span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <AdvancedSelect
                     name="race"

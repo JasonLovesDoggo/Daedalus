@@ -40,7 +40,7 @@ export function MLHStep({ control }: MLHStepProps) {
                 >
                   MLH Code of Conduct
                 </a>
-                .
+                .<span className="text-error">*</span>
               </FormLabel>
             </div>
             <FormMessage />
@@ -90,7 +90,7 @@ export function MLHStep({ control }: MLHStepProps) {
                 >
                   MLH Privacy Policy
                 </a>
-                .
+                .<span className="text-error">*</span>
               </FormLabel>
             </div>
             <FormMessage />

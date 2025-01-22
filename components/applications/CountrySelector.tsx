@@ -30,7 +30,10 @@ export function CountrySelector({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>
+            {label}
+            <span className="text-error">*</span>
+          </FormLabel>
           <FormControl>
             <AdvancedSelect
               name={name}

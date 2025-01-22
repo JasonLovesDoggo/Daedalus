@@ -52,7 +52,9 @@ export function BackgroundEducationStep({
 
             return (
               <FormItem>
-                <FormLabel>School/University</FormLabel>
+                <FormLabel>
+                  School/University<span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <AdvancedSelect
                     name="school"
@@ -88,7 +90,9 @@ export function BackgroundEducationStep({
 
             return (
               <FormItem>
-                <FormLabel>Major</FormLabel>
+                <FormLabel>
+                  Major<span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <AdvancedSelect
                     name="major"
@@ -115,7 +119,9 @@ export function BackgroundEducationStep({
           name="school.customValue"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>School/University (Other)</FormLabel>
+              <FormLabel>
+                School/University (Other)<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Enter your school/university" {...field} />
               </FormControl>
@@ -131,7 +137,9 @@ export function BackgroundEducationStep({
           name="major.customValue"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Major (Other)</FormLabel>
+              <FormLabel>
+                Major (Other)<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Enter your major" {...field} />
               </FormControl>
@@ -147,7 +155,9 @@ export function BackgroundEducationStep({
           name="graduationYear"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Graduation Year</FormLabel>
+              <FormLabel>
+                Graduation Year<span className="text-error">*</span>
+              </FormLabel>
               <FormControl>
                 <Input type="number" placeholder="2025" {...field} />
               </FormControl>
@@ -171,7 +181,9 @@ export function BackgroundEducationStep({
 
             return (
               <FormItem>
-                <FormLabel>Level of Study</FormLabel>
+                <FormLabel>
+                  Level of Study<span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <AdvancedSelect
                     name="levelOfStudy"
@@ -212,7 +224,10 @@ export function BackgroundEducationStep({
 
           return (
             <FormItem>
-              <FormLabel>Technical Interests (Select up to 3)</FormLabel>
+              <FormLabel>
+                Technical Interests (Select up to 3)
+                <span className="text-error">*</span>
+              </FormLabel>
               <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                 {technicalFields.map((field) => (
                   <div key={field} className="flex items-center space-x-2">
@@ -246,7 +261,9 @@ export function BackgroundEducationStep({
         name="hackathonsAttended"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Number of Hackathons Attended</FormLabel>
+            <FormLabel>
+              Number of Hackathons Attended<span className="text-error">*</span>
+            </FormLabel>
             <FormControl>
               <div className="relative">
                 <Input type="number" placeholder="0" {...field} />
