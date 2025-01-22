@@ -34,7 +34,7 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href="/hacker-package.pdf"
+            href={isLocked ? "" : "/hacker-package.pdf"}
             aria-disabled={isLocked}
             className={buttonVariants({
               variant: isLocked ? "outline" : "default",

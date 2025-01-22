@@ -10,7 +10,7 @@ interface StatusBadgeProps {
 const badgeStyles = {
   not_applied: "bg-primaryDark text-white",
   pending: "bg-primaryDark text-white",
-  accepted: "bg-green-400 text-black font-bold",
+  accepted: "bg-green-400 text-black",
   rejected: "bg-error text-white",
   waitlisted: "bg-warning text-black",
   coming_soon: "bg-primaryDark text-white",

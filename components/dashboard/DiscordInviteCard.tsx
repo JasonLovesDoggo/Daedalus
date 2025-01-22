@@ -41,7 +41,7 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href="https://discord.gg/your-invite-link"
+            href={isLocked ? "" : "https://discord.gg/your-invite-link"}
             target="_blank"
             rel="noopener noreferrer"
             aria-disabled={isLocked}
