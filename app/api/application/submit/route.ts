@@ -9,8 +9,6 @@ import {
 import { sendApplicationSubmittedEmail } from "@/lib/emails/ses";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
 
-// TODO figure out how / when submit will be called
-
 export async function POST(
   req: NextRequest,
 ): Promise<NextResponse<ApiResponse>> {
@@ -121,7 +119,7 @@ export async function POST(
     if (new Date() > new Date(deadline)) {
       return NextResponse.json({
         success: false,
-        message: "The deadline to save your application has passed",
+        message: "The deadline to submit your application has passed",
       });
     }
 
