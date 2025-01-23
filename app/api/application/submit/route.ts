@@ -89,8 +89,6 @@ export async function POST(
       mlhCheckbox2: data.mlhCheckbox2,
       mlhCheckbox3: data.mlhCheckbox3,
       submissionStatus: "submitted",
-      submittedAt: new Date(),
-      createdAt: new Date(),
     };
 
     // Check that the deadline has not passed
@@ -126,6 +124,7 @@ export async function POST(
     // First create/update the application
     const createResult = await createOrUpdateApplication(applicationData);
     if (!createResult.success) {
+      console.error("Create/Update Application Error:", createResult.errors);
       return NextResponse.json({
         success: false,
         message: "Failed to create application. Please try again.",
@@ -165,6 +164,7 @@ export async function POST(
       message: "Application submitted successfully!",
     });
   } catch (error) {
+    console.error("Submission Error:", error);
     return NextResponse.json({
       success: false,
       message: "Failed to submit application. Please try again.",

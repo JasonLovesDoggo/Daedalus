@@ -1,5 +1,3 @@
-// Reserved file for application queries that will often be used
-
 import { eq, sql } from "drizzle-orm";
 
 import { db } from "..";
@@ -32,21 +30,19 @@ export const createOrUpdateApplication = async (
   try {
     const [application] = await db
       .insert(hackerApplications)
-      .values({
-        ...data,
-        createdAt: new Date(),
-      })
+      .values(data)
       .onConflictDoUpdate({
         target: [hackerApplications.userId],
         set: {
           ...data,
-          createdAt: sql.raw(`excluded.${hackerApplications.createdAt.name}`),
           updatedAt: new Date(),
         },
       })
       .returning();
+
     return { success: true, data: application };
   } catch (error) {
+    console.error("Error in createOrUpdateApplication:", error);
     return { success: false, errors: [error] };
   }
 };
@@ -82,6 +78,7 @@ export const submitApplication = async (
 
     return { success: true, data: result };
   } catch (error) {
+    console.error("Error in submitApplication:", error);
     return { success: false, errors: [error] };
   }
 };

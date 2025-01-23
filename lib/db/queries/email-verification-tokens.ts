@@ -1,7 +1,7 @@
 import { and, eq, gt, lt } from "drizzle-orm";
 
+import { db } from "..";
 import { generateRandomCode } from "../../utils";
-import { db } from "../index";
 import { emailVerificationTokens } from "../schema";
 
 export async function createVerificationToken(email: string, tx?: any) {
@@ -55,7 +55,7 @@ export async function getVerificationTokenByEmail(email: string) {
 
 export async function getVerificationTokenById(id: string, tx?: any) {
   if (!tx) {
-    return await db
+    const token = await db
       .select()
       .from(emailVerificationTokens)
       .where(
@@ -63,10 +63,11 @@ export async function getVerificationTokenById(id: string, tx?: any) {
           eq(emailVerificationTokens.id, id),
           gt(emailVerificationTokens.expires, new Date()),
         ),
-      )
-      .get();
+      );
+
+    return token[0];
   } else {
-    return await tx
+    const token = await tx
       .select()
       .from(emailVerificationTokens)
       .where(
@@ -74,8 +75,9 @@ export async function getVerificationTokenById(id: string, tx?: any) {
           eq(emailVerificationTokens.id, id),
           gt(emailVerificationTokens.expires, new Date()),
         ),
-      )
-      .get();
+      );
+
+    return token[0];
   }
 }
 

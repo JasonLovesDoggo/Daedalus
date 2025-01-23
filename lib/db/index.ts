@@ -1,21 +1,16 @@
-import { drizzle } from "drizzle-orm/libsql";
+import { Pool } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+
+import * as schema from "./schema";
 
 declare global {
-  var _db: ReturnType<typeof drizzle> | undefined;
+  var _db: ReturnType<typeof drizzle<typeof schema>> | undefined;
 }
 
-export const db =
-  globalThis._db ||
-  drizzle({
-    connection: {
-      url: process.env.TURSO_DATABASE_URL!,
-      authToken: process.env.TURSO_AUTH_TOKEN!,
-    },
-  });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+export const db = globalThis._db || drizzle({ client: pool, schema: schema });
 
 if (process.env.NODE_ENV !== "production") {
   globalThis._db = db;
 }
-
-// Run migrations
-// migrate(db, { migrationsFolder: "drizzle" });

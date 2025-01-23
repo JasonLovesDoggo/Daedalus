@@ -1,70 +1,82 @@
+import type { AdapterAccount } from "@auth/core/adapters";
 import { sql } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import type { AdapterAccountType } from "next-auth/adapters";
+import {
+  boolean,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
-export const users = sqliteTable("user", {
+export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
+  emailVerified: timestamp("emailVerified"),
   password: text("password"),
   role: text("role").default("unassigned").notNull(),
   applicationStatus: text("applicationStatus").notNull().default("not_applied"),
-  rsvpAt: integer("rsvpAt", { mode: "timestamp_ms" }),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+  rsvpAt: timestamp("rsvpAt"),
+  createdAt: timestamp("createdAt")
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer("updatedAt", { mode: "timestamp_ms" })
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
+    .default(sql`CURRENT_TIMESTAMP`),
 });
 
-export const passwordResetTokens = sqliteTable("passwordResetToken", {
+export const passwordResetTokens = pgTable("passwordResetToken", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   token: text("token"),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+  createdAt: timestamp("createdAt")
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
+    .default(sql`CURRENT_TIMESTAMP`),
   userId: text("userId")
     .notNull()
     .references(() => users.id),
 });
 
-export const accounts = sqliteTable("account", {
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  type: text("type").$type<AdapterAccountType>().notNull(),
-  provider: text("provider").notNull(),
-  providerAccountId: text("providerAccountId").notNull(),
-  refresh_token: text("refresh_token"),
-  access_token: text("access_token"),
-  expires_at: integer("expires_at"),
-  token_type: text("token_type"),
-  scope: text("scope"),
-  id_token: text("id_token"),
-  session_state: text("session_state"),
-});
+export const accounts = pgTable(
+  "account",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type").$type<AdapterAccount["type"]>().notNull(),
+    provider: text("provider").notNull(),
+    providerAccountId: text("providerAccountId").notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
+  },
+  (account) => ({
+    compoundKey: sql`CONCAT(${account.provider}, ${account.providerAccountId})`,
+  }),
+);
 
-export const sessions = sqliteTable("session", {
+export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
+  expires: timestamp("expires").notNull(),
 });
 
-export const verificationTokens = sqliteTable("verificationToken", {
+export const verificationTokens = pgTable("verificationToken", {
   identifier: text("identifier").notNull(),
   token: text("token").notNull(),
-  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
+  expires: timestamp("expires").notNull(),
 });
 
-export const authenticators = sqliteTable("authenticator", {
+export const authenticators = pgTable("authenticator", {
   credentialID: text("credentialID").notNull(),
   userId: text("userId")
     .notNull()
@@ -73,25 +85,23 @@ export const authenticators = sqliteTable("authenticator", {
   credentialPublicKey: text("credentialPublicKey").notNull(),
   counter: integer("counter").notNull(),
   credentialDeviceType: text("credentialDeviceType").notNull(),
-  credentialBackedUp: integer("credentialBackedUp", {
-    mode: "boolean",
-  }).notNull(),
+  credentialBackedUp: boolean("credentialBackedUp").notNull(),
   transports: text("transports"),
 });
 
-export const emailVerificationTokens = sqliteTable("emailVerificationToken", {
+export const emailVerificationTokens = pgTable("emailVerificationToken", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   email: text("email").notNull(),
   code: text("code").notNull(),
-  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+  expires: timestamp("expires").notNull(),
+  createdAt: timestamp("createdAt")
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
+    .default(sql`CURRENT_TIMESTAMP`),
 });
 
-export const hackerApplications = sqliteTable("hackerApplication", {
+export const hackerApplications = pgTable("hackerApplication", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -108,7 +118,7 @@ export const hackerApplications = sqliteTable("hackerApplication", {
   linkedin: text("linkedin"),
   personalWebsite: text("personalWebsite"),
   resumeUrl: text("resume"),
-  shareResume: integer("shareResume", { mode: "boolean" }),
+  shareResume: boolean("shareResume"),
   school: text("school"),
   major: text("major"),
   levelOfStudy: text("levelOfStudy"),
@@ -120,22 +130,21 @@ export const hackerApplications = sqliteTable("hackerApplication", {
   shortAnswer2: text("shortAnswer2"),
   technicalInterests: text("technicalInterests"),
   hackathonsAttended: text("hackathonsAttended"),
-  mlhCheckbox1: integer("mlhCheckbox1", { mode: "boolean" }),
-  mlhCheckbox2: integer("mlhCheckbox2", { mode: "boolean" }),
-  mlhCheckbox3: integer("mlhCheckbox3", { mode: "boolean" }),
+  mlhCheckbox1: boolean("mlhCheckbox1"),
+  mlhCheckbox2: boolean("mlhCheckbox2"),
+  mlhCheckbox3: boolean("mlhCheckbox3"),
   submissionStatus: text("submissionStatus").notNull().default("draft"),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" })
+  createdAt: timestamp("createdAt")
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer("updatedAt", { mode: "timestamp_ms" })
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
+    .default(sql`CURRENT_TIMESTAMP`),
   internalResult: text("internalResult").default("pending"),
   internalNotes: text("internalNotes"),
 });
 
 export type HackerApplicationsInsertData =
   typeof hackerApplications.$inferInsert;
-
 export type HackerApplicationsSelectData =
   typeof hackerApplications.$inferSelect;
