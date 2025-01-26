@@ -148,3 +148,30 @@ export type HackerApplicationsInsertData =
   typeof hackerApplications.$inferInsert;
 export type HackerApplicationsSelectData =
   typeof hackerApplications.$inferSelect;
+
+export const rsvp = pgTable("rsvp", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .unique()
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  emergencyContactName: text("emergencyContactName").notNull(),
+  relationshipToParticipant: text("relationshipToParticipant").notNull(),
+  emergencyContactPhoneNumber: text("emergencyContactPhoneNumber").notNull(),
+  alternativePhoneNumber: text("alternativePhoneNumber"),
+  dietaryRestrictions: text("dietaryRestrictions"),
+  tshirtSize: text("tshirtSize").notNull(),
+  agreeToTerms: boolean("agreeToTerms").notNull(),
+  mediaConsent: boolean("mediaConsent").notNull(),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type RsvpInsert = typeof rsvp.$inferInsert;
+export type RsvpSelect = typeof rsvp.$inferSelect;
