@@ -5,6 +5,19 @@ const phoneRegex = /^[0-9-]+$/;
 // T-shirt size options
 const TSHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
 
+// Dietary restriction options
+export const DIETARY_RESTRICTIONS = [
+  "None",
+  "Halal",
+  "Vegetarian",
+  "Vegan",
+  "Kosher",
+  "Gluten free",
+  "Dairy free",
+  "Allergies (please specify)",
+  "Other (please specify)",
+] as const;
+
 export const RsvpFormSchema = z.object({
   emergencyContactName: z
     .string()
@@ -41,12 +54,18 @@ export const RsvpFormSchema = z.object({
     )
     .optional(),
 
-  dietaryRestrictions: z
-    .string()
-    .trim()
-    .max(200, "Dietary restrictions must be at most 200 characters")
-    .optional()
-    .transform((val) => val || null),
+  dietaryRestrictions: z.object({
+    value: z.enum(DIETARY_RESTRICTIONS, {
+      required_error: "Please select your dietary restrictions",
+      invalid_type_error: "Invalid dietary restriction selected",
+    }),
+    details: z
+      .string()
+      .trim()
+      .max(200, "Additional details must be at most 200 characters")
+      .optional()
+      .transform((val) => val || null),
+  }),
 
   tshirtSize: z.enum(TSHIRT_SIZES, {
     required_error: "Please select a t-shirt size",

@@ -6,7 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { RsvpFormSchema, RsvpFormValues } from "@/lib/validations/rsvp-form";
+import {
+  DIETARY_RESTRICTIONS,
+  RsvpFormSchema,
+  RsvpFormValues,
+} from "@/lib/validations/rsvp-form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -42,7 +46,10 @@ const RSVPForm = () => {
       relationshipToParticipant: "",
       emergencyContactPhoneNumber: "",
       alternativePhoneNumber: "",
-      dietaryRestrictions: "",
+      dietaryRestrictions: {
+        value: "None",
+        details: "",
+      },
       tshirtSize: "M",
       agreeToTerms: false,
       mediaConsent: false,
@@ -72,7 +79,7 @@ const RSVPForm = () => {
       }
 
       toast.success("You're in! We can't wait to see you!");
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
     });
   };
@@ -159,28 +166,75 @@ const RSVPForm = () => {
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="dietaryRestrictions"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Dietary Restrictions (Optional)</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  value={field.value || ""}
-                  placeholder="Please list any dietary restrictions or allergies"
+        <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="dietaryRestrictions.value"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Dietary Restrictions</FormLabel>
+                <Select
                   disabled={isPending}
-                />
-              </FormControl>
-              <FormDescription>
-                This helps us ensure we can accommodate your dietary needs
-                during the event.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your dietary restrictions" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {DIETARY_RESTRICTIONS.map((restriction) => (
+                      <SelectItem key={restriction} value={restriction}>
+                        {restriction}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  This helps us ensure we can accommodate your dietary needs
+                  during the event.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {(form.watch("dietaryRestrictions.value") ===
+            "Other (please specify)" ||
+            form.watch("dietaryRestrictions.value") ===
+              "Allergies (please specify)") && (
+            <FormField
+              control={form.control}
+              name="dietaryRestrictions.details"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Please specify your{" "}
+                    {form.watch("dietaryRestrictions.value") ===
+                    "Other (please specify)"
+                      ? "dietary restrictions"
+                      : "allergies"}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value || ""}
+                      placeholder={
+                        form.watch("dietaryRestrictions.value") ===
+                        "Other (please specify)"
+                          ? "Enter your dietary restrictions"
+                          : "Enter your food allergies"
+                      }
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           )}
-        />
+        </div>
 
         <FormField
           control={form.control}

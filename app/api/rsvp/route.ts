@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/auth";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
+import { getUserById } from "@/lib/db/queries/user";
 import { rsvp, users } from "@/lib/db/schema";
 import { RsvpFormSchema } from "@/lib/validations/rsvp-form";
 
@@ -36,10 +37,7 @@ export async function POST(req: Request) {
     const rsvpData = validatedFields.data;
 
     // Fetch the user from the database
-    const [existingUser] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, userId));
+    const existingUser = await getUserById(userId);
 
     if (!existingUser) {
       return NextResponse.json<RsvpResponse>({
@@ -48,17 +46,17 @@ export async function POST(req: Request) {
     }
 
     // Ensure that the user has accepted the application and hasn't already RSVPed
-    if (
-      existingUser.applicationStatus !== "accepted" ||
-      existingUser.role === "hacker"
-    ) {
-      return NextResponse.json<RsvpResponse>({
-        error:
-          existingUser.applicationStatus !== "accepted"
-            ? "You must be accepted to RSVP."
-            : "You have already RSVPed.",
-      });
-    }
+    // if (
+    //   existingUser.applicationStatus !== "accepted" ||
+    //   existingUser.role === "hacker"
+    // ) {
+    //   return NextResponse.json<RsvpResponse>({
+    //     error:
+    //       existingUser.applicationStatus !== "accepted"
+    //         ? "You must be accepted to RSVP."
+    //         : "You have already RSVPed.",
+    //   });
+    // }
 
     // Start a db transaction
     const result = await db.transaction(async (tx) => {
@@ -77,7 +75,12 @@ export async function POST(req: Request) {
         relationshipToParticipant: rsvpData.relationshipToParticipant,
         emergencyContactPhoneNumber: rsvpData.emergencyContactPhoneNumber,
         alternativePhoneNumber: rsvpData.alternativePhoneNumber || null,
-        dietaryRestrictions: rsvpData.dietaryRestrictions || null,
+        dietaryRestrictions: rsvpData.dietaryRestrictions
+          ? rsvpData.dietaryRestrictions.value === "Other (please specify)" ||
+            rsvpData.dietaryRestrictions.value === "Allergies (please specify)"
+            ? `${rsvpData.dietaryRestrictions.value.replace(" (please specify)", "")}: ${rsvpData.dietaryRestrictions.details}`
+            : rsvpData.dietaryRestrictions.value
+          : null,
         tshirtSize: rsvpData.tshirtSize,
         agreeToTerms: rsvpData.agreeToTerms,
         mediaConsent: rsvpData.mediaConsent,
