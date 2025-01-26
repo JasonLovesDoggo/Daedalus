@@ -1,16 +1,10 @@
 "use client";
 
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-
 import {
   DIETARY_RESTRICTIONS,
-  RsvpFormSchema,
-  RsvpFormValues,
+  TSHIRT_SIZES,
 } from "@/lib/validations/rsvp-form";
+import { useRsvpForm } from "@/hooks/useRsvpForm";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -30,67 +24,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-
-const TSHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
+import { Input } from "./ui/input";
 
 const RSVPForm = () => {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const { form, isPending, onSubmit } = useRsvpForm();
 
-  const form = useForm<RsvpFormValues>({
-    resolver: zodResolver(RsvpFormSchema),
-    defaultValues: {
-      emergencyContactName: "",
-      relationshipToParticipant: "",
-      emergencyContactPhoneNumber: "",
-      alternativePhoneNumber: "",
-      dietaryRestrictions: {
-        value: "None",
-        details: "",
-      },
-      tshirtSize: "M",
-      agreeToTerms: false,
-      mediaConsent: false,
-    },
-  });
-
-  const onSubmit = (values: RsvpFormValues) => {
-    startTransition(async () => {
-      const response = await fetch("/api/rsvp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) {
-        toast.error("Something went wrong. Please try again.");
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.error) {
-        toast.error(data.error);
-        return;
-      }
-
-      toast.success("You're in! We can't wait to see you!");
-      router.push("/");
-      router.refresh();
-    });
-  };
+  const dietaryRestrictions = form.watch("dietaryRestrictions.value");
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 rounded-lg border border-border/50 bg-card/50 p-6"
+        className="space-y-6 rounded-lg border border-border p-6 shadow-sm"
       >
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 md:gap-8">
           <FormField
             control={form.control}
             name="emergencyContactName"
@@ -99,8 +46,8 @@ const RSVPForm = () => {
                 <FormLabel>Emergency Contact Name *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="John Doe"
                     {...field}
+                    placeholder="John Doe"
                     disabled={isPending}
                   />
                 </FormControl>
@@ -117,8 +64,8 @@ const RSVPForm = () => {
                 <FormLabel>Relationship to Participant *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="e.g. Parent, Sibling, Friend"
                     {...field}
+                    placeholder="e.g. Parent, Sibling, Friend"
                     disabled={isPending}
                   />
                 </FormControl>
@@ -137,8 +84,8 @@ const RSVPForm = () => {
                 <FormLabel>Emergency Contact Phone Number *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="1234567890 (min. 10 digits)"
                     {...field}
+                    placeholder="1234567890 (min. 10 digits)"
                     disabled={isPending}
                   />
                 </FormControl>
@@ -155,8 +102,8 @@ const RSVPForm = () => {
                 <FormLabel>Alternative Phone Number (Optional)</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="1234567890 (min. 10 digits)"
                     {...field}
+                    placeholder="1234567890 (min. 10 digits)"
                     disabled={isPending}
                   />
                 </FormControl>
@@ -200,29 +147,25 @@ const RSVPForm = () => {
             )}
           />
 
-          {(form.watch("dietaryRestrictions.value") ===
-            "Other (please specify)" ||
-            form.watch("dietaryRestrictions.value") ===
-              "Allergies (please specify)") && (
+          {dietaryRestrictions.includes("please specify") && (
             <FormField
               control={form.control}
-              name="dietaryRestrictions.details"
+              name="dietaryRestrictions.customValue"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
                     Please specify your{" "}
-                    {form.watch("dietaryRestrictions.value") ===
-                    "Other (please specify)"
+                    {dietaryRestrictions === "Other (please specify)"
                       ? "dietary restrictions"
-                      : "allergies"}
+                      : "allergies"}{" "}
+                    *
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      value={field.value || ""}
+                      value={field.value ?? ""}
                       placeholder={
-                        form.watch("dietaryRestrictions.value") ===
-                        "Other (please specify)"
+                        dietaryRestrictions === "Other (please specify)"
                           ? "Enter your dietary restrictions"
                           : "Enter your food allergies"
                       }
@@ -280,7 +223,7 @@ const RSVPForm = () => {
                   disabled={isPending}
                 />
               </FormControl>
-              <div className="space-y-1.5 leading-none">
+              <div className="space-y-1.5 pt-0.5 leading-none">
                 <FormLabel>I agree to the terms and conditions *</FormLabel>
                 <FormDescription>
                   I understand and agree that the emergency contact information
@@ -306,7 +249,7 @@ const RSVPForm = () => {
                   disabled={isPending}
                 />
               </FormControl>
-              <div className="leading-none">
+              <div className="pt-0.5 leading-none">
                 <FormLabel>
                   I agree to be subjected to photos and filming during the
                   duration of the event. *
