@@ -1,10 +1,4 @@
-import {
-  AlertCircle,
-  Angry,
-  CheckCircle,
-  PartyPopper,
-  Sparkles,
-} from "lucide-react";
+import { Angry } from "lucide-react";
 
 import { statusConfig } from "@/config/status";
 import { Confetti } from "@/components/ui/confetti";
@@ -32,7 +26,7 @@ export const AcceptedContent = ({ role }: AcceptedContentProps) => {
           <StatusActions primaryAction={primaryAction} className="mb-4" />
         }
       >
-        <Confetti className="absolute inset-0 w-full" />
+        <Confetti className="pointer-events-none absolute inset-0 w-full" />
         <hr className="my-4" />
         <CancelRSVP />
       </StatusContent>
