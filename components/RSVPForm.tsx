@@ -35,7 +35,7 @@ const RSVPForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 rounded-lg border border-border p-6 shadow-sm"
+        className="space-y-6 rounded-lg border-border sm:border sm:p-6 sm:shadow-sm"
       >
         <div className="grid gap-6 md:grid-cols-2 md:gap-8">
           <FormField
@@ -43,7 +43,9 @@ const RSVPForm = () => {
             name="emergencyContactName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Emergency Contact Name *</FormLabel>
+                <FormLabel>
+                  Emergency Contact Name <span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -61,7 +63,10 @@ const RSVPForm = () => {
             name="relationshipToParticipant"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Relationship to Participant *</FormLabel>
+                <FormLabel>
+                  Relationship to Participant{" "}
+                  <span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -81,7 +86,10 @@ const RSVPForm = () => {
             name="emergencyContactPhoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Emergency Contact Phone Number *</FormLabel>
+                <FormLabel>
+                  Emergency Contact Phone Number{" "}
+                  <span className="text-error">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -99,7 +107,7 @@ const RSVPForm = () => {
             name="alternativePhoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Alternative Phone Number (Optional)</FormLabel>
+                <FormLabel>Alternative Phone Number</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -158,7 +166,7 @@ const RSVPForm = () => {
                     {dietaryRestrictions === "Other (please specify)"
                       ? "dietary restrictions"
                       : "allergies"}{" "}
-                    *
+                    <span className="text-error">*</span>
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -184,7 +192,9 @@ const RSVPForm = () => {
           name="tshirtSize"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>T-Shirt Size *</FormLabel>
+              <FormLabel>
+                T-Shirt Size <span className="text-error">*</span>
+              </FormLabel>
               <Select
                 disabled={isPending}
                 onValueChange={field.onChange}
@@ -224,7 +234,10 @@ const RSVPForm = () => {
                 />
               </FormControl>
               <div className="space-y-1.5 pt-0.5 leading-none">
-                <FormLabel>I agree to the terms and conditions *</FormLabel>
+                <FormLabel>
+                  I agree to the terms and conditions{" "}
+                  <span className="text-error">*</span>
+                </FormLabel>
                 <FormDescription>
                   I understand and agree that the emergency contact information
                   provided will only be used in case of emergencies during the
@@ -252,7 +265,7 @@ const RSVPForm = () => {
               <div className="pt-0.5 leading-none">
                 <FormLabel>
                   I agree to be subjected to photos and filming during the
-                  duration of the event. *
+                  duration of the event. <span className="text-error">*</span>
                 </FormLabel>
                 <FormMessage />
               </div>

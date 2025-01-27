@@ -49,10 +49,8 @@ export const AcceptedContent = ({ role }: AcceptedContentProps) => {
       }
     >
       <hr className="my-4 md:my-6" />
-      <p className="flex animate-pulse items-center justify-center gap-2 rounded-md border border-error/50 bg-error/20 px-3 py-2.5 text-center font-semibold text-error max-md:text-sm">
-        <Angry size={16} strokeWidth={3} />
-        Action Required - RSVP
-        <Angry size={16} strokeWidth={3} />
+      <p className="flex animate-pulse items-center justify-center gap-2 rounded-md border border-primary/50 bg-primary/20 px-3 py-2.5 text-center font-semibold text-primary max-md:text-sm">
+        😾 Action Required - RSVP 😾
       </p>
     </StatusContent>
   );

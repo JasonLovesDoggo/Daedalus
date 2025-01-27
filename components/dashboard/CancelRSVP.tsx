@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -8,6 +9,7 @@ const CancelRSVP = () => {
   const { data } = useSession();
   const [isPending, startTransition] = useTransition();
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const router = useRouter();
 
   const onSubmit = () => {
     if (!data?.user) {
@@ -33,6 +35,7 @@ const CancelRSVP = () => {
 
         toast.success(result.message);
         setShowConfirmation(false);
+        router.refresh();
       } catch (error) {
         const message =
           error instanceof Error
