@@ -60,8 +60,6 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationCode = generateRandomCode(6);
-    console.log("Verification code:", verificationCode);
-
     let verificationTokenId = "";
 
     await db.transaction(async (tx) => {

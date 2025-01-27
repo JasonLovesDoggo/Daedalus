@@ -1,4 +1,5 @@
 import { statusIcons, statusStyles } from "@/config/status";
+import { cn } from "@/lib/utils";
 
 import { AcceptedContent } from "./status/AcceptedContent";
 import {
@@ -39,7 +40,10 @@ export const ApplicationStatus = ({ status, role }: ApplicationStatusProps) => {
 
   return (
     <div
-      className={`relative w-full rounded-md border border-gray-300 shadow-md ${statusStyles[status]}`}
+      className={cn(
+        "relative w-full rounded-md border border-gray-300 shadow-md",
+        statusStyles[status],
+      )}
     >
       <Icon className="absolute right-1 top-1 text-muted-foreground opacity-50 md:right-2 md:top-2 md:size-8" />
       <div className="relative flex flex-col p-6 md:p-8 xl:p-12">

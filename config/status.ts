@@ -46,7 +46,7 @@ interface AcceptedStatusConfig {
 
 export const statusStyles = {
   not_applied: "bg-backgroundMuted text-textMuted",
-  pending: "bg-primaryLight/20 text-secondaryDark",
+  pending: "bg-primaryLight/10 text-secondaryDark border-primary/50",
   accepted: "bg-backgroundMuted shadow-success/10",
   rejected: "bg-error/5 text-error border-error/50 shadow-error/10",
   waitlisted: "bg-warning/5 text-warning border-warning/50 shadow-warning/10",
@@ -117,7 +117,7 @@ export const statusConfig: Record<
     hacker: {
       heading: "You're in!",
       description:
-        "Congrats, you have been accepted! Mark your calendar for February 21st, we are super excited to see you!",
+        "Congrats, you were accepted to Hack Canada! Mark your calendar for February 21st, we are super excited to see you!",
       primaryAction: {
         href: "/applications/hacker/review",
         label: "Review Application",
@@ -129,7 +129,7 @@ export const statusConfig: Record<
       description:
         "We're delighted to invite you to Hack Canada! Please complete the form below within 7 days of your acceptance to secure your spot!",
       primaryAction: {
-        href: "/applications/hacker/rsvp",
+        href: "/rsvp",
         label: "RSVP",
         variant: "primary",
       },
@@ -177,7 +177,7 @@ export const statusConfig: Record<
     primaryAction: {
       href: "/applications/hacker/review",
       label: "Review Application",
-      variant: "secondary",
+      variant: "destructive",
     },
     secondaryAction: {
       href: "/applications",

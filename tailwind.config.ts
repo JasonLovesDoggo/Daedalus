@@ -20,6 +20,7 @@ const config = {
     extend: {
       screens: {
         xs: "500px",
+        "3xl": "1850px",
       },
       fontFamily: {
         rubik: ["var(--font-rubik)", "Luckiest Guy", "cursive"],

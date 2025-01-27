@@ -1,4 +1,5 @@
 export const siteConfig = {
+  metadataBase: new URL("https://app.hackcanada.org"),
   title: "Hack Canada",
   description:
     "First hackathon Hosted by Hackathons Canada, the biggest hacker community in Canada of 3000 members.",
