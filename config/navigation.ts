@@ -24,7 +24,7 @@ export const navigation = [
   },
   {
     name: "QR Code",
-    href: "/qrcode",
+    href: "/qr-code",
     icon: QrCode,
   },
   { name: "Landing Page", href: "https://hackcanada.org", icon: Home },
