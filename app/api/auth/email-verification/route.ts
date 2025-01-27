@@ -21,18 +21,12 @@ export async function POST(request: Request) {
       // Find the email verification token
       const verificationToken = await getVerificationTokenById(token, tx);
 
-      console.log("verificationToken\n\n", verificationToken);
-
       if (!verificationToken) {
         throw new Error("Invalid or expired token");
       }
 
       // Verify the code
       if (verificationToken.code !== code) {
-        console.log("verificationToken.code !== code");
-        console.log("verificationToken.code: ", verificationToken.code);
-        console.log("code: ", code);
-
         throw new Error("Invalid verification code");
       }
 

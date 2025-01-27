@@ -53,16 +53,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
 
         if (existingToken) {
-          console.log("Existing token:", existingToken);
           return `/email-verification?token=${existingToken.id}`;
         }
 
         // No valid token exists - create a new one
-        console.log("No token found, creating new one...");
         const { tokenId, code } = await createVerificationToken(
           existingUser.email,
         );
-        console.log("New token created with ID:", tokenId);
 
         const result = await sendWelcomeEmail({
           name: existingUser.name,

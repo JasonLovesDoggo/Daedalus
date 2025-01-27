@@ -30,8 +30,6 @@ export const useRsvpForm = () => {
   });
 
   const onSubmit = (values: RsvpFormValues) => {
-    console.log(values);
-
     startTransition(async () => {
       const response = await fetch("/api/rsvp", {
         method: "POST",

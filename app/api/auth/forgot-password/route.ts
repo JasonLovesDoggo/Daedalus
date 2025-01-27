@@ -48,10 +48,8 @@ export async function POST(
 
     if (existingToken) {
       const tokenAge = new Date().getTime() - existingToken.createdAt.getTime();
-      console.log("Token age:", tokenAge);
 
       if (tokenAge < TOKEN_EXPIRATION_TIME) {
-        console.log("Token is still valid, not sending new one");
         return NextResponse.json({
           success: false,
           message:
