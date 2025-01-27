@@ -17,7 +17,7 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
   return (
     <PageWrapper>
       <DashboardHeader userName={user.name || "Hacker"} />
-      <ApplicationStatus status={user.status} role={user.role} />
+      <ApplicationStatus status={"accepted"} role={"unassigned"} />
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10 xl:gap-12">
         <DiscordInviteCard isLocked={isLocked} />

@@ -129,7 +129,7 @@ export const statusConfig: Record<
       description:
         "We're delighted to invite you to Hack Canada! Please complete the form below within 7 days of your acceptance to secure your spot!",
       primaryAction: {
-        href: "/applications/hacker/rsvp",
+        href: "/rsvp",
         label: "RSVP",
         variant: "primary",
       },

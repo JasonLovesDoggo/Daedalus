@@ -3,7 +3,7 @@ import { z } from "zod";
 const phoneRegex = /^[0-9-]+$/;
 
 // T-shirt size options
-const TSHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
+export const TSHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
 
 // Dietary restriction options
 export const DIETARY_RESTRICTIONS = [
@@ -54,18 +54,33 @@ export const RsvpFormSchema = z.object({
     )
     .optional(),
 
-  dietaryRestrictions: z.object({
-    value: z.enum(DIETARY_RESTRICTIONS, {
-      required_error: "Please select your dietary restrictions",
-      invalid_type_error: "Invalid dietary restriction selected",
-    }),
-    details: z
-      .string()
-      .trim()
-      .max(200, "Additional details must be at most 200 characters")
-      .optional()
-      .transform((val) => val || null),
-  }),
+  dietaryRestrictions: z
+    .object({
+      value: z.enum(DIETARY_RESTRICTIONS, {
+        required_error: "Please select your dietary restrictions",
+        invalid_type_error: "Invalid dietary restriction selected",
+      }),
+      customValue: z
+        .string()
+        .trim()
+        .max(100, "Additional details must be at most 100 characters")
+        .optional(),
+    })
+    .refine(
+      (data) => {
+        if (
+          data.value === "Allergies (please specify)" ||
+          data.value === "Other (please specify)"
+        ) {
+          return data.customValue && data.customValue.trim().length > 0;
+        }
+        return true;
+      },
+      {
+        message: "Please specify your dietary restrictions.",
+        path: ["customValue"],
+      },
+    ),
 
   tshirtSize: z.enum(TSHIRT_SIZES, {
     required_error: "Please select a t-shirt size",
