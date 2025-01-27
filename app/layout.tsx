@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     default: siteConfig.title,
   },
   description: siteConfig.description,
+  metadataBase: siteConfig.metadataBase,
+  openGraph: siteConfig.openGraph,
+  keywords: siteConfig.keywords,
 };
 
 export default async function RootLayout({
