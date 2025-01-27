@@ -45,16 +45,15 @@ export async function POST(req: Request) {
       });
     }
 
-    // Ensure that the user has accepted the application and hasn't already RSVPed
-    if (
-      existingUser.applicationStatus !== "accepted" ||
-      existingUser.role === "hacker"
-    ) {
+    // Ensure that the user is qualified to RSVP
+    // - user must be accepted
+    // - user must not ALREADY be a hacker
+    const canRsvp =
+      currentUser?.status === "accepted" && currentUser.role !== "hacker";
+
+    if (!canRsvp) {
       return NextResponse.json<RsvpResponse>({
-        error:
-          existingUser.applicationStatus !== "accepted"
-            ? "You must be accepted to RSVP."
-            : "You have already RSVPed.",
+        error: "You do not have the required permissions to RSVP.",
       });
     }
 

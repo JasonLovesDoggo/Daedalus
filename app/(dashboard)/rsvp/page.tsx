@@ -7,14 +7,19 @@ import RSVPForm from "@/components/RSVPForm";
 const RSVPPage = async () => {
   const currentUser = await getCurrentUser();
 
-  // if (!currentUser || !currentUser.id) {
-  //   redirect("/");
-  // }
+  if (!currentUser || !currentUser.id) {
+    redirect("/");
+  }
 
-  // // Ensure that the user is qualified to RSVP
-  // if (currentUser.status !== "accepted" || currentUser.role === "hacker") {
-  //   redirect("/dashboard");
-  // }
+  // Ensure that the user is qualified to RSVP
+  // - user must be accepted
+  // - user must not ALREADY be a hacker
+  const canRsvp =
+    currentUser?.status === "accepted" && currentUser.role !== "hacker";
+
+  if (!canRsvp) {
+    redirect("/");
+  }
 
   return (
     <PageWrapper className="3xl:max-w-screen-lg">
