@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 
 import { ApiResponse } from "@/types/api";
 import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { rsvp, users } from "@/lib/db/schema";
 
 export async function POST(
   req: NextRequest,
@@ -52,6 +52,9 @@ export async function POST(
         applicationStatus: "cancelled",
       })
       .where(eq(users.id, currentUser.id));
+
+    // Delete rsvp info
+    await db.delete(rsvp).where(eq(rsvp.userId, currentUser.id));
 
     return NextResponse.json({
       success: true,
