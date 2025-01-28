@@ -18,6 +18,7 @@ export const users = pgTable("user", {
   password: text("password"),
   role: text("role").default("unassigned").notNull(),
   applicationStatus: text("applicationStatus").notNull().default("not_applied"),
+  acceptedAt: timestamp("acceptedAt"),
   rsvpAt: timestamp("rsvpAt"),
   createdAt: timestamp("createdAt")
     .notNull()

@@ -27,6 +27,20 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
+export const getUserAcceptedTime = async (userId: string) => {
+  try {
+    const [user] = await db
+      .select({ acceptedAt: users.acceptedAt })
+      .from(users)
+      .where(eq(users.id, userId));
+
+    return user.acceptedAt;
+  } catch (error) {
+    console.error("Error fetching user accepted time: ", error);
+    return null;
+  }
+};
+
 export const updateUserHackerApplicationStatus = async (
   userId: string,
   status: ApplicationStatus,
