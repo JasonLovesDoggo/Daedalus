@@ -1,20 +1,27 @@
 import { ExternalLink } from "lucide-react";
 
+import { discordInviteUrl } from "@/config/site";
+
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
 import LockedState from "./LockedState";
 
 interface DiscordInviteCardProps {
   isLocked: boolean;
+  role: UserRole;
 }
 
-const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
+const DiscordInviteCard = ({ isLocked, role }: DiscordInviteCardProps) => {
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div
         className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg ${isLocked ? "border-gray-200/50" : "border-border"}`}
       >
-        {isLocked && <LockedState />}
+        {isLocked && (
+          <LockedState
+            label={role !== "hacker" ? "Hackers Only" : "Coming Soon"}
+          />
+        )}
 
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-medium text-textPrimary">
@@ -41,7 +48,7 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href={isLocked ? "" : "https://discord.gg/your-invite-link"}
+            href={isLocked ? "" : discordInviteUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-disabled={isLocked}

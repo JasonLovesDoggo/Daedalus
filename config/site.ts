@@ -23,3 +23,5 @@ export const siteConfig = {
     "innovation",
   ],
 };
+
+export const discordInviteUrl = "https://discord.gg/your-invite-link";

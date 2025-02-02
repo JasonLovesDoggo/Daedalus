@@ -12,7 +12,8 @@ interface DashboardContentProps {
 }
 
 export const DashboardContent = ({ user }: DashboardContentProps) => {
-  const isLocked = user.role !== "hacker";
+  // TODO: Remove the "true" when we have the links ready
+  const isLocked = user.role !== "hacker" || true;
 
   return (
     <PageWrapper>
@@ -20,8 +21,8 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
       <ApplicationStatus status={user.status} role={user.role} />
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10 xl:gap-12">
-        <DiscordInviteCard isLocked={isLocked} />
-        <HackerPackageCard isLocked={isLocked} />
+        <DiscordInviteCard isLocked={isLocked} role={user.role} />
+        <HackerPackageCard isLocked={isLocked} role={user.role} />
       </div>
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:gap-12">

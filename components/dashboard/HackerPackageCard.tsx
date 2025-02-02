@@ -1,20 +1,27 @@
 import { Download, ExternalLink } from "lucide-react";
 
+import { discordInviteUrl } from "@/config/site";
+
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
 import LockedState from "./LockedState";
 
 interface HackerPackageCardProps {
   isLocked: boolean;
+  role: UserRole;
 }
 
-const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
+const HackerPackageCard = ({ isLocked, role }: HackerPackageCardProps) => {
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div
         className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg ${isLocked ? "border-gray-200/50" : "border-border"}`}
       >
-        {isLocked && <LockedState />}
+        {isLocked && (
+          <LockedState
+            label={role !== "hacker" ? "Hackers Only" : "Coming Soon"}
+          />
+        )}
 
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-medium text-textPrimary">
@@ -34,7 +41,7 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href={isLocked ? "" : "/hacker-package.pdf"}
+            href={isLocked ? "" : discordInviteUrl}
             aria-disabled={isLocked}
             className={buttonVariants({
               variant: isLocked ? "outline" : "default",
