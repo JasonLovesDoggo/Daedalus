@@ -6,7 +6,7 @@ import { CountdownTimer } from "../ui/CountdownTimer";
 import { Snowflakes } from "../ui/Snowflakes";
 
 export const CountdownSection = () => {
-  const targetDate = new Date("2025-02-21T18:00:00-05:00"); // Feb 21st 6 PM EST
+  const targetDate = new Date("2025-02-10T23:59:59-05:00"); // Feb 10th 11:59:59 PM EST (GMT-5)
 
   return (
     <div className="relative overflow-hidden rounded-md border border-gray-300 p-4 shadow-sm md:p-8 lg:col-span-2 xl:p-12">
