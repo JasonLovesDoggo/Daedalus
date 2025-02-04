@@ -10,7 +10,7 @@ export const ApplicationCardStatus = ({
   deadline,
 }: ApplicationCardStatusProps) => {
   return (
-    <div className="flex justify-between gap-2">
+    <div className="flex gap-2 max-sm:flex-col sm:justify-between">
       <div className="flex items-center gap-2">
         <div
           className={cn(
@@ -32,7 +32,7 @@ export const ApplicationCardStatus = ({
         </span>
       </div>
       {deadline && (
-        <span className="text-right text-xs text-gray-600 dark:text-gray-400 md:text-sm">
+        <span className="text-xs text-gray-600 dark:text-gray-400 sm:text-right md:text-sm">
           Deadline: {deadline}
         </span>
       )}
