@@ -28,6 +28,8 @@ export const users = pgTable("user", {
     .default(sql`CURRENT_TIMESTAMP`),
 });
 
+export type User = typeof users.$inferSelect;
+
 export const passwordResetTokens = pgTable("passwordResetToken", {
   id: text("id")
     .primaryKey()
@@ -143,7 +145,32 @@ export const hackerApplications = pgTable("hackerApplication", {
     .default(sql`CURRENT_TIMESTAMP`),
   internalResult: text("internalResult").default("pending"),
   internalNotes: text("internalNotes"),
+  reviewCount: integer("reviewCount").default(0).notNull(),
+  averageRating: integer("averageRating"),
 });
+
+export const applicationReviews = pgTable("applicationReview", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  applicationId: text("applicationId")
+    .notNull()
+    .references(() => hackerApplications.id, { onDelete: "cascade" }),
+  reviewerId: text("reviewerId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  rating: integer("rating").notNull(),
+  reviewDuration: integer("reviewDuration"), // Duration in seconds
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type ApplicationReview = typeof applicationReviews.$inferSelect;
+export type NewApplicationReview = typeof applicationReviews.$inferInsert;
 
 export type HackerApplicationsInsertData =
   typeof hackerApplications.$inferInsert;
@@ -176,3 +203,24 @@ export const rsvp = pgTable("rsvp", {
 
 export type RsvpInsert = typeof rsvp.$inferInsert;
 export type RsvpSelect = typeof rsvp.$inferSelect;
+
+export const auditLogs = pgTable("auditLog", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id),
+  action: text("action").notNull(),
+  entityType: text("entityType").notNull(),
+  entityId: text("entityId").notNull(),
+  previousValue: text("previousValue"),
+  newValue: text("newValue"),
+  metadata: text("metadata"),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type NewAuditLog = typeof auditLogs.$inferInsert;
