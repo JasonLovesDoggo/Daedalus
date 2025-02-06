@@ -108,13 +108,13 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           control={form.control}
           name="bio"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="relative">
               <FormLabel>Bio</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell others about yourself..."
-                  className="min-h-[120px] resize-y"
                   {...field}
+                  placeholder="Tell others about yourself..."
+                  className="min-h-[150px] resize-y"
                   value={field.value || ""}
                   disabled={isPending}
                 />
@@ -123,6 +123,11 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 A brief introduction about yourself. Max 500 characters.
               </FormDescription>
               <FormMessage />
+              <span
+                className={`${field.value?.length && field.value.length > 500 ? "text-destructive" : "text-muted-foreground"} absolute bottom-2 right-2 text-sm`}
+              >
+                {field.value?.length || 0}/500
+              </span>
             </FormItem>
           )}
         />

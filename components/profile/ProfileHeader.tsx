@@ -24,7 +24,7 @@ export function ProfileHeader({
         alt="Beaver wave"
         width={200}
         height={200}
-        className="pointer-events-none absolute right-5 top-8 max-sm:w-36 sm:right-10"
+        className="pointer-events-none absolute right-5 max-3xl:top-8 max-sm:w-36 sm:right-10 3xl:bottom-0 3xl:w-72"
       />
 
       {/* Enhanced layered background effects */}
@@ -79,9 +79,9 @@ export function ProfileHeader({
 
       {/* Bio Section */}
       {bio && (
-        <div className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-sm backdrop-blur-sm transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md">
+        <div className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-sm backdrop-blur-sm transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md 3xl:max-w-3xl">
           <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
-          <p className="max-h-64 overflow-y-auto whitespace-pre-wrap break-words text-textSecondary transition-all duration-500 group-hover:text-black">
+          <p className="max-h-80 overflow-y-auto whitespace-pre-wrap break-words text-textSecondary transition-all duration-500 group-hover:text-black md:max-h-64">
             {bio}
           </p>
         </div>

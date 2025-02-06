@@ -16,7 +16,7 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
         className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition after:absolute after:inset-0 after:-z-20 after:bg-backgroundMuted ${
           isLocked
             ? "border-gray-200/50 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/20 before:opacity-25"
-            : "border-primary/25 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/30 before:opacity-75 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 hover:before:opacity-100"
+            : "border-primary/25 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/30 before:opacity-75 hover:border-primary/50 hover:shadow-2xl hover:shadow-primaryLight/50 hover:before:opacity-100"
         }`}
       >
         {/* Decorative elements */}

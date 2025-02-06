@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
 import { getProfileWithUser } from "@/lib/db/queries/profile";
+import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
@@ -21,7 +22,7 @@ export default async function ProfilePage({
     return (
       <EmptyPage
         title="Profile Page"
-        message="Sorry, this page is only available to participants."
+        message="Sorry, this feature is only available to participants."
       />
     );
   }
@@ -52,6 +53,7 @@ export default async function ProfilePage({
             <SocialLinkCard integrations={profile.integrations} />
           )}
         </div>
+        <BackButton />
       </div>
     </PageWrapper>
   );
