@@ -2,7 +2,6 @@ import Link from "next/link";
 import { User } from "lucide-react";
 
 import { buttonVariants } from "../ui/button";
-import CardDecorativeElements from "./CardDecorativeElements";
 import LockedState from "./LockedState";
 
 interface ProfileCardProps {
@@ -12,28 +11,24 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
   return (
-    <div className="col-span-1 overflow-hidden lg:col-span-2">
+    <div className="col-span-1 lg:col-span-2">
       <div
-        className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg ${
-          isLocked ? "border-gray-200/50" : "border-border"
+        className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition after:absolute after:inset-0 after:-z-20 after:bg-backgroundMuted ${
+          isLocked
+            ? "border-gray-200/50 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/20 before:opacity-25"
+            : "border-primary/25 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/30 before:opacity-75 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 hover:before:opacity-100"
         }`}
       >
-        {isLocked && <LockedState label="Coming Soon" />}
+        {isLocked && <LockedState label="Participants Only" />}
 
-        <div className="flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-2xl font-medium text-textPrimary">
             Your Profile
           </h2>
-          <div
-            className={`rounded-lg p-2 ${
-              isLocked ? "text-gray-400" : "text-primary"
-            }`}
-          >
-            <User className="size-8" />
-          </div>
+          <User className="size-8 transition-transform duration-500 md:size-8" />
         </div>
 
-        <p className="pb-2 text-textMuted">
+        <p className="pb-2 text-textPrimary/70">
           Customize your public profile, share your interests, and connect with
           others through your unique QR code-enabled profile page.
         </p>
@@ -51,12 +46,10 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
               }`,
             })}
           >
-            Manage Profile
+            My Profile
             <User className="size-4" />
           </Link>
         </div>
-
-        <CardDecorativeElements isLocked={isLocked} />
       </div>
     </div>
   );

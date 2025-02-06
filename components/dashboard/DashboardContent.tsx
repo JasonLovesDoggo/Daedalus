@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 import PageWrapper from "../PageWrapper";
 import { BackButton } from "../ui/back-button";
 import { ApplicationStatus } from "./ApplicationStatus";
@@ -19,11 +21,16 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
   return (
     <PageWrapper>
       <DashboardHeader userName={user.name || "Hacker"} />
-      <ApplicationStatus status={user.status} role={user.role} />
+      <div
+        className={cn("flex flex-col gap-6 md:gap-8 lg:gap-10 xl:gap-12", {
+          "flex-col-reverse": user.role === "hacker",
+        })}
+      >
+        <ApplicationStatus status={user.status} role={user.role} />
 
-      {/* Profile Section */}
-      <div className="mb-6 md:mb-8 lg:mb-10 xl:mb-12">
-        <ProfileCard isLocked={false} userId={user.id!} />
+        {/* Profile Section */}
+        {/* Locked for anyone without an assigned role */}
+        <ProfileCard isLocked={user.role === "unassigned"} userId={user.id!} />
       </div>
 
       {/* Main Grid Sections */}
