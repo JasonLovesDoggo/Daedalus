@@ -18,32 +18,32 @@ import { Platform } from "@/lib/validations/profile";
 
 const platformIcons: Record<Platform, React.ReactNode> = {
   github: (
-    <Github className="size-7 transition-all duration-300 group-hover/card:rotate-[20deg] group-hover/card:scale-110" />
+    <Github className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[20deg] group-hover/card:scale-110 md:size-10 lg:size-12" />
   ),
   linkedin: (
-    <LinkedinIcon className="size-7 transition-all duration-300 group-hover/card:-rotate-12 group-hover/card:scale-125" />
+    <LinkedinIcon className="size-8 transition-all duration-500 ease-out group-hover/card:-rotate-12 group-hover/card:scale-125 md:size-10 lg:size-12" />
   ),
   instagram: (
-    <Instagram className="size-7 transition-all duration-300 group-hover/card:rotate-[45deg] group-hover/card:scale-110" />
+    <Instagram className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[45deg] group-hover/card:scale-110 md:size-10 lg:size-12" />
   ),
   youtube: (
-    <Youtube className="size-7 transition-all duration-300 group-hover/card:scale-125 group-hover/card:text-red-500" />
+    <Youtube className="size-8 transition-all duration-500 ease-out group-hover/card:scale-125 group-hover/card:text-red-500 md:size-10 lg:size-12" />
   ),
   twitch: (
-    <Radio className="size-7 transition-all duration-300 group-hover/card:rotate-[360deg] group-hover/card:scale-110" />
+    <Radio className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[360deg] group-hover/card:scale-110 md:size-10 lg:size-12" />
   ),
   portfolio: (
-    <Flame className="size-7 transition-all duration-300 group-hover/card:rotate-[-12deg] group-hover/card:scale-125 group-hover/card:text-orange-500" />
+    <Flame className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[-12deg] group-hover/card:scale-125 group-hover/card:text-orange-500 md:size-10 lg:size-12" />
   ),
 };
 
 const platformGradients: Record<Platform, string> = {
-  github: "from-gray-800/40 to-gray-600/40",
-  linkedin: "from-blue-600/40 to-blue-400/40",
-  instagram: "from-pink-600/40 via-purple-600/40 to-blue-600/40",
-  youtube: "from-red-600/40 to-red-400/40",
-  twitch: "from-purple-600/40 to-purple-400/40",
-  portfolio: "from-orange-500/40 to-yellow-400/40",
+  github: "from-gray-800/50 via-gray-700/50 to-gray-600/50",
+  linkedin: "from-blue-700/50 via-blue-600/50 to-blue-500/50",
+  instagram: "from-pink-600/50 via-purple-600/50 to-blue-600/50",
+  youtube: "from-red-700/60 via-red-600/60 to-red-500/60",
+  twitch: "from-purple-700/50 via-purple-600/50 to-purple-500/50",
+  portfolio: "from-orange-600/50 via-orange-500/50 to-yellow-500/50",
 };
 
 const platformStyles: Record<Platform, string> = {
@@ -123,8 +123,16 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
         </h2>
       </div>
 
-      {/* Enhanced grid of social links */}
-      <div className="grid auto-rows-fr grid-cols-2 gap-5 sm:grid-cols-3">
+      {/* Enhanced grid of social links - responsive based on number of links */}
+      <div
+        className={cn("grid auto-rows-fr gap-5", {
+          "grid-cols-1": integrations.length === 1,
+          "grid-cols-1 sm:grid-cols-2": integrations.length === 2,
+          "grid-cols-1 md:grid-cols-3":
+            integrations.length === 3 || integrations.length === 5,
+          "grid-cols-2 md:grid-cols-4": integrations.length === 4,
+        })}
+      >
         {integrations.map((integration, index) => (
           <a
             key={integration.platform}
@@ -146,18 +154,22 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
           >
             <div
               className={cn(
-                "relative flex size-16 items-center justify-center overflow-hidden rounded-xl md:size-20 lg:size-24",
-                "bg-gradient-to-br p-4",
+                "relative flex aspect-square w-16 items-center justify-center overflow-hidden rounded-xl md:w-20 lg:w-24",
+                "bg-gradient-to-br p-3 md:p-4 lg:p-5",
                 platformGradients[integration.platform],
-                "transition-all duration-500 group-hover/card:scale-110 group-hover/card:shadow-md",
+                "group-hover/card:shadow-current/10 transition-all duration-500 group-hover/card:translate-y-[-2px] group-hover/card:scale-105 group-hover/card:shadow-lg",
               )}
             >
               {/* Animated background effects */}
               <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100">
-                <div className="absolute inset-0 animate-[spin_4s_linear_infinite] opacity-50">
-                  <div className="absolute inset-0 rotate-45 transform-gpu bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                {/* Spinning highlight */}
+                <div className="absolute inset-0 animate-[spin_4s_linear_infinite] opacity-75">
+                  <div className="absolute inset-0 rotate-45 transform-gpu rounded-full bg-gradient-to-r from-transparent via-white/90 to-transparent blur-md" />
                 </div>
-                <div className="absolute inset-0 animate-pulse bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.15),transparent_50%)]" />
+                {/* Pulsing radial gradient */}
+                <div className="absolute inset-0 animate-[pulse_2s_ease-in-out_infinite] bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_60%)]" />
+                {/* Additional glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover/card:opacity-100" />
               </div>
 
               {/* Platform icon wrapper */}

@@ -36,7 +36,7 @@ export default async function ProfilePage({
 
   return (
     <PageWrapper>
-      <div className="relative min-h-[calc(100vh-4rem)] space-y-8">
+      <div className="relative space-y-8">
         <ProfileHeader
           name={profile.user.name}
           role={profile.user.role}

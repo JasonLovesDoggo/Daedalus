@@ -41,7 +41,7 @@ export function ProfileHeader({
             aria-label="Edit Profile"
             href="/profile/edit"
             className={buttonVariants({
-              variant: "outline",
+              variant: "ghost",
               size: "icon",
               className:
                 "shrink-0 text-textSecondary shadow-sm hover:text-black",
