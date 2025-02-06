@@ -3,7 +3,6 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusCircle, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -21,8 +20,9 @@ import {
 } from "@/components/ui/form";
 import { HobbiesSelect } from "@/components/ui/hobbies-select";
 import { Input } from "@/components/ui/input";
-import { PlatformSelect } from "@/components/ui/platform-select";
 import { Textarea } from "@/components/ui/textarea";
+
+import { ProfileIntegrations } from "./ProfileIntegrations";
 
 interface ProfileFormProps {
   initialData?: Partial<ProfileFormData>;
@@ -40,11 +40,6 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
       hobbies: initialData?.hobbies || "",
       integrations: initialData?.integrations || [],
     },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "integrations",
   });
 
   const onSubmit = async (data: ProfileFormData) => {
@@ -74,10 +69,6 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         );
       }
     });
-  };
-
-  const addNewPlatform = () => {
-    append({ platform: "github", url: "" });
   };
 
   return (
@@ -118,7 +109,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           name="hobbies"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Hobbies</FormLabel>
+              <FormLabel>Hobbies & Interests</FormLabel>
               <FormControl>
                 <HobbiesSelect
                   value={field.value}
@@ -127,8 +118,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 />
               </FormControl>
               <FormDescription>
-                Select from common hobbies or type your own. Your hobbies help
-                us match you with like-minded hackers.
+                Select up to 7 hobbies/interests, or type your own.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -136,87 +126,14 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         />
 
         {/* Social Integrations Section */}
-        <div
-          className={`h-auto rounded-lg border p-2.5 transition-[height] md:p-4 ${fields.length > 0 ? "space-y-6" : ""}`}
-        >
-          <div className="flex items-end justify-between gap-4">
-            <div className="space-y-1">
-              <FormLabel className="text-lg">Social Integrations</FormLabel>
-              <FormDescription>
-                Connect your social media accounts and websites
-              </FormDescription>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={addNewPlatform}
-              disabled={isPending}
-              className="shrink-0 gap-2"
-            >
-              <PlusCircle className="size-4" />
-              Add Platform
-            </Button>
-          </div>
-
-          <div className={fields.length > 0 ? "space-y-4" : ""}>
-            {fields.map((field, index) => (
-              <div
-                key={field.id}
-                className="relative rounded-lg border p-4 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <div className="flex items-start gap-4">
-                  <FormField
-                    control={form.control}
-                    name={`integrations.${index}.platform`}
-                    render={({ field }) => (
-                      <FormItem className="flex-[2]">
-                        <FormControl>
-                          <PlatformSelect
-                            value={field.value}
-                            onChange={field.onChange}
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`integrations.${index}.url`}
-                    render={({ field }) => (
-                      <FormItem className="flex-[3]">
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="https://..."
-                            disabled={isPending}
-                            className="transition-all focus-visible:ring-1"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => remove(index)}
-                    disabled={isPending}
-                    className="shrink-0"
-                  >
-                    <span className="sr-only">Remove platform</span>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ProfileIntegrations
+          control={form.control}
+          fieldArray={useFieldArray({
+            control: form.control,
+            name: "integrations",
+          })}
+          isPending={isPending}
+        />
 
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? "Saving..." : "Save Changes"}

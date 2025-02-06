@@ -64,7 +64,7 @@ export function HobbiesSelect({
   }));
 
   const handleChange = (newValue: readonly Option[]) => {
-    if (Array.isArray(newValue) && newValue.length <= 5) {
+    if (Array.isArray(newValue) && newValue.length <= 7) {
       const values = newValue.map((item) => item.value);
       onChange(values.join(","));
     }
@@ -78,7 +78,7 @@ export function HobbiesSelect({
       onChange={handleChange}
       options={predefinedOptions}
       isDisabled={disabled}
-      placeholder="Select or create hobbies..."
+      placeholder="Select or add new..."
       noOptionsMessage={() => "Type to create a new hobby"}
       isSearchable
       isClearable
