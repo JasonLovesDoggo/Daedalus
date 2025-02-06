@@ -1,12 +1,10 @@
 import Image from "next/image";
 import {
   CloudSnow,
-  Compass,
   Flame,
   Github,
   Instagram,
   LinkedinIcon,
-  Mountain,
   Radio,
   Share2,
   Snowflake,
@@ -38,12 +36,18 @@ const platformIcons: Record<Platform, React.ReactNode> = {
 };
 
 const platformGradients: Record<Platform, string> = {
-  github: "from-gray-800/50 via-gray-700/50 to-gray-600/50",
-  linkedin: "from-blue-700/50 via-blue-600/50 to-blue-500/50",
-  instagram: "from-pink-600/50 via-purple-600/50 to-blue-600/50",
-  youtube: "from-red-700/60 via-red-600/60 to-red-500/60",
-  twitch: "from-purple-700/50 via-purple-600/50 to-purple-500/50",
-  portfolio: "from-orange-600/50 via-orange-500/50 to-yellow-500/50",
+  github:
+    "from-gray-900/60 via-gray-700/50 to-gray-600/40 hover:from-gray-800/70 hover:via-gray-600/60 hover:to-gray-500/50",
+  linkedin:
+    "from-blue-800/60 via-blue-600/50 to-sky-500/40 hover:from-blue-700/70 hover:via-blue-500/60 hover:to-sky-400/50",
+  instagram:
+    "from-fuchsia-600/60 via-purple-600/50 to-amber-500/40 hover:from-fuchsia-500/70 hover:via-purple-500/60 hover:to-amber-400/50",
+  youtube:
+    "from-red-800/60 via-red-600/50 to-rose-500/40 hover:from-red-700/70 hover:via-red-500/60 hover:to-rose-400/50",
+  twitch:
+    "from-purple-800/60 via-purple-600/50 to-violet-500/40 hover:from-purple-700/70 hover:via-purple-500/60 hover:to-violet-400/50",
+  portfolio:
+    "from-amber-600/60 via-orange-500/50 to-yellow-400/40 hover:from-amber-500/70 hover:via-orange-400/60 hover:to-yellow-300/50",
 };
 
 const platformStyles: Record<Platform, string> = {

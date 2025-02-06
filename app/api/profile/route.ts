@@ -1,6 +1,6 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/auth";
-import { ZodError } from "zod";
 
 import { ApiResponse } from "@/types/api";
 import { upsertProfile } from "@/lib/db/queries/profile";
@@ -98,6 +98,7 @@ export async function PUT(
     }
 
     await upsertProfile(user.id, validationResult.data);
+    revalidatePath("/profile/edit");
 
     return NextResponse.json<ApiResponse>({
       success: true,

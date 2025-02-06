@@ -85,8 +85,8 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         }
 
         toast.success(result.message);
-        router.refresh();
         router.replace(`/profile/${session?.user.id}`);
+        router.refresh();
       } catch (error) {
         toast.error(
           error instanceof Error ? error.message : "Something went wrong",
