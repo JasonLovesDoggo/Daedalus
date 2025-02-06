@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PlusCircle, Trash2 } from "lucide-react";
-import { Control, UseFieldArrayReturn } from "react-hook-form";
+import { Control, UseFieldArrayReturn, useFormState } from "react-hook-form";
 
-import { ProfileFormData } from "@/lib/validations/profile";
+import {
+  Platform,
+  PLATFORM_PLACEHOLDERS,
+  ProfileFormData,
+} from "@/lib/validations/profile";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -24,18 +27,30 @@ interface ProfileIntegrationsProps {
   isPending: boolean;
 }
 
+const MAX_INTEGRATIONS = 5;
+
 export function ProfileIntegrations({
   control,
   fieldArray,
   isPending,
 }: ProfileIntegrationsProps) {
   const { fields, append, remove } = fieldArray;
+  const { errors } = useFormState({ control });
+  const integrationErrors = errors.integrations;
+
   const addNewPlatform = () => {
+    if (fields.length >= MAX_INTEGRATIONS) {
+      return;
+    }
     append({ platform: "github", url: "" });
   };
 
   const handleRemove = (index: number) => {
     remove(index);
+  };
+
+  const getUrlPlaceholder = (platform: Platform) => {
+    return PLATFORM_PLACEHOLDERS[platform] || "https://...";
   };
 
   return (
@@ -44,7 +59,8 @@ export function ProfileIntegrations({
         <div className="space-y-1">
           <FormLabel className="text-lg">Social Integrations</FormLabel>
           <FormDescription>
-            Connect your social media accounts and websites
+            Connect your social media accounts and websites (max{" "}
+            {MAX_INTEGRATIONS})
           </FormDescription>
         </div>
         <Button
@@ -52,7 +68,7 @@ export function ProfileIntegrations({
           variant="outline"
           size="sm"
           onClick={addNewPlatform}
-          disabled={isPending}
+          disabled={isPending || fields.length >= MAX_INTEGRATIONS}
           className="shrink-0 gap-2"
         >
           <PlusCircle className="size-4" />
@@ -61,7 +77,7 @@ export function ProfileIntegrations({
       </div>
 
       {/* <AnimatePresence> */}
-      {fields.map((field) => (
+      {fields.map((field, index) => (
         <motion.div
           layout
           key={field.id}
@@ -80,7 +96,7 @@ export function ProfileIntegrations({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <FormField
                 control={control}
-                name={`integrations.${fields.indexOf(field)}.platform`}
+                name={`integrations.${index}.platform`}
                 render={({ field }) => (
                   <FormItem className="flex-[2]">
                     <FormControl>
@@ -90,25 +106,23 @@ export function ProfileIntegrations({
                         disabled={isPending}
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
 
               <FormField
                 control={control}
-                name={`integrations.${fields.indexOf(field)}.url`}
+                name={`integrations.${index}.url`}
                 render={({ field }) => (
                   <FormItem className="flex-[3]">
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="https://..."
+                        placeholder={getUrlPlaceholder(fields[index].platform)}
                         disabled={isPending}
                         className="transition-all focus-visible:ring-1"
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -116,12 +130,12 @@ export function ProfileIntegrations({
               <Button
                 type="button"
                 variant="destructive"
-                size="icon"
-                onClick={() => handleRemove(fields.indexOf(field))}
+                onClick={() => handleRemove(index)}
                 disabled={isPending}
-                className="shrink-0"
+                className="shrink-0 max-sm:ml-auto"
               >
                 <span className="sr-only">Remove platform</span>
+                <span className="mr-2 sm:hidden">Remove</span>
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
@@ -129,6 +143,38 @@ export function ProfileIntegrations({
         </motion.div>
       ))}
       {/* </AnimatePresence> */}
+
+      {integrationErrors && (
+        <div className="mt-4 space-y-2">
+          {typeof integrationErrors === "object" &&
+            !Array.isArray(integrationErrors) &&
+            integrationErrors.message && (
+              <div className="rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
+                {integrationErrors.message}
+              </div>
+            )}
+          {Array.isArray(integrationErrors) &&
+            integrationErrors.map((error, index) => {
+              if (!error) return null;
+              return (
+                <div
+                  key={index}
+                  className="rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive"
+                >
+                  <div className="font-medium">Platform {index + 1}</div>
+                  {error.platform?.message && (
+                    <div className="mt-1">
+                      Platform: {error.platform.message}
+                    </div>
+                  )}
+                  {error.url?.message && (
+                    <div className="mt-1">URL: {error.url.message}</div>
+                  )}
+                </div>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 }

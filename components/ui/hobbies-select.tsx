@@ -64,7 +64,7 @@ export function HobbiesSelect({
   }));
 
   const handleChange = (newValue: readonly Option[]) => {
-    if (Array.isArray(newValue) && newValue.length <= 7) {
+    if (Array.isArray(newValue) && newValue.length <= 5) {
       const values = newValue.map((item) => item.value);
       onChange(values.join(","));
     }

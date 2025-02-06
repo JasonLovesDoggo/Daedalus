@@ -1,12 +1,13 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { type ApiResponse } from "@/types/api";
 import { ProfileFormData, profileSchema } from "@/lib/validations/profile";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,9 +43,18 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
     },
   });
 
-  const onSubmit = async (data: ProfileFormData) => {
-    console.log("data", data);
+  // Reset form when initialData changes
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        bio: initialData.bio || "",
+        hobbies: initialData.hobbies || "",
+        integrations: initialData.integrations || [],
+      });
+    }
+  }, [initialData, form]);
 
+  const onSubmit = async (data: ProfileFormData) => {
     startTransition(async () => {
       try {
         const res = await fetch("/api/profile", {
@@ -55,14 +65,28 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           body: JSON.stringify(data),
         });
 
-        const result = await res.json();
+        const result = (await res.json()) as ApiResponse;
 
         if (!result.success) {
+          if (res.status === 422 && result.error) {
+            // Handle validation errors from server
+            form.setError("root", { message: result.error });
+            return;
+          }
+
+          // If rate limited, disable form temporarily
+          if (res.status === 429) {
+            form.reset(form.getValues());
+            setTimeout(() => form.clearErrors(), 60000); // 1 minute
+            return;
+          }
+
           throw new Error(result.error || "Failed to update profile");
         }
 
         toast.success(result.message);
-        router.push(`/profile/${session?.user?.id}`);
+        router.refresh();
+        router.replace(`/profile/${session?.user.id}`);
       } catch (error) {
         toast.error(
           error instanceof Error ? error.message : "Something went wrong",
@@ -76,7 +100,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormItem>
           <FormLabel>Display name (unchangeable)</FormLabel>
-          <Input value={session?.user.name?.split(" ")[0] || ""} disabled />
+          <Input value={session?.user?.name?.split(" ")[0] || ""} disabled />
         </FormItem>
 
         {/* Bio Section */}
@@ -118,7 +142,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 />
               </FormControl>
               <FormDescription>
-                Select up to 7 hobbies/interests, or type your own.
+                Select up to 5 hobbies/interests, or type your own.
               </FormDescription>
               <FormMessage />
             </FormItem>

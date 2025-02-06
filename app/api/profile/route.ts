@@ -1,9 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/auth";
+import { ZodError } from "zod";
 
 import { ApiResponse } from "@/types/api";
 import { upsertProfile } from "@/lib/db/queries/profile";
 import { profileSchema } from "@/lib/validations/profile";
+
+// Simple in-memory rate limiting
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 5;
+const requestCounts = new Map<string, { count: number; timestamp: number }>();
+
+function isRateLimited(userId: string): boolean {
+  const now = Date.now();
+  const userRequests = requestCounts.get(userId);
+
+  if (!userRequests || now - userRequests.timestamp > RATE_LIMIT_WINDOW) {
+    requestCounts.set(userId, { count: 1, timestamp: now });
+    return false;
+  }
+
+  if (userRequests.count >= MAX_REQUESTS_PER_WINDOW) {
+    return true;
+  }
+
+  userRequests.count += 1;
+  return false;
+}
 
 export async function PUT(
   req: NextRequest,
@@ -14,10 +37,22 @@ export async function PUT(
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          message: "Unauthorized",
-          error: "Authentication required",
+          message: "Authentication required",
+          error: "Please sign in to update your profile",
         },
         { status: 401 },
+      );
+    }
+
+    // Rate limiting check
+    if (isRateLimited(user.id)) {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "Too many requests",
+          error: "Please wait a minute before trying again",
+        },
+        { status: 429 },
       );
     }
 
@@ -26,22 +61,37 @@ export async function PUT(
         {
           success: false,
           message: "Unauthorized",
-          error: "User does not have required role to create a profile",
+          error: "You don't have permission to update your profile",
         },
         { status: 403 },
       );
     }
 
-    const body = await req.json();
+    const body = await req.json().catch(() => null);
+    if (!body) {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "Invalid request",
+          error: "Request body is required",
+        },
+        { status: 400 },
+      );
+    }
 
     // Validate request body
     const validationResult = profileSchema.safeParse(body);
     if (!validationResult.success) {
+      const errors = validationResult.error.issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message,
+      }));
+
       return NextResponse.json<ApiResponse>(
         {
           success: false,
           message: "Invalid profile data",
-          error: validationResult.error.message,
+          error: "Validation failed",
         },
         { status: 400 },
       );
@@ -55,6 +105,32 @@ export async function PUT(
     });
   } catch (error) {
     console.error("[PROFILE_UPDATE]", error);
+
+    // Handle specific database errors
+    if (error instanceof Error) {
+      if (error.message.includes("duplicate key")) {
+        return NextResponse.json<ApiResponse>(
+          {
+            success: false,
+            message: "Profile update failed",
+            error: "A profile already exists for this user",
+          },
+          { status: 409 },
+        );
+      }
+
+      if (error.message.includes("foreign key")) {
+        return NextResponse.json<ApiResponse>(
+          {
+            success: false,
+            message: "Profile update failed",
+            error: "Invalid user reference",
+          },
+          { status: 400 },
+        );
+      }
+    }
+
     return NextResponse.json<ApiResponse>(
       {
         success: false,
