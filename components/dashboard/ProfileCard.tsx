@@ -11,7 +11,7 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
   return (
-    <div className="col-span-1 lg:col-span-2">
+    <div className="col-span-1 lg:col-span-3">
       <div
         className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition after:absolute after:inset-0 after:-z-20 after:bg-backgroundMuted ${
           isLocked
