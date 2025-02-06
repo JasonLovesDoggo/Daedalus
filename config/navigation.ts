@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   NotebookPen,
   QrCode,
+  User,
 } from "lucide-react";
 
 export const navigation = [
@@ -11,6 +12,11 @@ export const navigation = [
     name: "Dashboard",
     href: "/",
     icon: LayoutDashboard,
+  },
+  {
+    name: "Profile",
+    href: "/profile",
+    icon: User,
   },
   {
     name: "Applications",

@@ -1,8 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { ChevronsLeft } from "lucide-react";
-
 import { navigation } from "@/config/navigation";
 
 import SidebarNavLink from "./SidebarNavLink";
