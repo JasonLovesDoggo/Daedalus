@@ -18,5 +18,5 @@ export const platformIcons: Record<
   instagram: Instagram,
   twitch: Twitch,
   youtube: Youtube,
-  personal: Globe,
+  portfolio: Globe,
 };

@@ -7,7 +7,7 @@ export const PLATFORM_PLACEHOLDERS: Record<Platform, string> = {
   instagram: "https://instagram.com/username",
   twitch: "https://twitch.tv/username",
   youtube: "https://youtube.com/@channel",
-  personal: "https://your-website.com",
+  portfolio: "https://your-website.com",
 };
 
 export const SUPPORTED_PLATFORMS = [
@@ -16,7 +16,7 @@ export const SUPPORTED_PLATFORMS = [
   "instagram",
   "twitch",
   "youtube",
-  "personal",
+  "portfolio",
 ] as const;
 
 export type Platform = (typeof SUPPORTED_PLATFORMS)[number];
@@ -30,7 +30,7 @@ const platformUrlPatterns: Record<Platform, RegExp> = {
   twitch: /^https:\/\/(www\.)?twitch\.tv\/[a-zA-Z0-9]\w{3,24}$/,
   youtube:
     /^https:\/\/(www\.)?(youtube\.com\/(c\/|channel\/|user\/|@)[a-zA-Z0-9-_]{3,}|youtube\.com\/@[a-zA-Z0-9-_]{3,})$/,
-  personal:
+  portfolio:
     /^https?:\/\/(?:localhost(?::\d{1,5})?|(?:[\w-]+\.)+[\w-]+)(?:\/[\w-./?%&=]*)?$/,
 };
 

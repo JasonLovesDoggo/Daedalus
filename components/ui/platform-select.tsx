@@ -19,7 +19,7 @@ const platformStyles: Record<Platform, string> = {
   instagram: "hover:bg-[#fbad50] hover:text-black",
   twitch: "hover:bg-[#9146ff] hover:text-white",
   youtube: "hover:bg-[#ff0000] hover:text-white",
-  personal: "hover:bg-gray-800 hover:text-white",
+  portfolio: "hover:bg-gray-800 hover:text-white",
 };
 
 export function PlatformSelect({
