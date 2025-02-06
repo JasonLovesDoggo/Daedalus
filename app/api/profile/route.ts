@@ -67,21 +67,11 @@ export async function PUT(
       );
     }
 
-    const body = await req.json().catch(() => null);
-    if (!body) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Invalid request",
-          error: "Request body is required",
-        },
-        { status: 400 },
-      );
-    }
+    const body = await req.json();
 
     // Validate request body
-    const validationResult = profileSchema.safeParse(body);
-    if (!validationResult.success) {
+    const validatedFields = profileSchema.safeParse(body);
+    if (!validatedFields.success) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
@@ -92,7 +82,8 @@ export async function PUT(
       );
     }
 
-    await upsertProfile(user.id, validationResult.data);
+    // Create/Update the profile
+    await upsertProfile(user.id, validatedFields.data);
     revalidatePath("/profile/edit");
 
     return NextResponse.json<ApiResponse>({

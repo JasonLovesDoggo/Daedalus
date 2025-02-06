@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { User } from "next-auth";
 
 import { buttonVariants } from "@/components/ui/button";
 
@@ -70,7 +69,7 @@ export function ProfileHeader({
       {bio && (
         <div className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-sm backdrop-blur-sm transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md">
           <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
-          <p className="whitespace-pre-wrap text-textSecondary transition-all duration-500 group-hover:text-black">
+          <p className="whitespace-pre-wrap break-words text-textSecondary transition-all duration-500 group-hover:text-black">
             {bio}
           </p>
         </div>

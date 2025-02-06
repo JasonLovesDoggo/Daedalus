@@ -38,7 +38,7 @@ export default async function ProfilePage({
     <PageWrapper>
       <div className="relative space-y-8">
         <ProfileHeader
-          name={profile.user.name}
+          name={profile.user.name.split(" ")[0]}
           role={profile.user.role}
           bio={profile.bio}
           isOwner={isOwner}
