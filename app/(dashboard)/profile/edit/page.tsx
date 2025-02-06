@@ -22,11 +22,12 @@ export default async function EditProfilePage() {
   console.log(profile);
 
   return (
-    <PageWrapper>
+    <PageWrapper className="max-w-screen-lg 3xl:max-w-screen-lg">
       <div className="mb-8">
         <h1 className="text-2xl font-bold">Edit Profile</h1>
         <p className="text-muted-foreground">
-          Update your public profile information
+          Update your profile to share your interests, hobbies, and connect with
+          others during the hackathon!
         </p>
       </div>
 

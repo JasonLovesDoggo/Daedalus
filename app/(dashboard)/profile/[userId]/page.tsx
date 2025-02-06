@@ -1,22 +1,34 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getCurrentUser } from "@/auth";
 
 import { getProfileWithUser } from "@/lib/db/queries/profile";
+import { EmptyPage } from "@/components/EmptyPage";
 
 export default async function ProfilePage({
   params,
 }: {
   params: { userId: string };
 }) {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser?.id) redirect("/");
+
+  if (currentUser.role === "unassigned") {
+    return (
+      <EmptyPage
+        title="Profile Page"
+        message="Sorry, this page is only available to participants."
+      />
+    );
+  }
+
   const profile = await getProfileWithUser(params.userId);
 
-  if (!profile) {
-    notFound();
+  if (!profile?.id) {
+    redirect("/profile/edit");
   }
 
-  // Don't show profile if user is unassigned
-  if (profile.user.role === "unassigned") {
-    notFound();
-  }
+  const isOwner = profile.user.id === currentUser.id;
 
   return (
     <div className="flex flex-col gap-8 p-6">

@@ -136,8 +136,10 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         />
 
         {/* Social Integrations Section */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
+        <div
+          className={`h-auto rounded-lg border p-2.5 transition-[height] md:p-4 ${fields.length > 0 ? "space-y-6" : ""}`}
+        >
+          <div className="flex items-end justify-between gap-4">
             <div className="space-y-1">
               <FormLabel className="text-lg">Social Integrations</FormLabel>
               <FormDescription>
@@ -152,12 +154,12 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
               disabled={isPending}
               className="shrink-0 gap-2"
             >
-              <PlusCircle className="h-4 w-4" />
+              <PlusCircle className="size-4" />
               Add Platform
             </Button>
           </div>
 
-          <div className="space-y-4">
+          <div className={fields.length > 0 ? "space-y-4" : ""}>
             {fields.map((field, index) => (
               <div
                 key={field.id}

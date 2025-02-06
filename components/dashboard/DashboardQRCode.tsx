@@ -13,8 +13,8 @@ const DashboardQRCode = ({ isLocked }: DashboardQRCodeProps) => {
       <div
         className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition ${
           isLocked
-            ? "border-gray-200/50 before:bg-gradient-to-br before:from-primary/20 before:via-info/15 before:to-primaryLight/10 before:opacity-25"
-            : "border-primary/15 before:bg-gradient-to-br before:from-primary/10 before:via-info/20 before:to-primaryLight/30 before:opacity-75 hover:border-primary/25 hover:shadow-lg hover:shadow-primary/10 hover:before:opacity-100"
+            ? "border-gray-200/50 before:bg-gradient-to-br before:from-primary/15 before:via-info/10 before:to-primaryLight/10 before:opacity-25"
+            : "border-primary/15 before:bg-gradient-to-br before:from-primary/10 before:via-info/15 before:to-primaryLight/20 before:opacity-75 hover:border-primary/25 hover:before:opacity-100"
         }`}
       >
         {isLocked && <LockedState label="Participants Only" />}

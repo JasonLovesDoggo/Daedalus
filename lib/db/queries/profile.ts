@@ -13,6 +13,7 @@ export type ProfileWithUser = {
     url: string;
   }[];
   user: {
+    id: string;
     name: string;
     role: string;
   };
@@ -28,6 +29,7 @@ export async function getProfileWithUser(
         bio: profiles.bio,
         hobbies: profiles.hobbies,
         user: {
+          id: users.id,
           name: users.name,
           role: users.role,
         },
