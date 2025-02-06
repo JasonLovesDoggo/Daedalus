@@ -1,6 +1,6 @@
 import { Download, ExternalLink } from "lucide-react";
 
-import { discordInviteUrl } from "@/config/site";
+import { discordInviteUrl, hackerPackageUrl } from "@/config/site";
 
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
@@ -8,19 +8,19 @@ import LockedState from "./LockedState";
 
 interface HackerPackageCardProps {
   isLocked: boolean;
-  role: UserRole;
 }
 
-const HackerPackageCard = ({ isLocked, role }: HackerPackageCardProps) => {
+const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
+  // Disable if the card is locked or if the hacker package URL is not set
+  const isDisabled = isLocked || hackerPackageUrl === "";
+
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div
-        className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg ${isLocked ? "border-gray-200/50" : "border-border"}`}
+        className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg ${isDisabled ? "border-gray-200/50" : "border-border"}`}
       >
-        {isLocked && (
-          <LockedState
-            label={role !== "hacker" ? "Hackers Only" : "Coming Soon"}
-          />
+        {isDisabled && (
+          <LockedState label={isLocked ? "Participants Only" : "Coming Soon"} />
         )}
 
         <div className="flex items-center justify-between">
@@ -29,7 +29,7 @@ const HackerPackageCard = ({ isLocked, role }: HackerPackageCardProps) => {
           </h2>
           <div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
             <Download
-              className={`size-5 ${isLocked ? "text-gray-400" : "text-primary"}`}
+              className={`size-5 ${isDisabled ? "text-gray-400" : "text-primary"}`}
             />
           </div>
         </div>
@@ -41,11 +41,11 @@ const HackerPackageCard = ({ isLocked, role }: HackerPackageCardProps) => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href={isLocked ? "" : discordInviteUrl}
-            aria-disabled={isLocked}
+            href={isDisabled ? "" : discordInviteUrl}
+            aria-disabled={isDisabled}
             className={buttonVariants({
-              variant: isLocked ? "outline" : "default",
-              className: `inline-flex items-center gap-2 ${isLocked ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
+              variant: isDisabled ? "outline" : "default",
+              className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
             Get Package
@@ -54,7 +54,7 @@ const HackerPackageCard = ({ isLocked, role }: HackerPackageCardProps) => {
         </div>
 
         {/* Decorative elements */}
-        <CardDecorativeElements isLocked={isLocked} />
+        <CardDecorativeElements isLocked={isDisabled} />
       </div>
     </div>
   );

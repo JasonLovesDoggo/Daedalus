@@ -24,7 +24,9 @@ export const siteConfig = {
   ],
 };
 
-export const discordInviteUrl = "https://discord.gg/your-invite-link";
+// TODO: Add links once they are ready
+export const discordInviteUrl = "";
+export const hackerPackageUrl = "";
 
 export const eventDate = new Date("2025-02-21T16:30:00-05:00");
 export const hackerApplicationDeadline = new Date("2025-02-10T23:59:59-05:00");
