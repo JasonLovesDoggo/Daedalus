@@ -14,7 +14,6 @@ function isAuthenticated(request: NextRequest): boolean {
   const token = request.cookies.get("authjs.session-token");
   return !!token;
 }
-// TODO: add a rate limiter for api or server-side routes.
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 

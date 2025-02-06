@@ -85,29 +85,19 @@ Example: ${PLATFORM_PLACEHOLDERS[platform]}`,
 export const profileSchema = z.object({
   bio: z
     .string()
+    .trim()
     .max(500, { message: "Bio must not exceed 500 characters" })
     .nullable()
     .transform((val) => val || null),
   hobbies: z
     .string()
+    .trim()
     .max(200, { message: "Hobbies must not exceed 200 characters in total" })
     .default(""),
   integrations: z
     .array(profileIntegrationSchema)
     .max(5, { message: "You can add up to 5 social integrations" })
     .default([]),
-  // .superRefine((integrations, ctx) => {
-  //   const platforms = integrations.map((i) => i.platform);
-  //   const uniquePlatforms = new Set(platforms);
-
-  //   if (uniquePlatforms.size !== platforms.length) {
-  //     ctx.addIssue({
-  //       code: z.ZodIssueCode.custom,
-  //       message: "Each platform can only be added once",
-  //       path: ["integrations"],
-  //     });
-  //   }
-  // }),
 });
 
 export type ProfileFormData = z.infer<typeof profileSchema>;

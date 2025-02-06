@@ -43,7 +43,7 @@ const platformGradients: Record<Platform, string> = {
   instagram:
     "from-fuchsia-600/60 via-purple-600/50 to-amber-500/40 hover:from-fuchsia-500/70 hover:via-purple-500/60 hover:to-amber-400/50",
   youtube:
-    "from-red-800/60 via-red-600/50 to-rose-500/40 hover:from-red-700/70 hover:via-red-500/60 hover:to-rose-400/50",
+    "from-red-800/80 via-red-600/50 to-red-400/80 hover:from-red-700/70 hover:via-red-500/60 hover:to-rose-400/50",
   twitch:
     "from-purple-800/60 via-purple-600/50 to-violet-500/40 hover:from-purple-700/70 hover:via-purple-500/60 hover:to-violet-400/50",
   portfolio:

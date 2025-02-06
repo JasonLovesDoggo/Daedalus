@@ -44,7 +44,7 @@ export function ProfileHobbies({ hobbies }: ProfileHobbiesProps) {
         {hobbiesList.map((hobby, index) => (
           <span
             key={index}
-            className="animate-fadeIn rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary shadow-sm backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:scale-110 hover:bg-primary/20 hover:shadow-md"
+            className="animate-fadeIn rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-primary/20 hover:shadow-md"
             style={{
               animationDelay: `${index * 100}ms`,
               animationFillMode: "backwards",

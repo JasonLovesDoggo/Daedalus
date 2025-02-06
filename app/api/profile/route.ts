@@ -82,11 +82,6 @@ export async function PUT(
     // Validate request body
     const validationResult = profileSchema.safeParse(body);
     if (!validationResult.success) {
-      const errors = validationResult.error.issues.map((issue) => ({
-        path: issue.path.join("."),
-        message: issue.message,
-      }));
-
       return NextResponse.json<ApiResponse>(
         {
           success: false,
