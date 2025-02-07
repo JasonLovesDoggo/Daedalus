@@ -73,7 +73,7 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
               <div className="relative z-50 mt-4">
                 <QRCodeSVG
                   value={profileUrl}
-                  size={250}
+                  size={275}
                   level="H"
                   imageSettings={{
                     src: "/beaver-wave.webp",
