@@ -1,6 +1,8 @@
 import { BackButton } from "@/components/ui/back-button";
 import PageWrapper from "@/components/PageWrapper";
 
+import { Scanner } from "./Scanner";
+
 export default function QrScannerPage() {
   return (
     <PageWrapper>
@@ -14,7 +16,7 @@ export default function QrScannerPage() {
           </p>
         </div>
 
-        {/* <Scanner /> */}
+        <Scanner />
       </div>
       <BackButton />
     </PageWrapper>
