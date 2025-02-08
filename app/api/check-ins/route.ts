@@ -7,6 +7,7 @@ import { z } from "zod";
 import type { ApiResponse } from "@/types/api";
 import { EVENTS, type Event } from "@/config/qr-code";
 import { db } from "@/lib/db";
+import { getUserById } from "@/lib/db/queries/user";
 import { auditLogs, checkIns, type CheckIn } from "@/lib/db/schema";
 import { isOrganizer } from "@/lib/utils";
 
@@ -43,6 +44,43 @@ export async function POST(
     const body = await req.json();
     const { userId, eventName } = checkInSchema.parse(body);
 
+    const existingUser = await getUserById(userId);
+
+    if (!existingUser) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User not found",
+          error: "Invalid user ID",
+        },
+        { status: 404 },
+      );
+    }
+
+    if (existingUser.role !== "hacker") {
+      // Log the action to report the user
+      await db.insert(auditLogs).values({
+        userId: currentUser.id,
+        action: "create",
+        entityType: "check_in",
+        entityId: existingUser.id,
+        metadata: JSON.stringify({
+          eventName,
+          description: `${existingUser.name.split(" ")[0]} tried to check in for ${eventName}`,
+          issue: "User is not a hacker",
+        }),
+      });
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User is not a hacker",
+          error: "Invalid user role",
+        },
+        { status: 400 },
+      );
+    }
+
     // Check if user has already checked in for this event
     const existingCheckIn = await db.query.checkIns.findFirst({
       where: and(
@@ -63,27 +101,27 @@ export async function POST(
     }
 
     // Create new check-in
-    const [newCheckIn] = await db
-      .insert(checkIns)
-      .values({
-        userId,
-        eventName,
-      })
-      .returning();
+    await db.insert(checkIns).values({
+      userId,
+      eventName,
+    });
 
     // Log the action
-    await db.insert(auditLogs).values({
-      userId: currentUser.id,
-      action: "create",
-      entityType: "check_in",
-      entityId: newCheckIn.id,
-      metadata: JSON.stringify({ eventName }),
-    });
+    // On second thought, this is not necessary
+    // await db.insert(auditLogs).values({
+    //   userId: currentUser.id,
+    //   action: "create",
+    //   entityType: "check_in",
+    //   entityId: newCheckIn.id,
+    //   metadata: JSON.stringify({
+    //     eventName,
+    //     description: `${currentUser.name?.split(" ")[0]} checked in ${existingUser.name.split(" ")[0]} for ${eventName}`,
+    //   }),
+    // });
 
     return NextResponse.json({
       success: true,
       message: "Check-in successful",
-      data: newCheckIn,
     });
   } catch (error) {
     console.error("Check-in error:", error);
