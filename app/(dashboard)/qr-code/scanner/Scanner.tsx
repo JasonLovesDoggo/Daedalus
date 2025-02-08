@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 
 import { Event } from "@/config/qr-code";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ export function Scanner() {
     handleToggleCamera,
     scanResult,
     hasCameraPermission,
+    startingCamera,
   } = useQRScanner({
     selectedEvent,
   });
@@ -60,7 +61,7 @@ export function Scanner() {
                   height: "100%",
                 }}
                 className={cn(
-                  "absolute inset-0 scale-x-0 scale-y-0 rounded-[50px] transition-all duration-500",
+                  "absolute inset-0 scale-x-0 scale-y-0 rounded-[50px] bg-black transition-all duration-500",
                   {
                     "scale-x-100 scale-y-100 rounded-[0px]": isCameraOn,
                   },
@@ -76,7 +77,11 @@ export function Scanner() {
                     },
                   )}
                 >
-                  Turn On Camera
+                  {startingCamera ? (
+                    <Loader2 className="size-8 animate-spin" />
+                  ) : !isCameraOn ? (
+                    "Turn On Camera"
+                  ) : null}
                 </button>
               )}
             </div>

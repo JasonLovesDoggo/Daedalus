@@ -12,6 +12,7 @@ interface UseQRScannerProps {
 
 export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
+  const [startingCamera, setStartingCamera] = useState(false);
   const [scanResult, setScanResult] = useState<"success" | "error" | null>(
     null,
   );
@@ -52,13 +53,13 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
 
   const handleCheckIn = async (userId: string) => {
     try {
-      const troo = true;
-
-      if (troo) {
-        setScanResult("success");
-        new Audio("/success.mp3").play().catch(console.error);
-        return;
-      }
+      // For testing purposes
+      // const troo = true;
+      // if (troo) {
+      //   setScanResult("success");
+      //   new Audio("/success.mp3").play().catch(console.error);
+      //   return;
+      // }
 
       const response = await fetch("/api/check-ins", {
         method: "POST",
@@ -86,12 +87,15 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
         error instanceof Error ? error.message : "Failed to check in",
       );
     } finally {
+      stopCamera();
       isProcessing.current = false;
       setTimeout(() => setScanResult(null), 500);
     }
   };
 
   const startCamera = async () => {
+    setStartingCamera(true);
+
     if (!selectedEvent) {
       toast.error("Please select an event first");
       return;
@@ -103,23 +107,14 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
     }
 
     try {
-      // First get access to the camera with specified constraints
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "environment",
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-        },
-      });
-
-      // Stop the initial stream as the QR reader will request its own
-      stream.getTracks().forEach((track) => track.stop());
-
-      // Now start the QR code reader
+      // Start the QR code reader directly with constraints
       await codeReader.current.decodeFromVideoDevice(
         null, // Use default device
         videoRef.current,
-        async (result, error) => {
+        async (
+          result: { getText(): string } | null,
+          error: Error | undefined,
+        ) => {
           if (error || !result || isProcessing.current) return;
 
           const scannedUrl = result.getText();
@@ -145,6 +140,8 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
         "Failed to start camera. Please ensure you have granted camera permissions and try again.",
       );
       setIsCameraOn(false);
+    } finally {
+      setStartingCamera(false);
     }
   };
 
@@ -162,5 +159,6 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
     handleToggleCamera,
     scanResult,
     hasCameraPermission,
+    startingCamera,
   };
 };
