@@ -31,7 +31,7 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
 
         {/* Profile Section */}
         <div className="grid gap-6 md:gap-8 lg:grid-cols-5 lg:gap-10">
-          <DashboardQRCode isLocked={false} userId={user.id!} />
+          <DashboardQRCode isLocked={isLocked} userId={user.id!} />
 
           {/* Locked for anyone without an assigned role */}
           <ProfileCard isLocked={isLocked} userId={user.id!} />

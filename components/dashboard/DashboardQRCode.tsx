@@ -19,6 +19,7 @@ interface DashboardQRCodeProps {
 
 const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
   const profileUrl = `https://app.hackcanada.org/profile/${userId}`;
+
   return (
     <div className="lg:col-span-2">
       <div
@@ -47,7 +48,7 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
             <DialogTrigger asChild>
               <Button
                 disabled={isLocked}
-                variant={isLocked ? "outline" : "default"}
+                variant={isLocked ? "outline" : "primary"}
                 className={`inline-flex items-center gap-2 ${
                   isLocked
                     ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent"
