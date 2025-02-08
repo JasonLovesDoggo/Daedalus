@@ -3,40 +3,70 @@
 import { useState } from "react";
 
 import { Event } from "@/config/qr-code";
-import { useCameraPermission } from "@/hooks/useCameraPermission";
+import { cn } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
 import { EventSelector } from "@/components/EventSelector";
-import { QRScannerSection } from "@/components/QRScannerSection";
 
 export function Scanner() {
   const [selectedEvent, setSelectedEvent] = useState<Event | "">("");
-  const { hasCameraPermission } = useCameraPermission();
-  const { isCameraInitializing, containerRef, clearScanner } = useQRScanner({
-    selectedEvent,
-    hasCameraPermission,
-  });
-
-  const handleEventChange = (value: string) => {
-    clearScanner();
-    setSelectedEvent(value as Event);
-  };
+  const { isCameraOn, videoRef, handleToggleCamera, scanResult } = useQRScanner(
+    {
+      selectedEvent,
+    },
+  );
 
   return (
-    <div
-      ref={containerRef}
-      className="group relative flex flex-col gap-8 rounded-xl border-2 border-primary/15 p-8 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-br before:from-primary/10 before:via-info/15 before:to-primaryLight/20 before:opacity-75 before:transition hover:border-primary/25 hover:before:opacity-100"
-    >
-      <EventSelector
-        selectedEvent={selectedEvent}
-        onEventChange={handleEventChange}
-      />
+    <>
+      <div className="flex flex-col gap-8 rounded-md border-2 border-primary/25 p-4 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primaryLight/50 md:p-6">
+        {/* Visual feedback overlay */}
+        {scanResult && (
+          <div
+            className={`absolute -inset-full z-50 animate-flash duration-500 ${
+              scanResult === "success" ? "bg-success" : "bg-error"
+            }`}
+          />
+        )}
 
-      {selectedEvent && (
-        <QRScannerSection
-          isCameraInitializing={isCameraInitializing}
-          hasCameraPermission={hasCameraPermission}
+        <EventSelector
+          selectedEvent={selectedEvent}
+          onEventChange={(value) => setSelectedEvent(value as Event)}
         />
+      </div>
+      {selectedEvent && (
+        <div className="relative flex flex-col items-center">
+          {/* Camera container */}
+          <div className="group relative mx-auto w-full max-w-96 rounded-md border-2 border-primary/25 bg-primary/25 p-2 transition-all duration-500">
+            <div className="relative mx-auto aspect-square w-full overflow-hidden rounded-md">
+              <video
+                ref={videoRef}
+                style={{
+                  aspectRatio: "1 / 1",
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                }}
+                className={cn(
+                  "absolute inset-0 scale-x-0 scale-y-0 rounded-[50px] transition-all duration-500",
+                  {
+                    "scale-x-100 scale-y-100 rounded-[0px]": isCameraOn,
+                  },
+                )}
+              />
+              <button
+                onClick={handleToggleCamera}
+                className={cn(
+                  "flex h-full w-full items-center justify-center bg-backgroundMuted text-lg font-semibold text-textPrimary/70 transition hover:text-textPrimary",
+                  {
+                    "opacity-0": isCameraOn,
+                  },
+                )}
+              >
+                Turn On Camera
+              </button>
+            </div>
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 }

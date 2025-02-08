@@ -124,12 +124,17 @@ const config = {
             transform: "translateX(0) translateY(-5%)",
           },
         },
+        flash: {
+          "0%, 100%": { opacity: "0" },
+          "50%": { opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "snow-float": "snow-float 8s ease-in-out infinite",
         aurora: "aurora 30s ease-in-out infinite alternate",
+        flash: "flash 0.5s ease-in-out",
       },
     },
   },

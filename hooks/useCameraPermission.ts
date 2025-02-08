@@ -17,13 +17,28 @@ export const useCameraPermission = () => {
           return;
         }
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+        // Check if we already have camera permission
+        const permission = await navigator.permissions.query({
+          name: "camera" as PermissionName,
         });
-        stream.getTracks().forEach((track) => track.stop());
-        setHasCameraPermission(true);
+        if (permission.state === "granted") {
+          setHasCameraPermission(true);
+          return;
+        }
+
+        // Only request camera access if we don't have permission
+        if (permission.state === "prompt") {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          stream.getTracks().forEach((track) => track.stop());
+          setHasCameraPermission(true);
+        } else {
+          setHasCameraPermission(false);
+          toast.error("Camera access is required for scanning QR codes");
+        }
       } catch (error) {
-        alert(error);
+        console.error("Camera permission error:", error);
         setHasCameraPermission(false);
         toast.error("Camera access is required for scanning QR codes");
       }
