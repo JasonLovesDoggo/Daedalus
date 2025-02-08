@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BrowserMultiFormatReader } from "@zxing/library";
 import { toast } from "sonner";
 
 import { Event } from "@/config/qr-code";
+
+import { useCameraPermission } from "./useCameraPermission";
 
 interface UseQRScannerProps {
   selectedEvent: Event | "";
@@ -16,8 +18,17 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReader = useRef(new BrowserMultiFormatReader());
   const isProcessing = useRef(false);
+  const { hasCameraPermission } = useCameraPermission();
 
-  const stopCamera = () => {
+  const playSound = useCallback(async (type: "success" | "error") => {
+    try {
+      await new Audio(`/${type}.mp3`).play();
+    } catch (error) {
+      console.error(`Failed to play ${type} sound:`, error);
+    }
+  }, []);
+
+  const stopCamera = useCallback(() => {
     try {
       codeReader.current.reset();
       if (videoRef.current?.srcObject) {
@@ -29,8 +40,15 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
       setIsCameraOn(false);
     } catch (err) {
       console.error("Error stopping camera:", err);
+      toast.error("Failed to stop camera");
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      stopCamera();
+    };
+  }, [stopCamera]);
 
   const handleCheckIn = async (userId: string) => {
     try {
@@ -58,24 +76,18 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
         throw new Error(error.message || "Failed to check in");
       }
 
-      // Play success sound and show success feedback
-      new Audio("/success.mp3").play().catch(console.error);
+      await playSound("success");
       setScanResult("success");
       toast.success("Check-in successful!");
     } catch (error) {
-      // Play error sound and show error feedback
-      new Audio("/error.mp3").play().catch(console.error);
+      await playSound("error");
       setScanResult("error");
       toast.error(
         error instanceof Error ? error.message : "Failed to check in",
       );
     } finally {
       isProcessing.current = false;
-
-      // Reset scan result after animation
-      setTimeout(() => {
-        setScanResult(null);
-      }, 500);
+      setTimeout(() => setScanResult(null), 500);
     }
   };
 
@@ -85,24 +97,36 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
       return;
     }
 
+    if (!hasCameraPermission) {
+      toast.error("Camera access is required for scanning QR codes");
+      return;
+    }
+
     try {
-      // Request camera permission first
+      // First get access to the camera with specified constraints
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        video: {
+          facingMode: "environment",
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
       });
+
+      // Stop the initial stream as the QR reader will request its own
       stream.getTracks().forEach((track) => track.stop());
 
-      // Start QR code scanning
+      // Now start the QR code reader
       await codeReader.current.decodeFromVideoDevice(
-        null,
+        null, // Use default device
         videoRef.current,
-        (result, error) => {
+        async (result, error) => {
           if (error || !result || isProcessing.current) return;
 
           const scannedUrl = result.getText();
           const userId = scannedUrl.split("/profile/")[1];
 
           if (!userId) {
+            await playSound("error");
             toast.error("Invalid QR code");
             setScanResult("error");
             setTimeout(() => setScanResult(null), 1000);
@@ -110,15 +134,16 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
           }
 
           isProcessing.current = true;
-          stopCamera();
-          handleCheckIn(userId);
+          await handleCheckIn(userId);
         },
       );
 
       setIsCameraOn(true);
     } catch (err) {
       console.error("Scanner error:", err);
-      toast.error("Failed to start camera. Please check your permissions.");
+      toast.error(
+        "Failed to start camera. Please ensure you have granted camera permissions and try again.",
+      );
       setIsCameraOn(false);
     }
   };
@@ -136,5 +161,6 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
     videoRef,
     handleToggleCamera,
     scanResult,
+    hasCameraPermission,
   };
 };
