@@ -60,7 +60,7 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
             </DialogTrigger>
             <DialogContent className="group flex max-w-sm flex-col items-center overflow-hidden border border-primary/50">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-info/20 to-primary/30">
-                <span className="absolute -top-4 left-20 h-12 w-[500px] -translate-x-40 -rotate-[20deg] border-y border-white/20 bg-white/20 backdrop-blur-[0.5px]" />
+                <span className="absolute -top-4 left-20 h-16 w-[500px] -translate-x-40 -rotate-[20deg] border-y border-white/20 bg-white/10 backdrop-blur-[0.5px]" />
                 <span className="absolute -bottom-4 -left-4 size-20 rotate-[20deg] rounded-lg bg-primary/15" />
                 <span className="absolute -bottom-4 left-2 size-16 rotate-[20deg] rounded-lg bg-primary/15" />
                 <span className="absolute inset-x-0 -top-0.5 h-[3px] bg-gradient-to-r from-transparent via-primary to-transparent" />
@@ -68,12 +68,12 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                 <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-12 text-white opacity-30 transition-transform duration-500 group-hover:-rotate-[30deg]" />
               </div>
               <DialogHeader>
-                <DialogTitle>Your QR Code</DialogTitle>
+                <DialogTitle className="md:text-xl">Your QR Code</DialogTitle>
               </DialogHeader>
-              <div className="relative z-50 mt-4">
+              <div className="relative z-50 mt-4 rounded-lg border bg-white p-2.5 shadow-xl shadow-primary/25 sm:p-4">
                 <QRCodeSVG
                   value={profileUrl}
-                  size={275}
+                  size={225}
                   level="H"
                   imageSettings={{
                     src: "/beaver-wave.webp",
