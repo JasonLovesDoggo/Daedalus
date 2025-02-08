@@ -1,23 +1,42 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import type { NextRequest } from "next/server";
+import { getCurrentUser } from "@/auth";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
+import type { ApiResponse } from "@/types/api";
+import { EVENTS, type Event } from "@/config/qr-code";
 import { db } from "@/lib/db";
-import { checkIns } from "@/lib/db/schema";
+import { auditLogs, checkIns, type CheckIn } from "@/lib/db/schema";
+import { isOrganizer } from "@/lib/utils";
 
-const checkInSchema = z.object({
-  userId: z.string(),
-  eventName: z.string(),
+interface CheckInRequest {
+  userId: string;
+  eventName: Event;
+}
+
+// Validate request body
+const checkInSchema: z.ZodType<CheckInRequest> = z.object({
+  userId: z.string().uuid(),
+  eventName: z.enum(EVENTS),
 });
 
-export async function POST(req: Request) {
+export async function POST(
+  req: NextRequest,
+): Promise<NextResponse<ApiResponse<CheckIn>>> {
   try {
-    const session = await auth();
+    const currentUser = await getCurrentUser();
 
     // Check if user is authenticated and has admin/organizer role
-    if (!session || !["admin", "organizer"].includes(session.user.role)) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!currentUser?.id || !isOrganizer(currentUser.role)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+          error: "Insufficient permissions",
+        },
+        { status: 401 },
+      );
     }
 
     // Parse and validate request body
@@ -34,32 +53,61 @@ export async function POST(req: Request) {
 
     if (existingCheckIn) {
       return NextResponse.json(
-        { message: "User already checked in for this event" },
+        {
+          success: false,
+          message: "User already checked in for this event",
+          error: "Duplicate check-in",
+        },
         { status: 400 },
       );
     }
 
     // Create new check-in
-    await db.insert(checkIns).values({
-      userId,
-      eventName,
+    const [newCheckIn] = await db
+      .insert(checkIns)
+      .values({
+        userId,
+        eventName,
+      })
+      .returning();
+
+    // Log the action
+    await db.insert(auditLogs).values({
+      userId: currentUser.id,
+      action: "create",
+      entityType: "check_in",
+      entityId: newCheckIn.id,
+      metadata: JSON.stringify({ eventName }),
     });
 
     return NextResponse.json({
+      success: true,
       message: "Check-in successful",
+      data: newCheckIn,
     });
   } catch (error) {
     console.error("Check-in error:", error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { message: "Invalid request data" },
+        {
+          success: false,
+          message: "Invalid request data",
+          error: error.errors[0].message,
+        },
         { status: 400 },
       );
     }
 
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+
     return NextResponse.json(
-      { message: "Internal server error" },
+      {
+        success: false,
+        message: "Internal server error",
+        error: errorMessage,
+      },
       { status: 500 },
     );
   }

@@ -1,9 +1,23 @@
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/auth";
+
+import { isOrganizer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import PageWrapper from "@/components/PageWrapper";
 
 import { Scanner } from "./Scanner";
 
-export default function QrScannerPage() {
+export default async function QrScannerPage() {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser?.id) {
+    redirect("/login");
+  }
+
+  if (!isOrganizer(currentUser.role)) {
+    redirect("/qr-code");
+  }
+
   return (
     <PageWrapper>
       <div className="flex flex-col gap-6 md:gap-8">

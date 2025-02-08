@@ -7,6 +7,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const isOrganizer = (role: UserRole) =>
+  role === "organizer" || role === "admin";
+
 // Helper function for imitating a network request delay
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
