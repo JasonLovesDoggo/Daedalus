@@ -14,11 +14,11 @@ export const applications: Application[] = [
   {
     title: "Hacker Applications",
     href: "/applications/hacker",
-    status: "open",
+    status: "closed",
     deadline: "February 10th (11:59:59 PM), 2025",
     description: "Submit your application to join as a participant.",
     icon: User,
-    disabled: false,
+    disabled: true,
   },
   {
     title: "Mentor Applications",
