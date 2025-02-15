@@ -25,7 +25,7 @@ export const siteConfig = {
 };
 
 // TODO: Add links once they are ready
-export const discordInviteUrl = "";
+export const discordInviteUrl = "https://discord.gg/thbY3eUkuB";
 export const hackerPackageUrl = "";
 
 export const eventDate = new Date("2025-02-21T16:30:00-05:00");
