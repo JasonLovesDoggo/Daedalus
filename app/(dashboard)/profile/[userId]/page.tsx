@@ -18,19 +18,14 @@ export default async function ProfilePage({
   const profile = await getProfileWithUser(params.userId);
 
   if (!profile?.id) {
+    if (currentUser?.id === params.userId) {
+      redirect("/profile/edit");
+    }
+
     return (
       <EmptyPage
         title="Profile Not Found"
         message="This user has not created a profile yet."
-      />
-    );
-  }
-
-  if (currentUser?.role === "unassigned") {
-    return (
-      <EmptyPage
-        title="Profile Page"
-        message="Sorry, this feature is only available to participants."
       />
     );
   }
