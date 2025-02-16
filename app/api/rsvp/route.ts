@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { getUserById } from "@/lib/db/queries/user";
 import { rsvp, users } from "@/lib/db/schema";
+import { sendHackathonPrepEmail } from "@/lib/emails/ses";
 import { RsvpFormSchema } from "@/lib/validations/rsvp-form";
 
 type RsvpResponse = {
@@ -86,6 +87,18 @@ export async function POST(req: Request) {
       };
 
       await tx.insert(rsvp).values(rsvpInsertData);
+
+      // Send hackathon prep email after DB updates
+      const emailResult = await sendHackathonPrepEmail({
+        name: existingUser.name.split(" ")[0],
+        email: existingUser.email,
+        userId,
+      });
+
+      // If email fails, throw error to rollback transaction
+      if (!emailResult.success) {
+        throw new Error("Failed to send confirmation email");
+      }
 
       return { success: true } as RsvpResponse;
     });

@@ -20,7 +20,6 @@ export default async function EditProfilePage() {
   }
 
   const profile = await getProfileWithUser(user.id);
-  console.log(profile);
 
   return (
     <PageWrapper className="max-w-screen-lg 3xl:max-w-screen-lg">
