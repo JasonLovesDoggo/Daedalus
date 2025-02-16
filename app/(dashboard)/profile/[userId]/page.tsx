@@ -15,10 +15,18 @@ export default async function ProfilePage({
   params: { userId: string };
 }) {
   const currentUser = await getCurrentUser();
+  const profile = await getProfileWithUser(params.userId);
 
-  if (!currentUser?.id) redirect("/");
+  if (!profile?.id) {
+    return (
+      <EmptyPage
+        title="Profile Not Found"
+        message="This user has not created a profile yet."
+      />
+    );
+  }
 
-  if (currentUser.role === "unassigned") {
+  if (currentUser?.role === "unassigned") {
     return (
       <EmptyPage
         title="Profile Page"
@@ -27,13 +35,7 @@ export default async function ProfilePage({
     );
   }
 
-  const profile = await getProfileWithUser(params.userId);
-
-  if (!profile?.id) {
-    redirect("/profile/edit");
-  }
-
-  const isOwner = profile.user.id === currentUser.id;
+  const isOwner = currentUser?.id === profile.user.id;
 
   return (
     <PageWrapper>

@@ -14,12 +14,18 @@ function isAuthenticated(request: NextRequest): boolean {
   const token = request.cookies.get("authjs.session-token");
   return !!token;
 }
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // If the user is authenticated and trying to access an auth page, redirect to dashboard
   if (isAuthenticated(req) && authPages.includes(pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  // Allow access to profile pages without authentication
+  if (pathname.startsWith("/profile/") && pathname !== "/profile/edit") {
+    return NextResponse.next();
   }
 
   // If the user is not authenticated and trying to access a protected route, redirect to login
