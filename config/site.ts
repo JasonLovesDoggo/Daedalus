@@ -25,8 +25,8 @@ export const siteConfig = {
 };
 
 // TODO: Add links once they are ready
-export const discordInviteUrl = "https://discord.gg/6sHskEpdpb";
-export const hackerPackageUrl =
+export const discordInviteUrl: string = "https://discord.gg/6sHskEpdpb";
+export const hackerPackageUrl: string =
   "https://torpid-tuesday-6d4.notion.site/Hack-Canada-Hacker-Package-1805d88c3a21800198e9e0731d94dc3f";
 
 export const eventDate = new Date("2025-02-21T16:30:00-05:00");

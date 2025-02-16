@@ -1,6 +1,6 @@
 import { Download, ExternalLink } from "lucide-react";
 
-import { discordInviteUrl, hackerPackageUrl } from "@/config/site";
+import { hackerPackageUrl } from "@/config/site";
 
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
@@ -41,7 +41,9 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href={isDisabled ? "" : discordInviteUrl}
+            href={isDisabled ? "" : hackerPackageUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-disabled={isDisabled}
             className={buttonVariants({
               variant: isDisabled ? "outline" : "default",
