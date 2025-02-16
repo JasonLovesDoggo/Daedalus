@@ -34,13 +34,15 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
   const router = useRouter();
   const { data: session } = useSession();
 
+  const defaultValues = {
+    bio: initialData?.bio || "",
+    hobbies: initialData?.hobbies || "",
+    integrations: initialData?.integrations || [],
+  };
+
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
-    defaultValues: {
-      bio: initialData?.bio || "",
-      hobbies: initialData?.hobbies || "",
-      integrations: initialData?.integrations || [],
-    },
+    defaultValues,
   });
 
   // Reset form when initialData changes
@@ -55,6 +57,14 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
   }, [initialData, form]);
 
   const onSubmit = async (data: ProfileFormData) => {
+    console.log(form.getValues());
+    console.log(defaultValues);
+
+    if (JSON.stringify(form.getValues()) === JSON.stringify(defaultValues)) {
+      toast.error("No changes to save");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const res = await fetch("/api/profile", {
