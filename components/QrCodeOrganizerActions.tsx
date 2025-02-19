@@ -12,7 +12,7 @@ const QrCodeOrganizerActions = ({}: Props) => {
     <div
       className="group relative flex h-full flex-col gap-6 overflow-hidden rounded-lg border-2 border-info/20 bg-white/50 p-8 transition-all duration-500 hover:border-info/40 hover:shadow-lg"
       role="region"
-      aria-label="Organizer Actions"
+      aria-label="Volunteer Actions"
     >
       {/* Enhanced layered background effects */}
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -33,10 +33,10 @@ const QrCodeOrganizerActions = ({}: Props) => {
       <div className="flex items-center gap-3">
         <div className="space-y-1">
           <h2 className="text-xl font-semibold text-textPrimary">
-            Organizer Actions
+            Volunteer Actions
           </h2>
           <p className="text-sm text-textSecondary">
-            Access special features available to organizers and administrators.
+            Access special features available to volunteers and organizers.
           </p>
         </div>
       </div>
