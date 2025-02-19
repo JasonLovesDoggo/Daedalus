@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
+type CancelRSVPProps = {};
+
 const CancelRSVP = () => {
   const { data } = useSession();
   const [isPending, startTransition] = useTransition();
@@ -51,8 +53,8 @@ const CancelRSVP = () => {
       {showConfirmation ? (
         <div className="space-y-2">
           <p className="text-xs text-textMuted md:text-sm">
-            Are you sure you want to cancel your RSVP? This action cannot be
-            undone.
+            Are you sure you want to cancel your acceptance? This action cannot
+            be undone.
           </p>
           <div className="flex gap-2">
             <button
@@ -77,8 +79,8 @@ const CancelRSVP = () => {
       ) : (
         <div className="space-y-2">
           <p className="text-xs text-textMuted md:text-sm">
-            No longer able to attend? You can cancel your RSVP and give your
-            spot to someone on the waitlist!{" "}
+            No longer able to attend? You can give your spot to someone on the
+            waitlist!{" "}
           </p>
           <form>
             <button
