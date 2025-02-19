@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
-import { isOrganizer } from "@/lib/utils";
+import { isOrganizer, isVolunteer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import PageWrapper from "@/components/PageWrapper";
 
@@ -14,7 +14,7 @@ export default async function QrScannerPage() {
     redirect("/login");
   }
 
-  if (!isOrganizer(currentUser.role)) {
+  if (!isVolunteer(currentUser.role)) {
     redirect("/qr-code");
   }
 

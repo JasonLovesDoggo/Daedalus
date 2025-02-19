@@ -9,7 +9,7 @@ import { EVENTS, type Event } from "@/config/qr-code";
 import { db } from "@/lib/db";
 import { getUserById } from "@/lib/db/queries/user";
 import { auditLogs, checkIns, type CheckIn } from "@/lib/db/schema";
-import { isOrganizer } from "@/lib/utils";
+import { isVolunteer } from "@/lib/utils";
 
 interface CheckInRequest {
   userId: string;
@@ -29,7 +29,7 @@ export async function POST(
     const currentUser = await getCurrentUser();
 
     // Check if user is authenticated and has admin/organizer role
-    if (!currentUser?.id || !isOrganizer(currentUser.role)) {
+    if (!currentUser?.id || !isVolunteer(currentUser.role)) {
       return NextResponse.json(
         {
           success: false,
@@ -57,7 +57,7 @@ export async function POST(
       );
     }
 
-    if (existingUser.role !== "hacker") {
+    if (existingUser.role === "unassigned") {
       // Log the action to report the user
       await db.insert(auditLogs).values({
         userId: currentUser.id,
@@ -67,14 +67,14 @@ export async function POST(
         metadata: JSON.stringify({
           eventName,
           description: `${existingUser.name.split(" ")[0]} tried to check in for ${eventName}`,
-          issue: "User is not a hacker",
+          issue: "User does not have an assigned role",
         }),
       });
 
       return NextResponse.json(
         {
           success: false,
-          message: "User is not a hacker",
+          message: "User does not have an assigned role",
           error: "Invalid user role",
         },
         { status: 400 },
@@ -105,19 +105,6 @@ export async function POST(
       userId,
       eventName,
     });
-
-    // Log the action
-    // On second thought, this is not necessary
-    // await db.insert(auditLogs).values({
-    //   userId: currentUser.id,
-    //   action: "create",
-    //   entityType: "check_in",
-    //   entityId: newCheckIn.id,
-    //   metadata: JSON.stringify({
-    //     eventName,
-    //     description: `${currentUser.name?.split(" ")[0]} checked in ${existingUser.name.split(" ")[0]} for ${eventName}`,
-    //   }),
-    // });
 
     return NextResponse.json({
       success: true,

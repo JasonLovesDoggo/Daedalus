@@ -53,14 +53,6 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
 
   const handleCheckIn = async (userId: string) => {
     try {
-      // For testing purposes
-      // const troo = true;
-      // if (troo) {
-      //   setScanResult("success");
-      //   new Audio("/success.mp3").play().catch(console.error);
-      //   return;
-      // }
-
       const response = await fetch("/api/check-ins", {
         method: "POST",
         headers: {

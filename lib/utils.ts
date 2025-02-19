@@ -10,6 +10,9 @@ export function cn(...inputs: ClassValue[]) {
 export const isOrganizer = (role: UserRole) =>
   role === "organizer" || role === "admin";
 
+export const isVolunteer = (role: UserRole) =>
+  role === "organizer" || role === "admin" || role === "volunteer";
+
 // Helper function for imitating a network request delay
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

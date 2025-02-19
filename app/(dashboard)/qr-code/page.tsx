@@ -1,23 +1,22 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
-import { QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
-import { cn } from "@/lib/utils";
+import { cn, isVolunteer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import QrCodeOrganizerActions from "@/components/QrCodeOrganizerActions";
 
 export default async function QRCodePage() {
-  const user = await getCurrentUser();
+  const currentUser = await getCurrentUser();
 
-  if (!user?.id) {
+  if (!currentUser?.id) {
     redirect("/sign-in");
   }
 
-  if (user.role === "unassigned") {
+  if (currentUser.role === "unassigned") {
     return (
       <EmptyPage
         title="QR Code Page"
@@ -26,8 +25,7 @@ export default async function QRCodePage() {
     );
   }
 
-  const profileUrl = `https://app.hackcanada.org/profile/${user.id}`;
-  const isAdminOrOrganizer = user.role === "admin" || user.role === "organizer";
+  const profileUrl = `https://app.hackcanada.org/profile/${currentUser.id}`;
 
   return (
     <PageWrapper>
@@ -118,7 +116,7 @@ export default async function QRCodePage() {
             </div>
           </div>
 
-          {isAdminOrOrganizer && (
+          {isVolunteer(currentUser.role) && (
             <div className="lg:col-span-2">
               <QrCodeOrganizerActions />
             </div>
