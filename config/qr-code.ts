@@ -19,6 +19,13 @@ export const EVENTS = [
   "saturday-dinner",
   "sunday-breakfast",
   "sunday-lunch",
+  "snack-1",
+  "snack-2",
+  "snack-3",
+  "snack-4",
+  "snack-5",
+  "extra-1",
+  "extra-2",
 ] as const;
 
 export type Event = (typeof EVENTS)[number];

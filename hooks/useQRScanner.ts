@@ -3,6 +3,7 @@ import { BrowserMultiFormatReader } from "@zxing/library";
 import { toast } from "sonner";
 
 import { Event } from "@/config/qr-code";
+import { CheckIn } from "@/lib/db/schema";
 
 import { useCameraPermission } from "./useCameraPermission";
 
@@ -21,6 +22,7 @@ export const useQRScanner = ({
     null,
   );
   const [lastUserId, setLastUserId] = useState<string | null>(null);
+  const [scanData, setScanData] = useState<CheckIn[]>([]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReader = useRef(new BrowserMultiFormatReader());
   const isProcessing = useRef(false);
@@ -70,9 +72,11 @@ export const useQRScanner = ({
         }),
       });
 
+      const data = await response.json();
+      setScanData(data.data || []); // Set scan data regardless of success/failure
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to check in");
+        throw new Error(data.message || "Failed to check in");
       }
 
       await playSound("success");
@@ -206,5 +210,6 @@ export const useQRScanner = ({
     hasCameraPermission,
     startingCamera,
     handleResetEvent,
+    scanData,
   };
 };

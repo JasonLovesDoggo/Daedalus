@@ -29,7 +29,7 @@ export function EventSelector({
         <SelectTrigger className="border-primary/20 bg-background/50 backdrop-blur-sm">
           <SelectValue placeholder="Select event for check-in" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="max-h-[250px]">
           {EVENTS.map((event) => (
             <SelectItem key={event} value={event}>
               {event
