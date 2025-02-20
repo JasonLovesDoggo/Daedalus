@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, Trash2 } from "lucide-react";
 
 import { Event } from "@/config/qr-code";
 import { cn, formatDate } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EventSelector } from "@/components/EventSelector";
 
@@ -48,16 +47,13 @@ export function Scanner() {
             id="keep-camera-on"
             checked={keepCameraOn}
             onCheckedChange={(value) => {
-              setKeepCameraOn(!value);
+              setKeepCameraOn(!!value);
             }}
           />
           <label htmlFor="keep-camera-on" className="text-sm text-textPrimary">
             Keep Camera On
           </label>
         </div>
-        <Button onClick={handleResetEvent} variant="destructive">
-          Reset User's Attendance
-        </Button>
       </div>
       {selectedEvent && (
         <div className="relative flex flex-col items-center">
@@ -119,14 +115,25 @@ export function Scanner() {
             {scanData.map((checkIn) => (
               <div
                 key={checkIn.id}
-                className="flex items-center justify-between rounded-md border border-primary/10 bg-primary/5 p-3"
+                className="flex items-center justify-between gap-4 rounded-md border border-primary/10 bg-primary/5 p-3"
               >
-                <span className="font-medium text-textPrimary">
-                  {checkIn.eventName.split("-").join(" ")}
-                </span>
-                <span className="text-sm text-textPrimary/70">
-                  {formatDate(checkIn.createdAt)}
-                </span>
+                <div className="flex flex-1 items-center justify-between">
+                  <span className="font-medium text-textPrimary">
+                    {checkIn.eventName.split("-").join(" ")}
+                  </span>
+                  <span className="text-sm text-textPrimary/70">
+                    {formatDate(checkIn.createdAt)}
+                  </span>
+                </div>
+                <button
+                  onClick={() =>
+                    handleResetEvent(checkIn.userId, checkIn.eventName)
+                  }
+                  className="text-destructive/70 transition hover:text-destructive"
+                  title="Delete check-in"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
               </div>
             ))}
           </div>

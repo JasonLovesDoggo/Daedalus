@@ -28,9 +28,22 @@ export const useQRScanner = ({
   const isProcessing = useRef(false);
   const { hasCameraPermission } = useCameraPermission();
 
+  const successAudio = useRef<HTMLAudioElement | null>(null);
+  const errorAudio = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    successAudio.current = new Audio("/success.mp3");
+    errorAudio.current = new Audio("/error.mp3");
+  }, []);
+
   const playSound = useCallback(async (type: "success" | "error") => {
     try {
-      await new Audio(`/${type}.mp3`).play();
+      const audio =
+        type === "success" ? successAudio.current : errorAudio.current;
+      if (audio) {
+        audio.currentTime = 0;
+        await audio.play();
+      }
     } catch (error) {
       console.error(`Failed to play ${type} sound:`, error);
     }
@@ -95,11 +108,20 @@ export const useQRScanner = ({
     }
   };
 
-  const handleResetEvent = async () => {
-    if (!lastUserId) {
-      toast.error("No user to reset, please scan a QR code first");
+  const handleResetEvent = async (userId?: string, eventName?: string) => {
+    const userIdToReset = userId || lastUserId;
+    const eventNameToReset = eventName || selectedEvent;
+
+    if (!userIdToReset) {
+      toast.error("No user to reset");
       return;
     }
+
+    if (!eventNameToReset) {
+      toast.error("No event selected");
+      return;
+    }
+
     try {
       const response = await fetch("/api/check-ins", {
         method: "DELETE",
@@ -107,8 +129,8 @@ export const useQRScanner = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: lastUserId,
-          eventName: selectedEvent,
+          userId: userIdToReset,
+          eventName: eventNameToReset,
         }),
       });
 
@@ -117,6 +139,13 @@ export const useQRScanner = ({
         throw new Error(error.message || "Failed to reset event");
       }
 
+      setScanData([
+        ...scanData.filter(
+          (checkIn) =>
+            checkIn.userId !== userIdToReset &&
+            checkIn.eventName !== eventNameToReset,
+        ),
+      ]);
       toast.success("Event reset successful!");
     } catch (error) {
       toast.error(
