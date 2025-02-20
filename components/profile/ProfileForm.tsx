@@ -134,7 +134,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
               </FormDescription>
               <FormMessage />
               <span
-                className={`${field.value?.length && field.value.length > 500 ? "text-destructive" : "text-muted-foreground"} absolute bottom-2 right-2 text-sm`}
+                className={`${field.value?.length && field.value.length > 500 ? "text-destructive" : "text-muted-foreground"} absolute text-sm max-md:right-0 max-md:top-0 md:bottom-2 md:right-2`}
               >
                 {field.value?.length || 0}/500
               </span>

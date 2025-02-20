@@ -1,10 +1,15 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
+import { eq, relations } from "drizzle-orm";
 
+import { db } from "@/lib/db";
 import { getProfileWithUser } from "@/lib/db/queries/profile";
+import { rsvp } from "@/lib/db/schema";
+import { isOrganizer, isVolunteer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
+import { EmergencyContacts } from "@/components/profile/EmergencyContacts";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileHobbies } from "@/components/profile/ProfileHobbies";
 import { SocialLinkCard } from "@/components/profile/SocialLinkCard";
@@ -16,6 +21,28 @@ export default async function ProfilePage({
 }) {
   const currentUser = await getCurrentUser();
   const profile = await getProfileWithUser(params.userId);
+
+  let emergencyContactInfo: {
+    name: string;
+    phone: string;
+    relation: string;
+  } | null = null;
+
+  if (currentUser?.id && isOrganizer(currentUser?.role)) {
+    const result = await db
+      .select({
+        name: rsvp.emergencyContactName,
+        phone: rsvp.emergencyContactPhoneNumber,
+        relation: rsvp.relationshipToParticipant,
+      })
+      .from(rsvp)
+      .where(eq(rsvp.userId, params.userId))
+      .limit(1);
+
+    if (result.length > 0) {
+      emergencyContactInfo = result[0];
+    }
+  }
 
   if (!profile?.id) {
     if (currentUser?.id === params.userId) {
@@ -50,6 +77,11 @@ export default async function ProfilePage({
             <SocialLinkCard integrations={profile.integrations} />
           )}
         </div>
+
+        {/* Emergency Contact Info */}
+        {emergencyContactInfo && (
+          <EmergencyContacts contact={emergencyContactInfo} />
+        )}
         <BackButton />
       </div>
     </PageWrapper>
