@@ -46,7 +46,9 @@ export function Scanner() {
           <Checkbox
             id="keep-camera-on"
             checked={keepCameraOn}
-            onCheckedChange={(checked) => setKeepCameraOn(checked)}
+            onCheckedChange={(value) => {
+              setKeepCameraOn(!value);
+            }}
           />
           <label htmlFor="keep-camera-on" className="text-sm text-textPrimary">
             Keep Camera On
