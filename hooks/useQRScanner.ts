@@ -8,9 +8,10 @@ import { useCameraPermission } from "./useCameraPermission";
 
 interface UseQRScannerProps {
   selectedEvent: Event | "";
+  keepCameraOn: boolean;
 }
 
-export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
+export const useQRScanner = ({ selectedEvent, keepCameraOn }: UseQRScannerProps) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [startingCamera, setStartingCamera] = useState(false);
   const [scanResult, setScanResult] = useState<"success" | "error" | null>(
@@ -30,6 +31,7 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
   }, []);
 
   const stopCamera = useCallback(() => {
+    if (keepCameraOn) return;
     try {
       codeReader.current.reset();
       if (videoRef.current?.srcObject) {
@@ -43,7 +45,7 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
       console.error("Error stopping camera:", err);
       toast.error("Failed to stop camera");
     }
-  }, []);
+  }, [keepCameraOn]);
 
   useEffect(() => {
     return () => {
@@ -82,6 +84,32 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
       stopCamera();
       isProcessing.current = false;
       setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
+  const handleResetEvent = async (userId: string) => {
+    try {
+      const response = await fetch("/api/check-ins/reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          eventName: selectedEvent,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to reset event");
+      }
+
+      toast.success("Event reset successful!");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to reset event",
+      );
     }
   };
 
@@ -152,5 +180,6 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
     scanResult,
     hasCameraPermission,
     startingCamera,
+    handleResetEvent,
   };
 };
