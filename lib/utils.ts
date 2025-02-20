@@ -66,3 +66,13 @@ export const formatOptions = (options: string[]) => {
     label: option,
   }));
 };
+
+export const formatDate = (date: string | Date) => {
+  return new Date(date).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+};

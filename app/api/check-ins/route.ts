@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getCurrentUser } from "@/auth";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import type { ApiResponse } from "@/types/api";
@@ -24,7 +24,7 @@ const checkInSchema: z.ZodType<CheckInRequest> = z.object({
 
 export async function POST(
   req: NextRequest,
-): Promise<NextResponse<ApiResponse<CheckIn>>> {
+): Promise<NextResponse<ApiResponse<CheckIn[]>>> {
   try {
     const currentUser = await getCurrentUser();
 
@@ -81,34 +81,45 @@ export async function POST(
       );
     }
 
-    // Check if user has already checked in for this event
-    const existingCheckIn = await db.query.checkIns.findFirst({
-      where: and(
-        eq(checkIns.userId, userId),
-        eq(checkIns.eventName, eventName),
-      ),
+    // Get all check-ins for the user
+    const userCheckIns = await db.query.checkIns.findMany({
+      where: eq(checkIns.userId, userId),
+      orderBy: (checkIns, { desc }) => [desc(checkIns.createdAt)],
     });
 
-    if (existingCheckIn) {
+    // Check if user has already checked in for this event using the fetched data
+    const alreadyCheckedIn = userCheckIns.some(
+      (checkIn) => checkIn.eventName === eventName,
+    );
+
+    if (alreadyCheckedIn) {
       return NextResponse.json(
         {
           success: false,
           message: "User already checked in for this event",
           error: "Duplicate check-in",
+          data: userCheckIns,
         },
         { status: 400 },
       );
     }
 
     // Create new check-in
-    await db.insert(checkIns).values({
-      userId,
-      eventName,
-    });
+    const [newCheckIn] = await db
+      .insert(checkIns)
+      .values({
+        userId,
+        eventName,
+      })
+      .returning();
+
+    // Get updated check-ins including the new one
+    const updatedCheckIns = [...userCheckIns, newCheckIn];
 
     return NextResponse.json({
       success: true,
       message: "Check-in successful",
+      data: updatedCheckIns,
     });
   } catch (error) {
     console.error("Check-in error:", error);

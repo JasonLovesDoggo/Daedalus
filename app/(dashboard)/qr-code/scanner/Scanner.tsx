@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AlertCircle, Loader2 } from "lucide-react";
 
 import { Event } from "@/config/qr-code";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,6 +21,7 @@ export function Scanner() {
     hasCameraPermission,
     startingCamera,
     handleResetEvent,
+    scanData,
   } = useQRScanner({
     selectedEvent,
     keepCameraOn,
@@ -105,6 +106,29 @@ export function Scanner() {
                 </button>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {scanData.length > 0 && (
+        <div className="mt-4 md:mt-6">
+          <h3 className="mb-4 text-lg font-semibold text-textPrimary">
+            User's Check-in History
+          </h3>
+          <div className="space-y-2">
+            {scanData.map((checkIn) => (
+              <div
+                key={checkIn.id}
+                className="flex items-center justify-between rounded-md border border-primary/10 bg-primary/5 p-3"
+              >
+                <span className="font-medium text-textPrimary">
+                  {checkIn.eventName.split("-").join(" ")}
+                </span>
+                <span className="text-sm text-textPrimary/70">
+                  {formatDate(checkIn.createdAt)}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       )}
