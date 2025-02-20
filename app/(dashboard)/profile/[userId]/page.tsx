@@ -5,7 +5,7 @@ import { eq, relations } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { getProfileWithUser } from "@/lib/db/queries/profile";
 import { rsvp } from "@/lib/db/schema";
-import { isOrganizer, isVolunteer } from "@/lib/utils";
+import { isOrganizer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
@@ -79,7 +79,7 @@ export default async function ProfilePage({
         </div>
 
         {/* Emergency Contact Info */}
-        {emergencyContactInfo && (
+        {isOrganizer(currentUser?.role as UserRole) && emergencyContactInfo && (
           <EmergencyContacts contact={emergencyContactInfo} />
         )}
         <BackButton />
