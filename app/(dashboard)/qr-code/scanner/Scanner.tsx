@@ -6,10 +6,13 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Event } from "@/config/qr-code";
 import { cn } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { EventSelector } from "@/components/EventSelector";
 
 export function Scanner() {
   const [selectedEvent, setSelectedEvent] = useState<Event | "">("");
+  const [keepCameraOn, setKeepCameraOn] = useState(false);
   const {
     isCameraOn,
     videoRef,
@@ -17,8 +20,10 @@ export function Scanner() {
     scanResult,
     hasCameraPermission,
     startingCamera,
+    handleResetEvent,
   } = useQRScanner({
     selectedEvent,
+    keepCameraOn,
   });
 
   return (
@@ -37,6 +42,19 @@ export function Scanner() {
           selectedEvent={selectedEvent}
           onEventChange={(value) => setSelectedEvent(value as Event)}
         />
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="keep-camera-on"
+            checked={keepCameraOn}
+            onCheckedChange={(checked) => setKeepCameraOn(checked)}
+          />
+          <label htmlFor="keep-camera-on" className="text-sm text-textPrimary">
+            Keep Camera On
+          </label>
+        </div>
+        <Button onClick={handleResetEvent} variant="destructive">
+          Reset User's Attendance
+        </Button>
       </div>
       {selectedEvent && (
         <div className="relative flex flex-col items-center">

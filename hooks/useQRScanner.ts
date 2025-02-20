@@ -8,14 +8,19 @@ import { useCameraPermission } from "./useCameraPermission";
 
 interface UseQRScannerProps {
   selectedEvent: Event | "";
+  keepCameraOn: boolean;
 }
 
-export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
+export const useQRScanner = ({
+  selectedEvent,
+  keepCameraOn,
+}: UseQRScannerProps) => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [startingCamera, setStartingCamera] = useState(false);
   const [scanResult, setScanResult] = useState<"success" | "error" | null>(
     null,
   );
+  const [lastUserId, setLastUserId] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReader = useRef(new BrowserMultiFormatReader());
   const isProcessing = useRef(false);
@@ -30,6 +35,7 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
   }, []);
 
   const stopCamera = useCallback(() => {
+    if (keepCameraOn) return;
     try {
       codeReader.current.reset();
       if (videoRef.current?.srcObject) {
@@ -43,7 +49,7 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
       console.error("Error stopping camera:", err);
       toast.error("Failed to stop camera");
     }
-  }, []);
+  }, [keepCameraOn]);
 
   useEffect(() => {
     return () => {
@@ -85,6 +91,36 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
     }
   };
 
+  const handleResetEvent = async () => {
+    if (!lastUserId) {
+      toast.error("No user to reset, please scan a QR code first");
+      return;
+    }
+    try {
+      const response = await fetch("/api/check-ins", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: lastUserId,
+          eventName: selectedEvent,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to reset event");
+      }
+
+      toast.success("Event reset successful!");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to reset event",
+      );
+    }
+  };
+
   const startCamera = async () => {
     setStartingCamera(true);
 
@@ -97,6 +133,9 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
       toast.error("Camera access is required for scanning QR codes");
       return;
     }
+
+    let lastScan = new Date("1970-01-01");
+    let lastUserIdVar: String = ""; // to prevent double scans of the same user, we need this as react wont re-render in time to prevent double scans
 
     try {
       // Start the QR code reader directly with constraints
@@ -119,6 +158,20 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
             setTimeout(() => setScanResult(null), 1000);
             return;
           }
+
+          // prevent double scans of the same user
+          if (
+            (lastUserId === userId || lastUserIdVar == userId) &&
+            new Date().getTime() - lastScan.getTime() < 3000
+          ) {
+            // 3 seconds between scans of the same user to prevent double scans
+            // console.table({ lastUserIdVar, userId, lastScan: lastScan.getTime(), now: new Date().getTime() });
+            return;
+          }
+
+          lastScan = new Date();
+          lastUserIdVar = userId; // Due to the lack of rendering, we need to set this here to prevent double scans
+          setLastUserId(userId);
 
           isProcessing.current = true;
           await handleCheckIn(userId);
@@ -152,5 +205,6 @@ export const useQRScanner = ({ selectedEvent }: UseQRScannerProps) => {
     scanResult,
     hasCameraPermission,
     startingCamera,
+    handleResetEvent,
   };
 };

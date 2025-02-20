@@ -4,6 +4,7 @@ interface ScannerConfig {
     width: number;
     height: number;
   };
+  allowReset: boolean;
   aspectRatio: number;
   showTorchButtonIfSupported: boolean;
   showZoomSliderIfSupported: boolean;
@@ -24,6 +25,7 @@ export type Event = (typeof EVENTS)[number];
 
 export const SCANNER_CONFIG: ScannerConfig = {
   fps: 10,
+  allowReset: true,
   qrbox: {
     width: 250,
     height: 250,
