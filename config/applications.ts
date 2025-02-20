@@ -23,19 +23,19 @@ export const applications: Application[] = [
   {
     title: "Mentor Applications",
     href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
-    status: "open",
+    status: "closed",
     deadline: "February 14th (11:59:59 PM), 2025",
     description: "Apply to mentor participants during the hackathon.",
     icon: Lightbulb,
-    disabled: false,
+    disabled: true,
   },
   {
     title: "Judge Applications",
     href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
-    status: "open",
+    status: "closed",
     description: "Help evaluate and reward the best projects.",
     deadline: "February 14th (11:59:59 PM), 2025",
     icon: Gavel,
-    disabled: false,
+    disabled: true,
   },
 ];
