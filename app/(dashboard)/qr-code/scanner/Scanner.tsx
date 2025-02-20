@@ -6,9 +6,9 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Event } from "@/config/qr-code";
 import { cn } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
-import { EventSelector } from "@/components/EventSelector";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { EventSelector } from "@/components/EventSelector";
 
 export function Scanner() {
   const [selectedEvent, setSelectedEvent] = useState<Event | "">("");
@@ -53,7 +53,7 @@ export function Scanner() {
           </label>
         </div>
         <Button onClick={handleResetEvent} variant="destructive">
-          Reset/UNSET Event
+          Reset User's Attendance
         </Button>
       </div>
       {selectedEvent && (
