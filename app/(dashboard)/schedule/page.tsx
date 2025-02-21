@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function SchedulePage() {
   return (
-    <PageWrapper>
+    <PageWrapper className="max-w-screen-2xl 3xl:max-w-screen-2xl">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold text-primary">Event Schedule</h1>

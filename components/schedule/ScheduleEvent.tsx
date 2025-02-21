@@ -35,7 +35,8 @@ export default function ScheduleEvent({ event, style }: ScheduleEventProps) {
     return `${hour12}:${minutes} ${period}`;
   };
 
-  const timeStr = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+  const timeStr =
+    event.customTime || `${formatTime(startTime)} - ${formatTime(endTime)}`;
 
   return (
     <div style={style} className="absolute p-1">
