@@ -33,8 +33,8 @@ export const schedule: ScheduleItem[] = [
     name: "Team Building Activity",
     type: "fun",
     location: "Common Area",
-    startTime: "2025-02-21T21:30:00-05:00",
-    endTime: "2025-02-21T22:30:00-05:00",
+    startTime: "2025-02-21T20:30:00-05:00",
+    endTime: "2025-02-21T21:30:00-05:00",
   },
 
   // Saturday Events
@@ -79,13 +79,6 @@ export const schedule: ScheduleItem[] = [
     location: "Dining Area",
     startTime: "2025-02-22T18:30:00-05:00",
     endTime: "2025-02-22T19:30:00-05:00",
-  },
-  {
-    name: "Midnight Snack",
-    type: "meals",
-    location: "Dining Area",
-    startTime: "2025-02-22T23:45:00-05:00",
-    endTime: "2025-02-23T00:15:00-05:00",
   },
 
   // Sunday Events

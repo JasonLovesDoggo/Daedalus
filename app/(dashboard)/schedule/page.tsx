@@ -1,17 +1,32 @@
 import { Metadata } from "next";
 
-import { EmptyPage } from "@/components/EmptyPage";
+import { schedule } from "@/config/schedule";
+import PageWrapper from "@/components/PageWrapper";
+import ScheduleGrid from "@/components/schedule/ScheduleGrid";
+import ScheduleLegend from "@/components/schedule/ScheduleLegend";
 
 export const metadata: Metadata = {
   title: "Schedule",
+  description: "Event schedule for Hack Canada",
 };
 
-const SchedulePage = () => {
+export default function SchedulePage() {
   return (
-    <EmptyPage
-      title="Schedule Page"
-      message="The schedule for the event is currently being finalized. Stay tuned for updates!"
-    />
+    <PageWrapper>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-bold text-primary">Event Schedule</h1>
+          <p className="text-textSecondary">
+            All times are in Eastern Time (ET). Events and times are subject to
+            change.
+          </p>
+        </div>
+
+        <ScheduleLegend />
+        <div className="rounded-lg border border-border bg-backgroundMuted p-4">
+          <ScheduleGrid schedule={schedule} />
+        </div>
+      </div>
+    </PageWrapper>
   );
-};
-export default SchedulePage;
+}
