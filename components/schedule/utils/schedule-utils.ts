@@ -41,51 +41,84 @@ export function calculateEventPositions(
   events: ScheduleItem[],
 ): EventPosition[] {
   const positions: EventPosition[] = [];
-  // Sort events by start time
   const sortedEvents = [...events].sort(
     (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
   );
 
-  // Function to check if events overlap
-  const doEventsOverlap = (event1: ScheduleItem, event2: ScheduleItem) => {
-    const start1 = new Date(event1.startTime).getTime();
-    const end1 = new Date(event1.endTime).getTime();
-    const start2 = new Date(event2.startTime).getTime();
-    const end2 = new Date(event2.endTime).getTime();
-    return !(end1 <= start2 || start1 >= end2);
-  };
+  interface ColumnStatus {
+    lastEndTime: number;
+    events: ScheduleItem[];
+  }
 
-  // Group overlapping events together
-  const overlapGroups: ScheduleItem[][] = [];
+  // Keep track of the end time of events in each column
+  const columns: ColumnStatus[] = [];
 
   sortedEvents.forEach((event) => {
-    // Try to add to existing group
-    let addedToGroup = false;
+    const eventStart = new Date(event.startTime).getTime();
+    const eventEnd = new Date(event.endTime).getTime();
 
-    for (const group of overlapGroups) {
-      // Check if event overlaps with any event in the group
-      if (group.some((groupEvent) => doEventsOverlap(event, groupEvent))) {
-        group.push(event);
-        addedToGroup = true;
+    // Try to find an existing column where this event can fit
+    let columnIndex = -1;
+    for (let i = 0; i < columns.length; i++) {
+      // Check if any event in this column overlaps with current event
+      const hasOverlap = columns[i].events.some((existingEvent) => {
+        const existingStart = new Date(existingEvent.startTime).getTime();
+        const existingEnd = new Date(existingEvent.endTime).getTime();
+        return !(eventEnd <= existingStart || eventStart >= existingEnd);
+      });
+
+      if (!hasOverlap) {
+        columnIndex = i;
         break;
       }
     }
 
-    // If doesn't overlap with any existing group, create new group
-    if (!addedToGroup) {
-      overlapGroups.push([event]);
+    // If no existing column works, create a new one
+    if (columnIndex === -1) {
+      columnIndex = columns.length;
+      columns.push({
+        lastEndTime: 0,
+        events: [],
+      });
     }
+
+    // Add event to the column
+    columns[columnIndex].events.push(event);
+    columns[columnIndex].lastEndTime = eventEnd;
   });
 
-  // Process each group to assign columns
-  overlapGroups.forEach((group) => {
-    const eventsInGroup = group.length;
-    group.forEach((event, index) => {
-      positions.push({
-        event,
-        column: index,
-        totalColumns: eventsInGroup,
+  // Create positions for all events
+  sortedEvents.forEach((event) => {
+    const eventStart = new Date(event.startTime).getTime();
+    const eventEnd = new Date(event.endTime).getTime();
+
+    // Find which column this event is in
+    let eventColumn = 0;
+    for (let i = 0; i < columns.length; i++) {
+      if (columns[i].events.includes(event)) {
+        eventColumn = i;
+        break;
+      }
+    }
+
+    // Count overlapping columns during this event's time period
+    let overlappingColumns = 0;
+    columns.forEach((column) => {
+      const hasOverlappingEvent = column.events.some((existingEvent) => {
+        const existingStart = new Date(existingEvent.startTime).getTime();
+        const existingEnd = new Date(existingEvent.endTime).getTime();
+        return !(eventEnd <= existingStart || eventStart >= existingEnd);
       });
+      if (hasOverlappingEvent) overlappingColumns++;
+    });
+
+    // For non-overlapping events, use full width. Otherwise use total columns.
+    const totalColumns = overlappingColumns === 1 ? 1 : columns.length;
+
+    positions.push({
+      event,
+      column: eventColumn,
+      totalColumns,
     });
   });
 
