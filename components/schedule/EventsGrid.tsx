@@ -17,12 +17,12 @@ export function EventsGrid({
   selectedDay,
 }: EventsGridProps) {
   return (
-    <div className="relative border-l border-border px-2">
+    <div className="relative border-l border-border bg-white">
       {/* Time slot grid lines */}
       {timeSlots.map((time) => (
         <div
           key={time}
-          className="border-t border-border"
+          className="border-t border-border bg-backgroundMuted/25 transition-colors hover:bg-backgroundMuted"
           style={{ height: TIME_SLOT_HEIGHT }}
         />
       ))}

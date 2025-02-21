@@ -10,11 +10,11 @@ export function TimeSlotsColumn({ timeSlots }: TimeSlotsColumnProps) {
       {timeSlots.map((time) => (
         <div
           key={time}
-          className="border-t border-border"
+          className="border-t border-border bg-backgroundMuted/25 transition-colors hover:bg-backgroundMuted"
           style={{ height: TIME_SLOT_HEIGHT }}
         >
           {/* Time label positioned under the line */}
-          <div className="sticky left-0 mt-2 pr-4 text-right text-sm text-textSecondary">
+          <div className="sticky left-0 mt-2 pr-2 text-right text-sm text-textSecondary">
             {time}
           </div>
         </div>

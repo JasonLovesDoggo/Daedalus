@@ -4,11 +4,11 @@ import { ScheduleItem } from "@/config/schedule";
 import { cn } from "@/lib/utils";
 
 const eventTypeColors = {
-  general: "bg-sky-200 hover:bg-sky-300",
-  meals: "bg-emerald-200 hover:bg-emerald-300",
-  ceremonies: "bg-amber-200 hover:bg-amber-300",
-  workshops: "bg-violet-200 hover:bg-violet-300",
-  fun: "bg-rose-200 hover:bg-rose-300",
+  general: "bg-sky-200/80 hover:bg-sky-300",
+  meals: "bg-emerald-200/80 hover:bg-emerald-300",
+  ceremonies: "bg-amber-200/80 hover:bg-amber-300",
+  workshops: "bg-violet-200/80 hover:bg-violet-300",
+  fun: "bg-rose-200/80 hover:bg-rose-300",
 };
 
 interface ScheduleEventProps {
@@ -38,20 +38,23 @@ export default function ScheduleEvent({ event, style }: ScheduleEventProps) {
   const timeStr = `${formatTime(startTime)} - ${formatTime(endTime)}`;
 
   return (
-    <div
-      style={style}
-      className={cn(
-        "flex flex-col justify-start gap-1 overflow-hidden rounded-md p-3 transition-all duration-200 hover:shadow-md",
-        eventTypeColors[event.type],
-      )}
-    >
-      <h3 className="truncate text-sm font-medium text-textPrimary">
-        {event.name}
-      </h3>
-      {event.location && (
-        <p className="truncate text-xs text-textSecondary">{event.location}</p>
-      )}
-      <p className="mt-auto text-xs text-textSecondary">{timeStr}</p>
+    <div style={style} className="absolute p-1">
+      <div
+        className={cn(
+          "mx-auto flex h-full w-full flex-col justify-start gap-1 overflow-hidden rounded-md px-2 py-3 transition-all duration-200 hover:shadow-md",
+          eventTypeColors[event.type],
+        )}
+      >
+        <h3 className="truncate text-sm font-medium text-textPrimary">
+          {event.name}
+        </h3>
+        {event.location && (
+          <p className="truncate text-xs text-textSecondary">
+            {event.location}
+          </p>
+        )}
+        <p className="mt-auto text-xs text-textSecondary">{timeStr}</p>
+      </div>
     </div>
   );
 }
