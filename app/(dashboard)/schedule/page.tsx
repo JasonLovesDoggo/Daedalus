@@ -24,7 +24,7 @@ export default async function SchedulePage() {
     return (
       <EmptyPage
         title="Schedule Page"
-        message="You must be assigned to a role to view the schedule."
+        message="This feature is only available to users with an assigned role."
       />
     );
   }

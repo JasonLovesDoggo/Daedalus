@@ -15,7 +15,7 @@ export default async function EditProfilePage() {
 
   // Only assigned users can have profiles (e.g. hackers, orgs, mentors)
   if (user.role === "unassigned") {
-    redirect("/dashboard");
+    redirect("/");
   }
 
   const profile = await getProfileWithUser(user.id);
