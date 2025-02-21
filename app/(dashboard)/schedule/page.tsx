@@ -33,7 +33,9 @@ export default async function SchedulePage() {
     <PageWrapper className="max-w-screen-2xl 3xl:max-w-screen-2xl">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold text-primary">Event Schedule</h1>
+          <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+            <h1 className="font-rubik text-3xl font-bold">Event Schedule</h1>
+          </div>
           <p className="text-textSecondary">
             All times are in Eastern Time (ET). Events and times are subject to
             change.
