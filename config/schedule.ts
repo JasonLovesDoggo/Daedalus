@@ -40,7 +40,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "ICP Workshop",
     type: "workshops",
-    location: "LH3098",
+    location: "LH1001",
     startTime: "2025-02-21T20:30:00-05:00",
     endTime: "2025-02-21T22:00:00-05:00",
   },
@@ -54,7 +54,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "Firebase and Gemini workshp",
     type: "workshops",
-    location: "LH3098",
+    location: "LH1001",
     startTime: "2025-02-21T22:30:00-05:00",
     endTime: "2025-02-21T23:00:00-05:00",
   },
@@ -78,7 +78,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "Google App Scripts and Gemini",
     type: "workshops",
-    location: "LH3098",
+    location: "LH1001",
     startTime: "2025-02-22T00:30:00-05:00",
     endTime: "2025-02-22T01:15:00-05:00",
   },
@@ -141,7 +141,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "Introduction to Cybersecurity",
     type: "workshops",
-    location: "LH3098",
+    location: "LH1001",
     startTime: "2025-02-22T14:30:00-05:00",
     endTime: "2025-02-22T15:15:00-05:00",
   },
@@ -162,7 +162,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "Microsoft Azure Workshop",
     type: "workshops",
-    location: "LH3098",
+    location: "LH1001",
     startTime: "2025-02-22T16:30:00-05:00",
     endTime: "2025-02-22T17:30:00-05:00",
   },
