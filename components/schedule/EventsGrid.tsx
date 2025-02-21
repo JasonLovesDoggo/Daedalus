@@ -30,7 +30,7 @@ export function EventsGrid({
       {/* Events */}
       {eventPositions.map(({ event, column, totalColumns }) => (
         <ScheduleEvent
-          key={event.name}
+          key={`${event.name}-${event.startTime}`}
           event={event}
           style={getEventStyle(
             event,
