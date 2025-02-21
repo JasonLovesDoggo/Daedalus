@@ -41,58 +41,52 @@ export function calculateEventPositions(
   events: ScheduleItem[],
 ): EventPosition[] {
   const positions: EventPosition[] = [];
-  const columnEvents: ScheduleItem[][] = [[], [], []]; // 3 columns
-
   // Sort events by start time
   const sortedEvents = [...events].sort(
     (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
   );
 
-  // Function to check if event overlaps with any event in a column
-  const hasOverlap = (event: ScheduleItem, column: ScheduleItem[]) => {
-    const eventStart = new Date(event.startTime).getTime();
-    const eventEnd = new Date(event.endTime).getTime();
-
-    return column.some((existingEvent) => {
-      const existingStart = new Date(existingEvent.startTime).getTime();
-      const existingEnd = new Date(existingEvent.endTime).getTime();
-      return !(eventEnd <= existingStart || eventStart >= existingEnd);
-    });
+  // Function to check if events overlap
+  const doEventsOverlap = (event1: ScheduleItem, event2: ScheduleItem) => {
+    const start1 = new Date(event1.startTime).getTime();
+    const end1 = new Date(event1.endTime).getTime();
+    const start2 = new Date(event2.startTime).getTime();
+    const end2 = new Date(event2.endTime).getTime();
+    return !(end1 <= start2 || start1 >= end2);
   };
 
-  // Place each event in the appropriate column
-  sortedEvents.forEach((event) => {
-    let placed = false;
+  // Group overlapping events together
+  const overlapGroups: ScheduleItem[][] = [];
 
-    // First, try to place in columns that have no overlap
-    for (let i = 0; i < 3; i++) {
-      if (!hasOverlap(event, columnEvents[i])) {
-        columnEvents[i].push(event);
-        positions.push({
-          event,
-          column: i,
-          totalColumns: 3, // Always 3 columns
-        });
-        placed = true;
+  sortedEvents.forEach((event) => {
+    // Try to add to existing group
+    let addedToGroup = false;
+
+    for (const group of overlapGroups) {
+      // Check if event overlaps with any event in the group
+      if (group.some((groupEvent) => doEventsOverlap(event, groupEvent))) {
+        group.push(event);
+        addedToGroup = true;
         break;
       }
     }
 
-    // If there's overlap in all columns, find the one with the least events
-    if (!placed) {
-      const columnWithLeastEvents = columnEvents.reduce(
-        (minCol, currCol, currIndex) =>
-          currCol.length < columnEvents[minCol].length ? currIndex : minCol,
-        0,
-      );
+    // If doesn't overlap with any existing group, create new group
+    if (!addedToGroup) {
+      overlapGroups.push([event]);
+    }
+  });
 
-      columnEvents[columnWithLeastEvents].push(event);
+  // Process each group to assign columns
+  overlapGroups.forEach((group) => {
+    const eventsInGroup = group.length;
+    group.forEach((event, index) => {
       positions.push({
         event,
-        column: columnWithLeastEvents,
-        totalColumns: 3, // Always 3 columns
+        column: index,
+        totalColumns: eventsInGroup,
       });
-    }
+    });
   });
 
   return positions;
@@ -126,9 +120,10 @@ export function getEventStyle(
   const endSlots = (endHour - dayStartHour) * 4 + Math.floor(endMinute / 15);
   const duration = endSlots - startSlots;
 
-  // Fixed width for 3-column layout
-  const width = "33.33%";
-  const left = `${position.column * 33.33}%`;
+  // Calculate width based on number of overlapping events
+  const columnWidth = 100 / Math.max(1, position.totalColumns);
+  const width = `${columnWidth}%`;
+  const left = `${position.column * columnWidth}%`;
 
   return {
     top: `${startSlots * TIME_SLOT_HEIGHT}px`,

@@ -29,8 +29,8 @@ export default function ScheduleGrid({ schedule }: ScheduleGridProps) {
       <DaySelector selectedDay={selectedDay} onDayChange={setSelectedDay} />
 
       {/* Grid */}
-      <div className="overflow-x-auto pb-6">
-        <div className="grid min-w-[600px] grid-cols-[100px_1fr] gap-1 rounded-lg border border-border bg-backgroundMuted">
+      <div className="overflow-x-auto">
+        <div className="grid min-w-[600px] grid-cols-[100px_1fr] gap-1 rounded-lg border border-border bg-backgroundMuted xl:grid-cols-[120px_1fr]">
           {/* Time slots */}
           <TimeSlotsColumn timeSlots={timeSlots} />
 
