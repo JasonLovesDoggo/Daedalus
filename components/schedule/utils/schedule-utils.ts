@@ -117,7 +117,10 @@ export function getEventStyle(
   // Adjust for day's start time
   const startSlots =
     (startHour - dayStartHour) * 4 + Math.floor(startMinute / 15);
-  const endSlots = (endHour - dayStartHour) * 4 + Math.floor(endMinute / 15);
+  // Handle midnight (00:00) correctly by converting it to 24:00
+  const adjustedEndHour = endHour === 0 ? 24 : endHour;
+  const endSlots =
+    (adjustedEndHour - dayStartHour) * 4 + Math.floor(endMinute / 15);
   const duration = endSlots - startSlots;
 
   // Calculate width based on number of overlapping events
