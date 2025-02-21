@@ -4,11 +4,11 @@ import { ScheduleItem } from "@/config/schedule";
 import { cn } from "@/lib/utils";
 
 const eventTypeColors = {
-  general: "bg-sky-200/80 hover:bg-sky-300",
-  meals: "bg-emerald-200/80 hover:bg-emerald-300",
-  ceremonies: "bg-amber-200/80 hover:bg-amber-300",
-  workshops: "bg-violet-200/80 hover:bg-violet-300",
-  fun: "bg-rose-200/80 hover:bg-rose-300",
+  general: "bg-sky-200/75 hover:bg-sky-300",
+  meals: "bg-emerald-200/75 hover:bg-emerald-300",
+  ceremonies: "bg-amber-200/75 hover:bg-amber-300",
+  workshops: "bg-violet-200/75 hover:bg-violet-300",
+  fun: "bg-rose-200/75 hover:bg-rose-300",
 };
 
 interface ScheduleEventProps {

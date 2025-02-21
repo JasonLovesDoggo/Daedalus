@@ -30,7 +30,7 @@ export default function ScheduleGrid({ schedule }: ScheduleGridProps) {
 
       {/* Grid */}
       <div className="overflow-x-auto">
-        <div className="grid min-w-[600px] grid-cols-[100px_1fr] rounded-lg border border-border xl:grid-cols-[120px_1fr]">
+        <div className="grid min-w-[600px] grid-cols-[100px_1fr] overflow-hidden rounded-lg border border-border xl:grid-cols-[120px_1fr]">
           {/* Time slots */}
           <TimeSlotsColumn timeSlots={timeSlots} />
 

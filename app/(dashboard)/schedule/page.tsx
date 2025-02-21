@@ -23,7 +23,7 @@ export default function SchedulePage() {
         </div>
 
         <ScheduleLegend />
-        <div className="rounded-lg border border-border p-4">
+        <div className="rounded-lg border border-border bg-backgroundMuted p-4">
           <ScheduleGrid schedule={schedule} />
         </div>
       </div>
