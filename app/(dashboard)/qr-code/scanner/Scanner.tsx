@@ -21,6 +21,7 @@ export function Scanner() {
     startingCamera,
     handleResetEvent,
     scanData,
+    scannedUserName,
   } = useQRScanner({
     selectedEvent,
     keepCameraOn,
@@ -103,6 +104,15 @@ export function Scanner() {
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {scannedUserName && (
+        <div className="mt-4 rounded-lg border border-primary/10 bg-primary/5 p-4 text-center">
+          <p className="text-lg font-semibold text-textPrimary">
+            Successfully scanned:{" "}
+            <span className="text-primary">{scannedUserName}</span>
+          </p>
         </div>
       )}
 

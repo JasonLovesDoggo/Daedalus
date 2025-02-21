@@ -120,6 +120,7 @@ export async function POST(
       success: true,
       message: "Check-in successful",
       data: updatedCheckIns,
+      userName: existingUser.name,
     });
   } catch (error) {
     console.error("Check-in error:", error);

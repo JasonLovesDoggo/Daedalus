@@ -23,6 +23,7 @@ export const useQRScanner = ({
   );
   const [lastUserId, setLastUserId] = useState<string | null>(null);
   const [scanData, setScanData] = useState<CheckIn[]>([]);
+  const [scannedUserName, setScannedUserName] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReader = useRef(new BrowserMultiFormatReader());
   const isProcessing = useRef(false);
@@ -92,6 +93,7 @@ export const useQRScanner = ({
         throw new Error(data.message || "Failed to check in");
       }
 
+      setScannedUserName(data.userName || "No name found");
       await playSound("success");
       setScanResult("success");
       toast.success("Check-in successful!");
@@ -146,6 +148,7 @@ export const useQRScanner = ({
             checkIn.eventName !== eventNameToReset,
         ),
       ]);
+      setScannedUserName(null);
       toast.success("Event reset successful!");
     } catch (error) {
       toast.error(
@@ -230,7 +233,6 @@ export const useQRScanner = ({
       await startCamera();
     }
   };
-
   return {
     isCameraOn,
     videoRef,
@@ -240,5 +242,6 @@ export const useQRScanner = ({
     startingCamera,
     handleResetEvent,
     scanData,
+    scannedUserName,
   };
 };
