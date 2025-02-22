@@ -59,7 +59,7 @@ export const schedule: ScheduleItem[] = [
     endTime: "2025-02-21T23:00:00-05:00",
   },
   {
-    name: "skribbl.io",
+    name: "skribbl.io [CANCELLED]",
     type: "fun",
     location: "LH1009",
     startTime: "2025-02-21T23:15:00-05:00",
