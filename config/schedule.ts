@@ -54,7 +54,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "Firebase and Gemini workshp",
     type: "workshops",
-    location: "LH1001",
+    location: "LH1009",
     startTime: "2025-02-21T22:30:00-05:00",
     endTime: "2025-02-21T23:00:00-05:00",
   },
