@@ -68,18 +68,10 @@ export const schedule: ScheduleItem[] = [
   },
   // Saturday Events
   {
-    name: "skribbl.io",
-    type: "fun",
-    location: "LH1009",
-    startTime: "2025-02-22T00:00:00-05:00",
-    endTime: "2025-02-22T00:15:00-05:00",
-    customTime: "11:15 PM - 12:15 AM",
-  },
-  {
     name: "Google App Scripts and Gemini",
     type: "workshops",
     location: "LH1001",
-    startTime: "2025-02-22T00:30:00-05:00",
+    startTime: "2025-02-21T23:30:00-05:00",
     endTime: "2025-02-22T01:15:00-05:00",
   },
   {
@@ -214,7 +206,7 @@ export const schedule: ScheduleItem[] = [
     name: "Karaoke",
     type: "fun",
     location: "LH1001",
-    startTime: "2025-02-2T00:00:00-05:00",
+    startTime: "2025-02-22T00:00:00-05:00",
     endTime: "2025-02-22T02:00:00-05:00",
   },
   {
