@@ -71,8 +71,8 @@ export const schedule: ScheduleItem[] = [
     name: "Google App Scripts and Gemini",
     type: "workshops",
     location: "LH1001",
-    startTime: "2025-02-21T23:30:00-05:00",
-    endTime: "2025-02-22T01:15:00-05:00",
+    startTime: "2025-02-22T00:15:00-05:00",
+    endTime: "2025-02-22T00:45:00-05:00",
   },
   {
     name: "Poker",
@@ -206,8 +206,8 @@ export const schedule: ScheduleItem[] = [
     name: "Karaoke",
     type: "fun",
     location: "LH1001",
-    startTime: "2025-02-22T00:00:00-05:00",
-    endTime: "2025-02-22T02:00:00-05:00",
+    startTime: "2025-02-22T00:45:00-05:00",
+    endTime: "2025-02-22T02:45:00-05:00",
   },
   {
     name: "Midnight Event",
