@@ -86,8 +86,8 @@ export const schedule: ScheduleItem[] = [
     name: "Poker",
     type: "fun",
     location: "Atrium",
-    startTime: "2025-02-22T00:15:00-05:00",
-    endTime: "2025-02-22T02:15:00-05:00",
+    startTime: "2025-02-23T00:15:00-05:00",
+    endTime: "2025-02-23T02:15:00-05:00",
   },
   {
     name: "Breakfast",
@@ -214,8 +214,8 @@ export const schedule: ScheduleItem[] = [
     name: "Karaoke",
     type: "fun",
     location: "LH1001",
-    startTime: "2025-02-23T00:00:00-05:00",
-    endTime: "2025-02-23T02:00:00-05:00",
+    startTime: "2025-02-2T00:00:00-05:00",
+    endTime: "2025-02-22T02:00:00-05:00",
   },
   {
     name: "Midnight Event",
