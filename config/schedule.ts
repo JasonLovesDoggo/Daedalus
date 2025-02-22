@@ -40,7 +40,7 @@ export const schedule: ScheduleItem[] = [
   {
     name: "ICP Workshop",
     type: "workshops",
-    location: "LH1001",
+    location: "LH3094",
     startTime: "2025-02-21T20:30:00-05:00",
     endTime: "2025-02-21T22:00:00-05:00",
   },
