@@ -31,11 +31,15 @@ export const ApplicationCardStatus = ({
           {status}
         </span>
       </div>
-      {deadline && (
+      {status === "closed" ? (
+        <span className="text-xs text-gray-600 dark:text-gray-400 sm:text-right md:text-sm">
+          Hackathon concluded
+        </span>
+      ) : deadline ? (
         <span className="text-xs text-gray-600 dark:text-gray-400 sm:text-right md:text-sm">
           Deadline: {deadline}
         </span>
-      )}
+      ) : null}
     </div>
   );
 };

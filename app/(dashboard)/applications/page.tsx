@@ -24,12 +24,10 @@ const ApplicationPage = async () => {
     <PageWrapper>
       <div className="mb-8 space-y-2">
         <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
-          <h1 className="font-rubik text-3xl font-bold">
-            Manage Your Applications
-          </h1>
+          <h1 className="font-rubik text-3xl font-bold">Applications Closed</h1>
         </div>
         <p className="text-textMuted max-md:text-sm">
-          Explore application details and stay updated on deadlines.
+          Hack Canada 2025 has concluded. Thank you for your interest!
         </p>
       </div>
       <div className="flex w-full flex-col gap-6">
