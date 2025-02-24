@@ -32,7 +32,7 @@ export const CountdownSection = () => {
             </p>
             <p className="md:text-lg">
               <span className="text-textSecondary">
-                Gear up for an epic adventure
+                Hope to see you next year!
               </span>{" "}
               ⛰
             </p>
