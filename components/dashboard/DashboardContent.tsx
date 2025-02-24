@@ -2,14 +2,13 @@ import { cn } from "@/lib/utils";
 
 import PageWrapper from "../PageWrapper";
 import { BackButton } from "../ui/back-button";
-import { ApplicationStatus } from "./ApplicationStatus";
 import { ContactSection } from "./ContactSection";
 import { CountdownSection } from "./CountdownSection";
 import { DashboardHeader } from "./DashboardHeader";
 import DashboardQRCode from "./DashboardQRCode";
-import DiscordInviteCard from "./DiscordInviteCard";
-import HackerPackageCard from "./HackerPackageCard";
+import HackathonsCanadaDiscord from "./HackathonsCanadaDiscord";
 import ProfileCard from "./ProfileCard";
+import ProjectsCard from "./ProjectsCard";
 
 interface DashboardContentProps {
   user: User;
@@ -55,11 +54,10 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
           <ProfileCard isLocked={isLocked} userId={user.id!} />
         </div>
       </div>
-
       {/* Main Grid Sections */}
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10">
-        <DiscordInviteCard isLocked={isLocked} />
-        <HackerPackageCard isLocked={isLocked} />
+        <HackathonsCanadaDiscord />
+        <ProjectsCard />
       </div>
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10">
