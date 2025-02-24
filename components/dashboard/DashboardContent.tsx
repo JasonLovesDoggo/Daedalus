@@ -36,14 +36,19 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
           <p className="text-textPrimary/70">
             {user.role === "hacker" &&
               "Thank you for participating in Hack Canada 2025! Your projects and enthusiasm made this event truly special. We hope you gained valuable experience, made lasting connections, and will join us again for Hack Canada 2026!"}
-            {user.role === "organizer" ||
-              (user.role === "admin" &&
-                "Congratulations on successfully organizing Hack Canada 2025! Your hard work and dedication made this event possible. Time to start planning for an even bigger and better Hack Canada 2026!")}
+            {(user.role === "organizer" || user.role === "admin") &&
+              "Congratulations on successfully organizing Hack Canada 2025! Your hard work and dedication made this event possible. Time to start planning for an even bigger and better Hack Canada 2026!"}
             {user.role === "volunteer" &&
               "Thank you for volunteering at Hack Canada 2025! Your dedication and hard work helped make this event run smoothly. We truly appreciate your contribution and hope you'll be part of our team again next year!"}
             {user.role === "unassigned" &&
               "Thank you for your interest in Hack Canada 2025! While this year's event has concluded, we encourage you to stay tuned for updates about Hack Canada 2026. We'd love to have you join us next year!"}
           </p>
+        </div>
+
+        {/* Main Grid Sections */}
+        <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10">
+          <HackathonsCanadaDiscord />
+          <ProjectsCard />
         </div>
 
         {/* Profile Section */}
@@ -53,11 +58,6 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
           {/* Locked for anyone without an assigned role */}
           <ProfileCard isLocked={isLocked} userId={user.id!} />
         </div>
-      </div>
-      {/* Main Grid Sections */}
-      <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10">
-        <HackathonsCanadaDiscord />
-        <ProjectsCard />
       </div>
 
       <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-3 lg:gap-10">
