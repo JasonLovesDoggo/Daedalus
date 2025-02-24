@@ -28,7 +28,7 @@ export const CountdownSection = () => {
           </div>
           <div className="text-center sm:text-left">
             <p className="font-rubik font-bold text-textPrimary md:text-lg">
-              The countdown begins!
+              The countdown ends!
             </p>
             <p className="md:text-lg">
               <span className="text-textSecondary">

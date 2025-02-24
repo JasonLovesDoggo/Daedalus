@@ -1,11 +1,11 @@
 import { ExternalLink } from "lucide-react";
 
+import { hackathonsCanadaDiscordUrl } from "@/config/site";
+
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
 
 const HackathonsCanadaDiscord = () => {
-  const discordUrl = "https://discord.gg/hackathonscanada"; // Replace with actual URL
-
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div className="group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border border-border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg">
@@ -27,7 +27,7 @@ const HackathonsCanadaDiscord = () => {
           </svg>
         </div>
 
-        <p className="pb-2 text-textMuted">
+        <p className="pb-8 text-textMuted">
           Join the Hackathons Canada community! Connect with fellow hackers,
           stay updated on upcoming events, and be part of Canada's largest
           hackathon community.
@@ -35,7 +35,7 @@ const HackathonsCanadaDiscord = () => {
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href={discordUrl}
+            href={hackathonsCanadaDiscordUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonVariants({

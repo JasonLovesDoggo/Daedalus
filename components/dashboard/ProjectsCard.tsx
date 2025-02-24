@@ -1,11 +1,11 @@
 import { ExternalLink, Trophy } from "lucide-react";
 
+import { viewProjectsUrl } from "@/config/site";
+
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
 
 const ProjectsCard = () => {
-  const projectsUrl = "https://dorahacks.io/hackathon/hackcanada/buidl";
-
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div className="group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border border-border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg">
@@ -16,15 +16,15 @@ const ProjectsCard = () => {
           <Trophy className="size-8 text-amber-500" />
         </div>
 
-        <p className="pb-2 text-textMuted">
-          Explore all the amazing projects submitted during Hack Canada 2024!
+        <p className="pb-8 text-textMuted">
+          Explore all the amazing projects submitted during Hack Canada 2025!
           See what our talented hackers built and get inspired for future
           hackathons.
         </p>
 
         <div className="mt-auto flex items-center gap-2">
           <a
-            href={projectsUrl}
+            href={viewProjectsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonVariants({
